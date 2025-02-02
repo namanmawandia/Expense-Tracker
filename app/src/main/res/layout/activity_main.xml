@@ -30,16 +30,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/bar_layout"
+        android:layout_above="@id/lower_tab_layout"
         android:id="@+id/content" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/lower_tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:background="@color/primaryLight2"
         app:tabSelectedTextColor="@color/primary"
         app:tabIndicatorColor="@color/primary"
         android:layout_alignParentBottom="true"
         app:tabTextColor="@color/white"/>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="25dp"
+        android:tint="@color/white"
+        app:srcCompat="@android:drawable/ic_input_add"
+        app:backgroundTint="@color/negativeTransac"
+        android:layout_above="@id/lower_tab_layout"
+        android:contentDescription="Add Item"/>
 </RelativeLayout>
