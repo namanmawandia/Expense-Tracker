@@ -5,43 +5,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_height="wrap_content"
+    <androidx.fragment.app.FragmentContainerView
         android:layout_width="match_parent"
-        android:id="@+id/bar_layout">
+        android:layout_height="670sp"
+        app:tabTextColor="@color/white"
+        android:id="@+id/frgOuter">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/primaryLight"
-            android:theme="@style/Theme.AppCompat" />
+    </androidx.fragment.app.FragmentContainerView>
 
-        <com.google.android.material.tabs.TabLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/primaryLight2"
-            app:tabSelectedTextColor="@color/primary"
-            app:tabIndicatorColor="@color/primary"
-            app:tabTextColor="@color/white"/>
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.viewpager.widget.ViewPager
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/bar_layout"
-        android:layout_above="@id/lower_tab_layout"
-        android:id="@+id/content" />
+        android:layout_below="@+id/frgOuter"
+        android:orientation="horizontal">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/lower_tab_layout"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/primaryLight2"
-        app:tabSelectedTextColor="@color/primary"
-        app:tabIndicatorColor="@color/primary"
-        android:layout_alignParentBottom="true"
-        app:tabTextColor="@color/white"/>
+        <ImageView
+            android:layout_width="0sp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/btnTransac"
+            android:gravity="center"
+            android:src="@drawable/transaction"/>
+
+        <ImageView
+            android:layout_width="0sp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/Stats"
+            android:gravity="center" />
+
+    </LinearLayout>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnFAB"
@@ -52,6 +46,6 @@
         android:tint="@color/white"
         app:srcCompat="@android:drawable/ic_input_add"
         app:backgroundTint="@color/negativeTransac"
-        android:layout_above="@id/lower_tab_layout"
+        android:layout_alignBottom="@id/frgOuter"
         android:contentDescription="Add Item"/>
 </RelativeLayout>
