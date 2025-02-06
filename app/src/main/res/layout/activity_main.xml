@@ -12,7 +12,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/lnrFrg"
+        android:id="@+id/lnrLayout"
         android:orientation="horizontal"
         android:layout_below="@+id/toolbar">
 
@@ -48,7 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="575dp"
         app:tabTextColor="@color/white"
-        android:layout_below="@+id/lnrFrg"
+        android:layout_below="@+id/lnrLayout"
         android:id="@+id/frgOuter">
 
 
