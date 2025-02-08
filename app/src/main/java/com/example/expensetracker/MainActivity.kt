@@ -39,10 +39,34 @@ class MainActivity : AppCompatActivity() {
             replaceFragment(CalenderFragment())
         }
 
+        ivTransac.setOnClickListener{
+            setMainActivity(this)
+        }
+        ivStats.setOnClickListener{
+            setStatsActivity(this)
+        }
+
         btnFab.setOnClickListener{
             setAddButton(this)
         }
 
+    }
+
+    private fun setMainActivity(context: Context) {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+        finish()
+        Log.d("Main Activity", "setMainActivtiy: Main Activtiy finished")
+        startActivity(intent)
+        Log.d("Main Activity", "setMainActivtiy: Main Activtiy started again")
+    }
+
+    private fun setStatsActivity(context: Context) {
+        // check for the functionality, calling the intent
+        // we can even just reset the UI by changing fragment to daily
+        val intent = Intent(context, StatsActivity::class.java)
+        Log.d("Main Activity", "setStatsActivity: Intent to Stats Activity")
+        startActivity(intent)
     }
 
     private fun replaceFragment(dailyFragment: Fragment) {
@@ -56,7 +80,7 @@ class MainActivity : AppCompatActivity() {
     private fun setAddButton(context: Context) {
 
         val intent = Intent(context,ActivityAdd::class.java)
-        Log.d("Main Activity", "setAddButton: Intent to another Add Activty")
+        Log.d("Main Activity", "setAddButton: Intent to Add Activity")
         startActivity(intent)
 
     }
