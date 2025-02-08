@@ -28,7 +28,15 @@ class MainActivity : AppCompatActivity() {
 
 
         if(savedInstanceState==null){
-            replaeFragment(DailyFragment())
+            replaceFragment(DailyFragment())
+        }
+
+        tvDaily.setOnClickListener{
+            replaceFragment(DailyFragment())
+        }
+
+        tvCalender.setOnClickListener{
+            replaceFragment(CalenderFragment())
         }
 
         btnFab.setOnClickListener{
@@ -37,12 +45,12 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun replaeFragment(dailyFragment: Fragment) {
+    private fun replaceFragment(dailyFragment: Fragment) {
 
-        val fragment = DailyFragment()
-        val trasaction = supportFragmentManager.beginTransaction()
-        trasaction.replace(R.id.frgOuter,fragment)
-        trasaction.commit()
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.frgOuter,dailyFragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 
     private fun setAddButton(context: Context) {
