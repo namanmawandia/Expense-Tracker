@@ -61,21 +61,51 @@
         android:orientation="horizontal"
         android:layout_alignParentBottom="true">
 
-        <ImageView
+        <LinearLayout
             android:layout_width="0sp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/ivTransac"
-            android:gravity="center"
-            android:src="@drawable/transaction"/>
+            android:orientation="vertical">
 
-        <ImageView
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0sp"
+                android:layout_weight="3"
+                android:id="@+id/ivTransac"
+                android:gravity="center"
+                android:src="@drawable/transaction"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0sp"
+                android:layout_weight="1"
+                android:text="Transactions"
+                android:layout_marginBottom="5dp"
+                android:gravity="center"
+                android:textColor="@color/negativeTransac"/>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="0sp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/ivStats"
-            android:src="@drawable/stats"
-            android:gravity="center" />
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0sp"
+                android:layout_weight="3"
+                android:id="@+id/ivStats"
+                android:gravity="center"
+                android:src="@drawable/stats"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0sp"
+                android:layout_weight="1"
+                android:text="Stats"
+                android:layout_marginBottom="5dp"
+                android:gravity="center"
+                android:textColor="@color/negativeTransac"/>
+        </LinearLayout>
 
     </LinearLayout>
 
