@@ -12,7 +12,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/lnrLayout"
+        android:id="@+id/lnrLayoutDailyCalender"
         android:orientation="horizontal"
         android:layout_below="@+id/toolbar">
 
@@ -48,23 +48,25 @@
         android:layout_width="match_parent"
         android:layout_height="575dp"
         app:tabTextColor="@color/white"
-        android:layout_below="@+id/lnrLayout"
+        android:layout_below="@+id/lnrLayoutDailyCalender"
         android:id="@+id/frgOuter">
 
 
     </androidx.fragment.app.FragmentContainerView>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/frgOuter"
-        android:orientation="horizontal"
         android:layout_alignParentBottom="true">
 
         <LinearLayout
-            android:layout_width="0sp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:id="@+id/lnrLayoutTransac"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/lnrLayoutStats"
+            app:layout_constraintRight_toLeftOf="@id/lnrLayoutStats"
             android:orientation="vertical">
 
             <ImageView
@@ -85,9 +87,14 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="0sp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/lnrLayoutTransac"
+            app:layout_constraintStart_toEndOf="@id/lnrLayoutTransac"
+            android:id="@+id/lnrLayoutStats"
+
             android:orientation="vertical">
 
             <ImageView
@@ -107,7 +114,7 @@
                 android:textColor="@color/negativeTransac"/>
         </LinearLayout>
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
