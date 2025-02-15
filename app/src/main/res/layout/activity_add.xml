@@ -49,7 +49,7 @@
                     android:textColor="@color/primaryLight"/>
 
                 <EditText
-                    android:id="@+id/editTextDate"
+                    android:id="@+id/etDate"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.4"
@@ -75,7 +75,7 @@
                     android:textColor="@color/primaryLight" />
 
                 <EditText
-                    android:id="@+id/editTextNumberDecimal"
+                    android:id="@+id/etAmount"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.4"
@@ -110,7 +110,7 @@
                     android:layout_margin="10sp">
 
                     <TextView
-                        android:id="@+id/etCategory"
+                        android:id="@+id/tvCategoryValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="18sp"
@@ -142,7 +142,7 @@
                     android:textColor="@color/primaryLight" />
 
                 <EditText
-                    android:id="@+id/editTextText"
+                    android:id="@+id/etNote"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.4"

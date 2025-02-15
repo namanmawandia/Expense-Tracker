@@ -1,13 +1,24 @@
 package com.example.expensetracker
 
 import android.os.Bundle
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toolbar
 import androidx.activity.ComponentActivity
 
 class ActivityAdd : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-            setContentView(R.layout.activity_add)
+        setContentView(R.layout.activity_add)
+
+        val toolbar : Toolbar = findViewById(R.id.toolbar)
+        val etDate : EditText = findViewById(R.id.etDate)
+        val etAmount : EditText = findViewById(R.id.etAmount)
+        val etNote : EditText = findViewById(R.id.etNote)
+        val tvCategoryValue : TextView = findViewById(R.id.tvCategoryValue)
+
+
 
 
     }
