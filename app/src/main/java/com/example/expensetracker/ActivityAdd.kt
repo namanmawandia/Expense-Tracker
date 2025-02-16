@@ -1,6 +1,7 @@
 package com.example.expensetracker
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.WindowManager
 import android.widget.ArrayAdapter
@@ -9,7 +10,7 @@ import android.widget.EditText
 import android.widget.GridView
 import android.widget.PopupWindow
 import android.widget.TextView
-import android.widget.Toolbar
+import androidx.appcompat.widget.Toolbar
 import androidx.activity.ComponentActivity
 
 class ActivityAdd : ComponentActivity() {
@@ -25,6 +26,7 @@ class ActivityAdd : ComponentActivity() {
         val tvCategoryValue : TextView = findViewById(R.id.tvCategoryValue)
         val btnSave : Button = findViewById(R.id.btnSave)
 
+        Log.d("addactivty", "onCreate: ")
         tvCategoryValue.setOnClickListener{
             showPopGridView(tvCategoryValue)
         }
@@ -40,8 +42,12 @@ class ActivityAdd : ComponentActivity() {
         val inflater = LayoutInflater.from(this)
         val layout = inflater.inflate(R.layout.popup_grid, null)
 
-        val gridView : GridView = findViewById(R.id.gridItem)
+        Log.d("ActivityAdd", "showPopGridView: before gridview")
+
+        val gridView : GridView = layout.findViewById(R.id.gridItem)
         val categories = arrayOf("🍔 Food", "🚕 Transport", "💄 Beauty", "🎁 Gift", "🏠 Household", "🎓 Education")
+
+        Log.d("ActivityAdd", "showPopGridView: after categories")
 
         val adapter = ArrayAdapter(this,android.R.layout.simple_list_item_1,categories)
         gridView.adapter = adapter
