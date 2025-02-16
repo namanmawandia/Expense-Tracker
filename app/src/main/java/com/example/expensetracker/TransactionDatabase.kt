@@ -19,7 +19,7 @@ abstract class TransactionDatabase() : RoomDatabase(){
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     TransactionDatabase::class.java,
-                    "transaction_database"
+                    "Expense_Tracker_database"
                 ).build()
                 INSTANCE = instance
                 instance
