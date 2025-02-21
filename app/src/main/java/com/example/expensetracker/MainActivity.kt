@@ -40,10 +40,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         ivTransac.setOnClickListener{
-            setMainActivity(this)
+            setTargetActivity(MainActivity::class.java)
         }
         ivStats.setOnClickListener{
-            setStatsActivity(this)
+                setTargetActivity(StatsActivity::class.java)
         }
 
         btnFab.setOnClickListener{
@@ -52,21 +52,23 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun setMainActivity(context: Context) {
-        val intent = Intent(this, MainActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-        finish()
-        Log.d("Main Activity", "setMainActivtiy: Main Activtiy finished")
-        startActivity(intent)
-        Log.d("Main Activity", "setMainActivtiy: Main Activtiy started again")
-    }
+//    private fun setMainActivity(context: Context) {
+//        val intent = Intent(this, MainActivity::class.java)
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+//        finish()
+//        Log.d("Main Activity", "setMainActivtiy: Main Activtiy finished")
+//        startActivity(intent)
+//        Log.d("Main Activity", "setMainActivtiy: Main Activtiy started again")
+//    }
 
-    private fun setStatsActivity(context: Context) {
+    private fun setTargetActivity(targetActivity: Class<*>) {
         // check for the functionality, calling the intent
         // we can even just reset the UI by changing fragment to daily
-        val intent = Intent(context, StatsActivity::class.java)
-        Log.d("Main Activity", "setStatsActivity: Intent to Stats Activity")
-        startActivity(intent)
+        if(this::class.java != targetActivity) {
+            val intent = Intent(this, StatsActivity::class.java)
+            Log.d("Main Activity", "setStatsActivity: Intent to Stats Activity")
+            startActivity(intent)
+        }
     }
 
     private fun replaceFragment(dailyFragment: Fragment) {
