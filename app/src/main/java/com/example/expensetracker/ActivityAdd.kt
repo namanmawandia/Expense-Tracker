@@ -14,6 +14,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.activity.ComponentActivity
 import android.app.DatePickerDialog
 import android.widget.Toast
+import java.text.SimpleDateFormat
 import java.util.*
 
 val catToNum : Map<String,Int> = mapOf("🍔 Food" to 0, "🚕 Transport" to 1, "💄 Beauty" to 2,
@@ -50,7 +51,8 @@ class ActivityAdd : ComponentActivity() {
                     // Format the selected date and set it to the EditText
                     val formattedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
                     etDate.setText(formattedDate)  // Set the selected date in EditText
-                    Toast.makeText(this, "Selected Date: $formattedDate", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Selected Date: $formattedDate",
+                                    Toast.LENGTH_SHORT).show()
                 },
                 year, month, day
             )
@@ -62,15 +64,21 @@ class ActivityAdd : ComponentActivity() {
             val note = etNote.text.toString()
             val cat = catToNum[tvCategoryValue.text.toString()]
             val date = etDate.text.toString()
-            if(cat != null && amt != null && date != null){
-                val newTransaction = Transaction(amount = amt, date = date, note = note,
+            if(cat != null && amt != null && date.isNotEmpty()){
+                val dateInMillis = convertDateToMillis(date)
+                val newTransaction = Transaction(amount = amt, date = dateInMillis, note = note,
                     category = cat)
             }else{
-                Toast.makeText(this, "Please add emplty fields", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Please add empty fields", Toast.LENGTH_SHORT).show()
             }
 
         }
 
+    }
+
+    private fun convertDateToMillis(date: String): Long {
+        val format = SimpleDateFormat("dd-MM-yyyy", Locale.US)
+        return (format.parse(date).time)
     }
 
     private fun showPopGridView(tvCategoryValue: TextView) {
