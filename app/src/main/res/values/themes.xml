@@ -7,4 +7,10 @@
         <item name="colorAccent">@color/white</item>
     </style>
 
+    <style name="Theme.DatePicker" parent="Theme.MaterialComponents.Dialog">
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorHighlight">@color/negativeTransac</item>
+        <item name="colorAccent">@color/negativeTransac</item>
+    </style>
+
 </resources>

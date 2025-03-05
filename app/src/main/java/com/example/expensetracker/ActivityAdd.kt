@@ -13,17 +13,20 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.activity.ComponentActivity
 import android.app.DatePickerDialog
+import android.view.MenuItem
 import android.widget.Toast
 import java.text.SimpleDateFormat
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import java.util.*
+
 
 val catToNum : Map<String,Int> = mapOf("🍔 Food" to 0, "🚕 Transport" to 1, "💄 Beauty" to 2,
             "🎁 Gift" to 3, "🏠 Household" to 4, "🎓 Education" to 5)
 val categories = arrayOf("🍔 Food", "🚕 Transport", "💄 Beauty", "🎁 Gift", "🏠 Household",
         "🎓 Education")
 
-class ActivityAdd : ComponentActivity() {
+class ActivityAdd : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -38,6 +41,10 @@ class ActivityAdd : ComponentActivity() {
 
         val transactionViewModel : TransactionViewModel by viewModels()
 
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+
         Log.d("addactivty", "onCreate: ")
         tvCategoryValue.setOnClickListener{
             showPopGridView(tvCategoryValue)
@@ -49,13 +56,11 @@ class ActivityAdd : ComponentActivity() {
             val day = calendar.get(Calendar.DAY_OF_MONTH)
 
             val datePickerDialog = DatePickerDialog(
-                this,
+                this, R.style.Theme_DatePicker,
                 { _, selectedYear, selectedMonth, selectedDay ->
                     // Format the selected date and set it to the EditText
                     val formattedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
                     etDate.setText(formattedDate)  // Set the selected date in EditText
-                    Toast.makeText(this, "Selected Date: $formattedDate",
-                                    Toast.LENGTH_SHORT).show()
                 },
                 year, month, day
             )
@@ -108,5 +113,16 @@ class ActivityAdd : ComponentActivity() {
             popupWindow.dismiss()
         }
 
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                // Handle the back button click
+                onBackPressedDispatcher.onBackPressed()  // Go back to the previous activity
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }
