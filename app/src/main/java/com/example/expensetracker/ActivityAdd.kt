@@ -15,6 +15,7 @@ import androidx.activity.ComponentActivity
 import android.app.DatePickerDialog
 import android.widget.Toast
 import java.text.SimpleDateFormat
+import androidx.activity.viewModels
 import java.util.*
 
 val catToNum : Map<String,Int> = mapOf("🍔 Food" to 0, "🚕 Transport" to 1, "💄 Beauty" to 2,
@@ -34,6 +35,8 @@ class ActivityAdd : ComponentActivity() {
         val etNote : EditText = findViewById(R.id.etNote)
         val tvCategoryValue : TextView = findViewById(R.id.tvCategoryValue)
         val btnSave : Button = findViewById(R.id.btnSave)
+
+        val transactionViewModel : TransactionViewModel by viewModels()
 
         Log.d("addactivty", "onCreate: ")
         tvCategoryValue.setOnClickListener{
@@ -68,6 +71,7 @@ class ActivityAdd : ComponentActivity() {
                 val dateInMillis = convertDateToMillis(date)
                 val newTransaction = Transaction(amount = amt, date = dateInMillis, note = note,
                     category = cat)
+                transactionViewModel.insertTransaction(newTransaction)
             }else{
                 Toast.makeText(this, "Please add empty fields", Toast.LENGTH_SHORT).show()
             }
@@ -77,7 +81,7 @@ class ActivityAdd : ComponentActivity() {
     }
 
     private fun convertDateToMillis(date: String): Long {
-        val format = SimpleDateFormat("dd-MM-yyyy", Locale.US)
+        val format = SimpleDateFormat("dd-MM-yyyy", Locale.UK)
         return (format.parse(date).time)
     }
 
