@@ -54,7 +54,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.4"
                     android:ems="10"
-                    android:inputType="date" />
+                    android:inputType="date"
+                    android:focusable="false"/>
             </LinearLayout>
 
             <LinearLayout

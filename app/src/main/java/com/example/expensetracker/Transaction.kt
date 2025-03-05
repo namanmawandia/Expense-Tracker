@@ -7,6 +7,6 @@ import androidx.room.PrimaryKey
 data class Transaction (
     @PrimaryKey(autoGenerate = true) val id: Int=0,
     val amount:Double,
-    val date : String,
+    val date : Long,
     val note : String,
     val category : Int)

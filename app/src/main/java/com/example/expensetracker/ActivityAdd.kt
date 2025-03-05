@@ -12,6 +12,9 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.activity.ComponentActivity
+import android.app.DatePickerDialog
+import android.widget.Toast
+import java.util.*
 
 val catToNum : Map<String,Int> = mapOf("🍔 Food" to 0, "🚕 Transport" to 1, "💄 Beauty" to 2,
             "🎁 Gift" to 3, "🏠 Household" to 4, "🎓 Education" to 5)
@@ -35,8 +38,36 @@ class ActivityAdd : ComponentActivity() {
         tvCategoryValue.setOnClickListener{
             showPopGridView(tvCategoryValue)
         }
+        etDate.setOnClickListener{
+            val calendar = Calendar.getInstance()
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH)
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+            val datePickerDialog = DatePickerDialog(
+                this,
+                { _, selectedYear, selectedMonth, selectedDay ->
+                    // Format the selected date and set it to the EditText
+                    val formattedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
+                    etDate.setText(formattedDate)  // Set the selected date in EditText
+                    Toast.makeText(this, "Selected Date: $formattedDate", Toast.LENGTH_SHORT).show()
+                },
+                year, month, day
+            )
+            datePickerDialog.show()
+        }
 
         btnSave.setOnClickListener{
+            val amt = etAmount.text.toString().toDoubleOrNull()
+            val note = etNote.text.toString()
+            val cat = catToNum[tvCategoryValue.text.toString()]
+            val date = etDate.text.toString()
+            if(cat != null && amt != null && date != null){
+                val newTransaction = Transaction(amount = amt, date = date, note = note,
+                    category = cat)
+            }else{
+                Toast.makeText(this, "Please add emplty fields", Toast.LENGTH_SHORT).show()
+            }
 
         }
 
@@ -56,7 +87,8 @@ class ActivityAdd : ComponentActivity() {
         val adapter = ArrayAdapter(this,android.R.layout.simple_list_item_1,categories)
         gridView.adapter = adapter
 
-        val popupWindow = PopupWindow(layout,WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT,true)
+        val popupWindow = PopupWindow(layout,WindowManager.LayoutParams.MATCH_PARENT,
+                    WindowManager.LayoutParams.WRAP_CONTENT,true)
         popupWindow.showAtLocation(tvCategoryValue,android.view.Gravity.BOTTOM,0,0)
 
         gridView.setOnItemClickListener { _, _, position, _ ->
