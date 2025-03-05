@@ -13,6 +13,11 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.activity.ComponentActivity
 
+val catToNum : Map<String,Int> = mapOf("🍔 Food" to 0, "🚕 Transport" to 1, "💄 Beauty" to 2,
+            "🎁 Gift" to 3, "🏠 Household" to 4, "🎓 Education" to 5)
+val categories = arrayOf("🍔 Food", "🚕 Transport", "💄 Beauty", "🎁 Gift", "🏠 Household",
+        "🎓 Education")
+
 class ActivityAdd : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +50,6 @@ class ActivityAdd : ComponentActivity() {
         Log.d("ActivityAdd", "showPopGridView: before gridview")
 
         val gridView : GridView = layout.findViewById(R.id.gridItem)
-        val categories = arrayOf("🍔 Food", "🚕 Transport", "💄 Beauty", "🎁 Gift", "🏠 Household", "🎓 Education")
 
         Log.d("ActivityAdd", "showPopGridView: after categories")
 

@@ -9,4 +9,4 @@ data class Transaction (
     val amount:Double,
     val date : String,
     val note : String,
-    val category : String)
+    val category : Int)
