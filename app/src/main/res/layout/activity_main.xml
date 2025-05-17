@@ -49,8 +49,11 @@
         android:layout_height="575dp"
         app:tabTextColor="@color/white"
         android:layout_below="@+id/lnrLayoutDailyCalender"
-        android:id="@+id/frgOuter">
-
+        android:id="@+id/frgOuter"
+        app:layout_constraintTop_toBottomOf="@id/lnrLayoutDailyCalender"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/lnrLayoutTranStat">
 
     </androidx.fragment.app.FragmentContainerView>
 
@@ -58,6 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/frgOuter"
+        android:id="@+id/lnrLayoutTranStat"
         android:layout_alignParentBottom="true">
 
         <LinearLayout
