@@ -1,8 +1,8 @@
 package com.example.expensetracker
 
 data class CalendarDay(
-    val date: String,
-    val income: Double?,
-    val expense: Double?,
-    val total: Double?
+    val date: String?,
+    val income: Double?=null,
+    val expense: Double?=null,
+    val total: Double?=null
 )
