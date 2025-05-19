@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase
 @Database(entities = [Transaction::class], version = 1, exportSchema = false)
 abstract class TransactionDatabase() : RoomDatabase(){
 
-    abstract fun transactinoDao() : TransactionDao
+    abstract fun transactionDao() : TransactionDao
 
     companion object {
         @Volatile

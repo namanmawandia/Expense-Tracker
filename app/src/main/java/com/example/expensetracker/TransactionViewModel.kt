@@ -7,7 +7,7 @@ import kotlinx.coroutines.launch
 
 class TransactionViewModel(application: Application) : AndroidViewModel(application) {
     private val db = TransactionDatabase.getDatabase(application)
-    private val transactionDao = db.transactinoDao()
+    private val transactionDao = db.transactionDao()
 
     fun insertTransaction(transaction: Transaction) {
         viewModelScope.launch {
