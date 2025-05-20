@@ -46,6 +46,7 @@ class ActivityAdd : AppCompatActivity() {
 
 
         Log.d("addactivty", "onCreate: ")
+
         tvCategoryValue.setOnClickListener{
             showPopGridView(tvCategoryValue)
         }

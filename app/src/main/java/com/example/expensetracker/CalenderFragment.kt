@@ -1,6 +1,7 @@
 package com.example.expensetracker
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +27,8 @@ class CalenderFragment: Fragment(){
         adapter = AdapterCalenderRV(emptyList())
         recyclerView.adapter = adapter
 
+        Log.d("CalenderFragment", "onCreateView: initialization")
+
         viewModel = ViewModelProvider(requireActivity())[TransactionViewModel::class.java]
         viewModel.transactions.observe(viewLifecycleOwner) { transactions ->
             // This block runs when data is ready
@@ -33,8 +36,9 @@ class CalenderFragment: Fragment(){
             adapter = AdapterCalenderRV(calendarData)
             recyclerView.adapter = adapter
         }
+        Log.d("CalenderFragment", "onCreateView: observe")
         viewModel.getAllTransactions()
-
+        Log.d("CalenderFragment", "onCreateView: get all transaction")
         return view
     }
 
@@ -46,6 +50,7 @@ class CalenderFragment: Fragment(){
             calendar.timeInMillis = it.date
             calendar.get(Calendar.YEAR) == year && calendar.get(Calendar.MONTH) == (month - 1)
         }
+        Log.d("CalenderFragment", "generateCalendarDays: monthFilter")
 
         val expenseByDay: Map<Int, Double> = monthTransactions.groupBy {
             calendar.timeInMillis = it.date
@@ -53,6 +58,7 @@ class CalenderFragment: Fragment(){
         }.mapValues { entry ->
             entry.value.sumOf { it.amount }
         }
+        Log.d("CalenderFragment", "generateCalendarDays: expenseByDay")
 
         // Set calendar to first day of the month
         calendar.set(year, month - 1, 1)
@@ -63,7 +69,7 @@ class CalenderFragment: Fragment(){
         for (i in 1 until firstDayOfWeek) {
             calendarDays.add(CalendarDay("")) // Empty day
         }
-
+        Log.d("CalenderFragment", "generateCalendarDays: extra days added in start")
         // Add actual days
         for (day in 1..daysInMonth) {
             val expense = expenseByDay[day]
@@ -74,12 +80,13 @@ class CalenderFragment: Fragment(){
                 )
             )
         }
+        Log.d("CalenderFragment", "generateCalendarDays: Days updated with value")
 
         // Optional: pad the end to make the total count a multiple of 7
         while (calendarDays.size % 7 != 0) {
             calendarDays.add(CalendarDay(""))
         }
-
+        Log.d("CalenderFragment", "generateCalendarDays: extra days added in end")
         return calendarDays
     }
 
