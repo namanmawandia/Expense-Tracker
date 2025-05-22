@@ -7,6 +7,8 @@ import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -14,6 +16,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -25,29 +28,25 @@ class MainActivity : AppCompatActivity() {
         val ivTransac = findViewById<ImageView>(R.id.ivTransac)
         val ivStats = findViewById<ImageView>(R.id.ivStats)
 
-
-
         if(savedInstanceState==null){
             replaceFragment(DailyFragment())
         }
-
         tvDaily.setOnClickListener{
             replaceFragment(DailyFragment())
         }
-
         tvCalender.setOnClickListener{
             replaceFragment(CalenderFragment())
         }
-
         ivTransac.setOnClickListener{
             setTargetActivity(MainActivity::class.java)
         }
         ivStats.setOnClickListener{
-                setTargetActivity(StatsActivity::class.java)
+            setTargetActivity(StatsActivity::class.java)
         }
-
         btnFab.setOnClickListener{
-            setAddButton(this)
+            val intent = Intent(this,ActivityAdd::class.java)
+            Log.d("Main Activity", "setAddButton: Intent to Add Activity")
+            startActivity(intent)
         }
 
     }
@@ -62,8 +61,6 @@ class MainActivity : AppCompatActivity() {
 //    }
 
     private fun setTargetActivity(targetActivity: Class<*>) {
-        // check for the functionality, calling the intent
-        // we can even just reset the UI by changing fragment to daily
         if(this::class.java != targetActivity) {
             val intent = Intent(this, StatsActivity::class.java)
             Log.d("Main Activity", "setStatsActivity: Intent to Stats Activity")
@@ -79,11 +76,14 @@ class MainActivity : AppCompatActivity() {
         transaction.commit()
     }
 
-    private fun setAddButton(context: Context) {
 
-        val intent = Intent(context,ActivityAdd::class.java)
-        Log.d("Main Activity", "setAddButton: Intent to Add Activity")
-        startActivity(intent)
-
+    override fun onResume() {
+        super.onResume()
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.frgOuter)
+        Log.d("MainActivity", "onResume: "+ currentFragment)
+        if (currentFragment is CalenderFragment) {
+            supportFragmentManager.beginTransaction().detach(currentFragment).commit()
+            supportFragmentManager.beginTransaction().attach(currentFragment).commit()
+        }
     }
 }

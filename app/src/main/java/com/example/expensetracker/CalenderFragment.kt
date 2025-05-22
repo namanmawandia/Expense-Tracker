@@ -53,7 +53,6 @@ class CalenderFragment: Fragment(){
             calendar.get(Calendar.YEAR) == year && calendar.get(Calendar.MONTH) == (month - 1)
         }
         Log.d("CalenderFragment", "generateCalendarDays: monthFilter")
-//        Log.d("CalenderFragment", "generateCalendarDays: "+ monthTransactions)
 
         val expenseByDay: Map<Int, Double> = monthTransactions.groupBy {
             val calendar = Calendar.getInstance()
@@ -63,7 +62,6 @@ class CalenderFragment: Fragment(){
             entry.value.sumOf { it.amount }
         }
         Log.d("CalenderFragment", "generateCalendarDays: expenseByDay")
-//        Log.d("CalenderFragment", "generateCalendarDays: "+ expenseByDay)
 
         val calendar = Calendar.getInstance()
         // Set calendar to first day of the month
@@ -79,7 +77,6 @@ class CalenderFragment: Fragment(){
         // Add actual days
         for (day in 1..daysInMonth) {
             val expense = expenseByDay[day]
-//            Log.d("CalenderFragment", "generateCalendarDays: "+ expense)
             calendarDays.add(
                 CalendarDay(
                     date = day.toString(),
@@ -89,7 +86,7 @@ class CalenderFragment: Fragment(){
         }
         Log.d("CalenderFragment", "generateCalendarDays: Days updated with value")
 
-        // Optional: pad the end to make the total count a multiple of 7
+        // pad the end to make the total count a multiple of 7
         while (calendarDays.size % 7 != 0) {
             calendarDays.add(CalendarDay(""))
         }
