@@ -18,6 +18,7 @@ import android.widget.Toast
 import java.text.SimpleDateFormat
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import java.text.ParseException
 import java.util.*
 
 
@@ -60,7 +61,8 @@ class ActivityAdd : AppCompatActivity() {
                 this, R.style.Theme_DatePicker,
                 { _, selectedYear, selectedMonth, selectedDay ->
                     // Format the selected date and set it to the EditText
-                    val formattedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
+//                    val formattedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
+                    val formattedDate = String.format("%02d/%02d/%d", selectedDay, selectedMonth + 1, selectedYear)
                     etDate.setText(formattedDate)  // Set the selected date in EditText
                 },
                 year, month, day
@@ -74,20 +76,29 @@ class ActivityAdd : AppCompatActivity() {
             val cat = catToNum[tvCategoryValue.text.toString()]
             val date = etDate.text.toString()
             if(cat != null && amt != null && date.isNotEmpty()){
-                val dateInMillis = convertDateToMillis(date)
+//                val dateInMillis = convertDateToMillis(date)
+                val dateInMillis = try {
+                    convertDateToMillis(date)
+                } catch (e: ParseException) {
+                    e.printStackTrace()
+                    Toast.makeText(this, "Invalid date format!", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
                 val newTransaction = Transaction(amount = amt, date = dateInMillis, note = note,
                     category = cat)
+                Log.d("ActivityAdd", "Saving transaction: $newTransaction")
                 transactionViewModel.insertTransaction(newTransaction)
+                Toast.makeText(this, "Transaction saved!", Toast.LENGTH_SHORT).show()
+                finish()
             }else{
                 Toast.makeText(this, "Please add empty fields", Toast.LENGTH_SHORT).show()
             }
 
         }
-
     }
 
     private fun convertDateToMillis(date: String): Long {
-        val format = SimpleDateFormat("dd-MM-yyyy", Locale.UK)
+        val format = SimpleDateFormat("dd/MM/yyyy", Locale.UK)
         return (format.parse(date).time)
     }
 

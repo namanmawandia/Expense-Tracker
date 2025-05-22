@@ -24,18 +24,20 @@ class CalenderFragment: Fragment(){
 
         recyclerView = view.findViewById(R.id.calendarRecyclerView)
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 7)
-        adapter = AdapterCalenderRV(emptyList())
+        adapter = AdapterCalenderRV(emptyList(),recyclerView.height/6)
         recyclerView.adapter = adapter
 
         Log.d("CalenderFragment", "onCreateView: initialization")
 
         viewModel = ViewModelProvider(requireActivity())[TransactionViewModel::class.java]
         viewModel.transactions.observe(viewLifecycleOwner) { transactions ->
-            // This block runs when data is ready
-            val calendarData = generateCalendarDays(transactions, Calendar.YEAR, Calendar.MONTH)
-            adapter = AdapterCalenderRV(calendarData)
+            val cal = Calendar.getInstance()
+            val calendarData = generateCalendarDays(transactions, cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH)+1)
+            adapter = AdapterCalenderRV(calendarData,recyclerView.height/6)
             recyclerView.adapter = adapter
         }
+
         Log.d("CalenderFragment", "onCreateView: observe")
         viewModel.getAllTransactions()
         Log.d("CalenderFragment", "onCreateView: get all transaction")
@@ -44,22 +46,26 @@ class CalenderFragment: Fragment(){
 
     fun generateCalendarDays(transactions:List<Transaction>,year: Int, month: Int): List<CalendarDay> {
         val calendarDays = mutableListOf<CalendarDay>()
-        val calendar = Calendar.getInstance()
 
         val monthTransactions = transactions.filter {
+            val calendar = Calendar.getInstance()
             calendar.timeInMillis = it.date
             calendar.get(Calendar.YEAR) == year && calendar.get(Calendar.MONTH) == (month - 1)
         }
         Log.d("CalenderFragment", "generateCalendarDays: monthFilter")
+//        Log.d("CalenderFragment", "generateCalendarDays: "+ monthTransactions)
 
         val expenseByDay: Map<Int, Double> = monthTransactions.groupBy {
+            val calendar = Calendar.getInstance()
             calendar.timeInMillis = it.date
             calendar.get(Calendar.DAY_OF_MONTH)
         }.mapValues { entry ->
             entry.value.sumOf { it.amount }
         }
         Log.d("CalenderFragment", "generateCalendarDays: expenseByDay")
+//        Log.d("CalenderFragment", "generateCalendarDays: "+ expenseByDay)
 
+        val calendar = Calendar.getInstance()
         // Set calendar to first day of the month
         calendar.set(year, month - 1, 1)
         val firstDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) // 1 = Sunday, 7 = Saturday
@@ -67,12 +73,13 @@ class CalenderFragment: Fragment(){
 
         // Add blank days before 1st of the month
         for (i in 1 until firstDayOfWeek) {
-            calendarDays.add(CalendarDay("")) // Empty day
+            calendarDays.add(CalendarDay(""))
         }
         Log.d("CalenderFragment", "generateCalendarDays: extra days added in start")
         // Add actual days
         for (day in 1..daysInMonth) {
             val expense = expenseByDay[day]
+//            Log.d("CalenderFragment", "generateCalendarDays: "+ expense)
             calendarDays.add(
                 CalendarDay(
                     date = day.toString(),
