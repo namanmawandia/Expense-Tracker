@@ -1,6 +1,7 @@
 package com.example.expensetracker
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +25,7 @@ class DailyFragment: Fragment(R.layout.fragment_daily){
         val view = inflater.inflate(R.layout.fragment_daily, container, false)
         recyclerView = view.findViewById(R.id.dailyRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
+        Log.d("DailyFragment", "onCreateView: onCreateView completed")
         return view
     }
 
@@ -35,9 +36,11 @@ class DailyFragment: Fragment(R.layout.fragment_daily){
 
         viewModel.transactions.observe(viewLifecycleOwner) { transactions ->
             val dayTransactionList = groupTransactionsByDay(transactions)
+            Log.d("DailyFragment", "onCreateView: "+ dayTransactionList)
             adapter = DailyAdapter(dayTransactionList)
             recyclerView.adapter = adapter
         }
+        Log.d("DailyFragment", "onCreateView: onViewCreated completed")
     }
 
     private fun groupTransactionsByDay(transactions: List<Transaction>): List<DayTransactions> {
@@ -45,10 +48,14 @@ class DailyFragment: Fragment(R.layout.fragment_daily){
             Instant.ofEpochMilli(it.date).atZone(ZoneId.systemDefault()).toLocalDate()
         }
 
-        return grouped.map { (date, list) ->
+        Log.d("DailyFragment", "onCreateView: "+ grouped)
+        val transList = grouped.map { (date, list) ->
             val dayStartMillis = date.atStartOfDay(ZoneId.systemDefault())
                 .toInstant().toEpochMilli()
             DayTransactions(date = dayStartMillis, transactions = list)
         }.sortedByDescending { it.date }
+
+        Log.d("DailyFragment", "onCreateView: List By day"+ transList)
+        return transList
     }
 }

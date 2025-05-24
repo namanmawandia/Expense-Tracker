@@ -7,24 +7,24 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class DayTransactionAdapter(private val transactions: List<Transaction>):
-    RecyclerView.Adapter<DayTransactionAdapter.DayViewHolder>() {
+    RecyclerView.Adapter<DayTransactionAdapter.TransactionDayViewHolder>() {
 
-    class DayViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class TransactionDayViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvCategory: TextView = view.findViewById(R.id.tvCategory)
         val tvNote: TextView = view.findViewById(R.id.tvNote)
         val tvAmount: TextView = view.findViewById(R.id.tvAmount)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DayViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionDayViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_day_daily, parent, false)
-        return DayViewHolder(view)
+            .inflate(R.layout.item_day_transaction, parent, false)
+        return TransactionDayViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: DayTransactionAdapter.DayViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: DayTransactionAdapter.TransactionDayViewHolder, position: Int) {
         val item = transactions[position]
-        holder.tvCategory.setText(item.category)
-        holder.tvNote.setText(item.note)
+        holder.tvCategory.text = categories[item.category]
+        holder.tvNote.text = item.note
         holder.tvAmount.text = "%.2f".format(item.amount)
     }
 
