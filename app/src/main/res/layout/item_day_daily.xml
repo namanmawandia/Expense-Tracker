@@ -30,7 +30,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:id="@+id/tvTotalAmount"
                 android:layout_marginEnd="15dp"
                 app:layout_constraintEnd_toEndOf="parent"

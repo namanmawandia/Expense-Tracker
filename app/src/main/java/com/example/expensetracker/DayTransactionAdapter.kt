@@ -21,11 +21,16 @@ class DayTransactionAdapter(private val transactions: List<Transaction>):
         return TransactionDayViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: DayTransactionAdapter.TransactionDayViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: TransactionDayViewHolder, position: Int) {
         val item = transactions[position]
         holder.tvCategory.text = categories[item.category]
-        holder.tvNote.text = item.note
-        holder.tvAmount.text = "%.2f".format(item.amount)
+        holder.tvNote.text = if (item.note.length > 10) {
+            item.note.take(10) + "..."
+        } else {
+            item.note
+        }
+
+        holder.tvAmount.text = "%.1f".format(item.amount)
     }
 
 
