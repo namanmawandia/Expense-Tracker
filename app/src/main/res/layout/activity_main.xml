@@ -17,14 +17,16 @@
             android:layout_height="wrap_content"
             android:id="@+id/lnrLayoutDailyCalender"
             android:orientation="horizontal"
+            android:background="@drawable/date_item_calender_border"
             android:layout_below="@+id/toolbar">
 
             <TextView
                 android:layout_width="0sp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:id="@+id/tvDaily"
                 android:gravity="center"
+                android:background="@drawable/date_item_calender_border"
                 android:text="@string/daily"
                 android:textColor="@color/primaryLight2"
                 android:textColorHighlight="@color/black"
@@ -33,9 +35,10 @@
 
             <TextView
                 android:layout_width="0sp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="@string/calender"
+                android:background="@drawable/date_item_calender_border"
                 android:textColor="@color/primaryLight2"
                 android:textColorHighlight="@color/black"
                 android:textSize="22sp"
@@ -48,7 +51,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="10dp"
+            android:layout_marginBottom="10dp"
             android:id="@+id/lnrLayoutFragmentandfrgOuter"
             android:layout_below="@+id/lnrLayoutDailyCalender"
             android:orientation="vertical">
@@ -88,6 +91,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="32sp"
+                        android:id="@+id/tvTrans"
                         android:text="Transactions"
                         android:layout_marginBottom="5dp"
                         android:gravity="center"
@@ -113,6 +117,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="32sp"
                         android:text="Stats"
+                        android:id="@+id/tvStats"
                         android:layout_marginBottom="5dp"
                         android:gravity="center"
                         android:textColor="@color/negativeTransac"/>
