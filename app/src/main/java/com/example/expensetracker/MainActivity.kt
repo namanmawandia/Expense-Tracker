@@ -68,11 +68,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun replaceFragment(dailyFragment: Fragment) {
+    private fun replaceFragment(fragment: Fragment) {
 
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.frgOuter,dailyFragment)
-        transaction.addToBackStack(null)
+        transaction.replace(R.id.frgOuter,fragment)
+//        transaction.addToBackStack(null)
         transaction.commit()
     }
 
