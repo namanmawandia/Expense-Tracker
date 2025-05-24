@@ -24,27 +24,29 @@ class CalenderFragment: Fragment(){
 
         recyclerView = view.findViewById(R.id.calendarRecyclerView)
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 7)
-        adapter = AdapterCalenderRV(emptyList(),recyclerView.height/6)
-        recyclerView.adapter = adapter
 
         Log.d("CalenderFragment", "onCreateView: initialization")
 
         viewModel = ViewModelProvider(requireActivity())[TransactionViewModel::class.java]
-        viewModel.transactions.observe(viewLifecycleOwner) { transactions ->
-            val cal = Calendar.getInstance()
-            val calendarData = generateCalendarDays(transactions, cal.get(Calendar.YEAR),
-                cal.get(Calendar.MONTH)+1)
-            adapter = AdapterCalenderRV(calendarData,recyclerView.height/6)
-            recyclerView.adapter = adapter
+        recyclerView.post {
+            val rowHeight = recyclerView.height / 6
+
+            viewModel.transactions.observe(viewLifecycleOwner) { transactions ->
+                val cal = Calendar.getInstance()
+                val calendarData = generateCalendarDays(
+                    transactions, cal.get(Calendar.YEAR),
+                    cal.get(Calendar.MONTH) + 1
+                )
+                adapter = AdapterCalenderRV(calendarData, rowHeight)
+                recyclerView.adapter = adapter
+            }
         }
 
         Log.d("CalenderFragment", "onCreateView: observe")
-        viewModel.getAllTransactions()
-        Log.d("CalenderFragment", "onCreateView: get all transaction")
         return view
     }
 
-    fun generateCalendarDays(transactions:List<Transaction>,year: Int, month: Int): List<CalendarDay> {
+    private fun generateCalendarDays(transactions:List<Transaction>,year: Int, month: Int): List<CalendarDay> {
         val calendarDays = mutableListOf<CalendarDay>()
 
         val monthTransactions = transactions.filter {
@@ -94,5 +96,18 @@ class CalenderFragment: Fragment(){
         return calendarDays
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        viewModel.transactions.observe(viewLifecycleOwner) { transactions ->
+            val cal = Calendar.getInstance()
+            val calendarData = generateCalendarDays(
+                transactions, cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH) + 1
+            )
+            adapter = AdapterCalenderRV(calendarData, recyclerView.height / 6)
+            recyclerView.adapter = adapter
+        }
+    }
 
 }

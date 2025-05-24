@@ -36,7 +36,7 @@ class DailyAdapter(private val dayTransactions: List<DayTransactions>) :
                 ".${date.year}"
 
         val total = item.transactions.sumOf { it.amount }
-        holder.tvTotalAmount.text = String.format("%.2f", total)
+        holder.tvTotalAmount.text = String.format("%.1f", total)
         holder.transactionRecycler.layoutManager = LinearLayoutManager(holder.itemView.context)
         holder.transactionRecycler.adapter = DayTransactionAdapter(item.transactions)
     }

@@ -58,4 +58,14 @@ class DailyFragment: Fragment(R.layout.fragment_daily){
         Log.d("DailyFragment", "onCreateView: List By day"+ transList)
         return transList
     }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.transactions.observe(viewLifecycleOwner) { transactions ->
+            Log.d("DailyFragment", "onResume observer: ${transactions.size}")
+            val dayTransactionList = groupTransactionsByDay(transactions)
+            adapter = DailyAdapter(dayTransactionList)
+            recyclerView.adapter = adapter
+        }
+    }
 }

@@ -51,15 +51,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-//    private fun setMainActivity(context: Context) {
-//        val intent = Intent(this, MainActivity::class.java)
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-//        finish()
-//        Log.d("Main Activity", "setMainActivtiy: Main Activtiy finished")
-//        startActivity(intent)
-//        Log.d("Main Activity", "setMainActivtiy: Main Activtiy started again")
-//    }
-
     private fun setTargetActivity(targetActivity: Class<*>) {
         if(this::class.java != targetActivity) {
             val intent = Intent(this, StatsActivity::class.java)
@@ -69,21 +60,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun replaceFragment(fragment: Fragment) {
-
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.frgOuter,fragment)
-//        transaction.addToBackStack(null)
         transaction.commit()
     }
 
 
-    override fun onResume() {
-        super.onResume()
-        val currentFragment = supportFragmentManager.findFragmentById(R.id.frgOuter)
-        Log.d("MainActivity", "onResume: "+ currentFragment)
-        if (currentFragment is CalenderFragment) {
-            supportFragmentManager.beginTransaction().detach(currentFragment).commit()
-            supportFragmentManager.beginTransaction().attach(currentFragment).commit()
-        }
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        val currentFragment = supportFragmentManager.findFragmentById(R.id.frgOuter)
+//        Log.d("MainActivity", "onResume: "+ currentFragment)
+//        if (currentFragment is CalenderFragment || currentFragment is DailyFragment) {
+//            supportFragmentManager.beginTransaction().detach(currentFragment).commit()
+//            supportFragmentManager.beginTransaction().attach(currentFragment).commit()
+//        }
+//    }
 }

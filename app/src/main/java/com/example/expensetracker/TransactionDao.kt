@@ -1,5 +1,6 @@
 package com.example.expensetracker
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -19,5 +20,5 @@ interface TransactionDao {
     suspend fun delete(transaction: Transaction)
 
     @Query("SELECT * FROM transactions ORDER BY date DESC")
-    suspend fun getAllTransactions(): List<Transaction>
+    fun getAllTransactions(): LiveData<List<Transaction>>
 }
