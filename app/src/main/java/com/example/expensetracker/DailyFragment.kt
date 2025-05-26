@@ -5,10 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.Visibility
 import java.time.Instant
 import java.time.ZoneId
 
@@ -26,6 +28,7 @@ class DailyFragment: Fragment(R.layout.fragment_daily){
         recyclerView = view.findViewById(R.id.dailyRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         Log.d("DailyFragment", "onCreateView: onCreateView completed")
+
         return view
     }
 
@@ -34,7 +37,11 @@ class DailyFragment: Fragment(R.layout.fragment_daily){
 
         viewModel = ViewModelProvider(requireActivity())[TransactionViewModel::class.java]
 
+        val tvNoTransac : TextView = view.findViewById(R.id.tvNoTransac)
+
         viewModel.transactions.observe(viewLifecycleOwner) { transactions ->
+            if(transactions.isNullOrEmpty()) tvNoTransac.visibility = View.VISIBLE
+            else    tvNoTransac.visibility =View.GONE
             val dayTransactionList = groupTransactionsByDay(transactions)
             Log.d("DailyFragment", "onCreateView: "+ dayTransactionList)
             adapter = DailyAdapter(dayTransactionList)

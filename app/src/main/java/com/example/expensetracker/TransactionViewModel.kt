@@ -11,7 +11,7 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
     private val db = TransactionDatabase.getDatabase(application)
     private val transactionDao = db.transactionDao()
 
-    private val _transactions = MutableLiveData<List<Transaction>>()
+//    private val _transactions = MutableLiveData<List<Transaction>>()
     val transactions: LiveData<List<Transaction>> = transactionDao.getAllTransactions()
 
     fun insertTransaction(transaction: Transaction) {
