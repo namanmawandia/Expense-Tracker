@@ -2,49 +2,40 @@
 <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="70sp"
+    android:layout_height="100sp"
     android:id="@+id/toolbar"
-    android:paddingHorizontal="25sp"
     android:paddingTop="25sp"
     android:background="@color/primary"
     android:theme="@style/Theme.AppCompat">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:gravity="center">
 
-        <TextView
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text ="X"
-            android:textColor="@color/white"
-            android:textSize="20sp"/>
+            android:id="@+id/ivLeftArrow"
+            android:layout_marginRight="25dp"
+            android:src="@drawable/noun_left_arrow_74837" />
 
-        <TextView
+        <Spinner
+            android:id="@+id/monthSpinner"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content" />
+
+        <Spinner
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/yearSpinner"
+            />
+
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tvmonth"
-            android:layout_margin="5dp"
-            android:text="Jan"
-            android:textColor="@color/white"
-            android:textSize="15sp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvyear"
-            android:layout_margin="5dp"
-            android:text="2025"
-            android:textColor="@color/white"
-            android:textSize="15sp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text ="X"
-            android:textColor="@color/white"
-            android:textSize="20sp"/>
+            android:id="@+id/ivRightArrow"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/noun_right_arrow_74838" />
     </LinearLayout>
 </androidx.appcompat.widget.Toolbar>
