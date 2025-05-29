@@ -48,7 +48,7 @@
             android:layout_weight="1"
             android:background="@drawable/date_item_calender_border"
             android:gravity="center"
-            android:text="Thus"/>
+            android:text="Thu"/>
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"

@@ -86,7 +86,14 @@ class MainActivity : AppCompatActivity() {
             if(month==0) { month = 11;year-- } else month--
             myViewModel.updateMonthYear(month,year)
             setGlobalMonthYear(monthSpinner,yearSpinner,myViewModel)
-
+            val currentFragment = supportFragmentManager.findFragmentById(R.id.frgOuter)
+            Log.d("Main Activity", "onCreate: "+ currentFragment)
+            if(currentFragment!=null){
+                if(currentFragment is CalenderFragment)
+                    replaceFragment(CalenderFragment())
+                else
+                    replaceFragment(DailyFragment())
+            }
         }
         ivRightArrow.setOnClickListener{
             var month = myViewModel.selectedMonth.value?:0
@@ -130,6 +137,7 @@ class MainActivity : AppCompatActivity() {
     private fun replaceFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.frgOuter,fragment)
+        Log.d("Main Activity", "Calender inside replace fragment: "+ fragment)
         transaction.commit()
     }
 

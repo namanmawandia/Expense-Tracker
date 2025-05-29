@@ -11,10 +11,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.util.Calendar
 
+
 class CalenderFragment: Fragment(){
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: AdapterCalenderRV
     private lateinit var viewModel: TransactionViewModel
+    private lateinit var myViewModel: MonthYearViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,33 +28,49 @@ class CalenderFragment: Fragment(){
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 7)
 
         Log.d("CalenderFragment", "onCreateView: initialization")
-
-        viewModel = ViewModelProvider(requireActivity())[TransactionViewModel::class.java]
-        recyclerView.post {
-            val rowHeight = recyclerView.height / 6
-
-            viewModel.transactions.observe(viewLifecycleOwner) { transactions ->
-                val cal = Calendar.getInstance()
-                val calendarData = generateCalendarDays(
-                    transactions, cal.get(Calendar.YEAR),
-                    cal.get(Calendar.MONTH) + 1
-                )
-                adapter = AdapterCalenderRV(calendarData, rowHeight)
-                recyclerView.adapter = adapter
-            }
-        }
-
-        Log.d("CalenderFragment", "onCreateView: observe")
         return view
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel = ViewModelProvider(requireActivity())[TransactionViewModel::class.java]
+        myViewModel = ViewModelProvider(requireActivity())[MonthYearViewModel::class.java]
+
+        recyclerView.post {
+            viewModel.transactions.observe(viewLifecycleOwner) { transactions ->
+                updateCalender(transactions,(myViewModel.selectedMonth.value ?: 0),
+                    (myViewModel.selectedYear.value ?: 0) + 2010)
+            }
+            myViewModel.selectedMonth.observe(viewLifecycleOwner){month ->
+                val transactions : List<Transaction> = viewModel.transactions.value ?: emptyList()
+                Log.d("CalenderFragment", "onViewCreated: month observer "+ month)
+                updateCalender(transactions,month,(myViewModel.selectedYear.value ?: 0) + 2010)
+            }
+            myViewModel.selectedYear.observe(viewLifecycleOwner){year ->
+                val transactions : List<Transaction> = viewModel.transactions.value ?: emptyList()
+                Log.d("CalenderFragment", "onViewCreated: inside observer transaction ")
+                updateCalender(transactions,(myViewModel.selectedMonth.value ?: 0),year + 2010)
+            }
+        }
+    }
+
+    private fun updateCalender(transactions: List<Transaction>, month: Int, year: Int) {
+        val calendarData = generateCalendarDays(transactions, year, month)
+        Log.d("CalenderFragment", "updateCalender: inside uodateCalender " +month)
+        adapter = AdapterCalenderRV(calendarData, recyclerView.height/6)
+        recyclerView.adapter = adapter
+    }
+
 
     private fun generateCalendarDays(transactions:List<Transaction>,year: Int, month: Int): List<CalendarDay> {
         val calendarDays = mutableListOf<CalendarDay>()
 
+        Log.d("CalenderFragment", "generateCalendarDays: month"+ (month)+" "+ year)
         val monthTransactions = transactions.filter {
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = it.date
-            calendar.get(Calendar.YEAR) == year && calendar.get(Calendar.MONTH) == (month - 1)
+            calendar.get(Calendar.YEAR) == year && calendar.get(Calendar.MONTH) == (month)
         }
         Log.d("CalenderFragment", "generateCalendarDays: monthFilter")
 
@@ -67,7 +85,7 @@ class CalenderFragment: Fragment(){
 
         val calendar = Calendar.getInstance()
         // Set calendar to first day of the month
-        calendar.set(year, month - 1, 1)
+        calendar.set(year, month, 1)
         val firstDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) // 1 = Sunday, 7 = Saturday
         val daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
 
@@ -100,13 +118,8 @@ class CalenderFragment: Fragment(){
         super.onResume()
 
         viewModel.transactions.observe(viewLifecycleOwner) { transactions ->
-            val cal = Calendar.getInstance()
-            val calendarData = generateCalendarDays(
-                transactions, cal.get(Calendar.YEAR),
-                cal.get(Calendar.MONTH) + 1
-            )
-            adapter = AdapterCalenderRV(calendarData, recyclerView.height / 6)
-            recyclerView.adapter = adapter
+            updateCalender(transactions,(myViewModel.selectedMonth.value ?: 0),
+                (myViewModel.selectedYear.value ?: 0) + 2010)
         }
     }
 
