@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.Visibility
 import java.time.Instant
 import java.time.ZoneId
 
@@ -19,6 +18,8 @@ class DailyFragment: Fragment(R.layout.fragment_daily){
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: DailyAdapter
     private lateinit var viewModel: TransactionViewModel
+    private lateinit var myViewModel: MonthYearViewModel
+    private lateinit var tvNoTransac : TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,26 +37,53 @@ class DailyFragment: Fragment(R.layout.fragment_daily){
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(requireActivity())[TransactionViewModel::class.java]
+        myViewModel = ViewModelProvider(requireActivity())[MonthYearViewModel::class.java]
 
-        val tvNoTransac : TextView = view.findViewById(R.id.tvNoTransac)
+        tvNoTransac = view.findViewById(R.id.tvNoTransac)
 
         viewModel.transactions.observe(viewLifecycleOwner) { transactions ->
-            if(transactions.isNullOrEmpty()) tvNoTransac.visibility = View.VISIBLE
-            else    tvNoTransac.visibility =View.GONE
-            val dayTransactionList = groupTransactionsByDay(transactions)
-            Log.d("DailyFragment", "onCreateView: "+ dayTransactionList)
-            adapter = DailyAdapter(dayTransactionList)
-            recyclerView.adapter = adapter
+            updateDaily(transactions,(myViewModel.selectedMonth.value ?: 0),
+                (myViewModel.selectedYear.value ?: 0) + 2010,tvNoTransac)
+        }
+        myViewModel.selectedMonth.observe(viewLifecycleOwner){month ->
+            val transactions : List<Transaction> = viewModel.transactions.value ?: emptyList()
+            updateDaily(transactions, month,
+                (myViewModel.selectedYear.value ?: 0) + 2010, tvNoTransac)
+        }
+        myViewModel.selectedYear.observe(viewLifecycleOwner){year ->
+            val transactions : List<Transaction> = viewModel.transactions.value ?: emptyList()
+            updateDaily(transactions, (myViewModel.selectedMonth.value ?: 0),
+                year + 2010, tvNoTransac)
         }
         Log.d("DailyFragment", "onCreateView: onViewCreated completed")
     }
 
-    private fun groupTransactionsByDay(transactions: List<Transaction>): List<DayTransactions> {
-        val grouped = transactions.groupBy {
-            Instant.ofEpochMilli(it.date).atZone(ZoneId.systemDefault()).toLocalDate()
-        }
+    private fun updateDaily(
+        transactions: List<Transaction>,
+        month: Int,
+        year: Int,
+        tvNoTransac: TextView
+    ){
+        val dayTransactionList = groupTransactionsByDay(transactions,month,year)
+        Log.d("DailyFragment", "onCreateView: "+ dayTransactionList)
+        if(dayTransactionList.isEmpty()) tvNoTransac.visibility = View.VISIBLE
+        else tvNoTransac.visibility = View.GONE
+        adapter = DailyAdapter(dayTransactionList)
+        recyclerView.adapter = adapter
+    }
+
+    private fun groupTransactionsByDay(transactions: List<Transaction>, month: Int, year: Int):
+            List<DayTransactions> {
+        val grouped = transactions
+            .map { it to Instant.ofEpochMilli(it.date).atZone(ZoneId.systemDefault()).toLocalDate() }
+            .filter { (_, localDate) ->
+                localDate.monthValue == month+1 && localDate.year == year
+            }
+            .groupBy { (_, localDate) -> localDate }
+            .mapValues { entry -> entry.value.map { it.first } }
 
         Log.d("DailyFragment", "onCreateView: "+ grouped)
+
         val transList = grouped.map { (date, list) ->
             val dayStartMillis = date.atStartOfDay(ZoneId.systemDefault())
                 .toInstant().toEpochMilli()
@@ -69,10 +97,8 @@ class DailyFragment: Fragment(R.layout.fragment_daily){
     override fun onResume() {
         super.onResume()
         viewModel.transactions.observe(viewLifecycleOwner) { transactions ->
-            Log.d("DailyFragment", "onResume observer: ${transactions.size}")
-            val dayTransactionList = groupTransactionsByDay(transactions)
-            adapter = DailyAdapter(dayTransactionList)
-            recyclerView.adapter = adapter
+            updateDaily(transactions, (myViewModel.selectedMonth.value ?: 0),
+                (myViewModel.selectedYear.value ?: 0) + 2010, tvNoTransac)
         }
     }
 }
