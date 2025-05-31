@@ -74,12 +74,17 @@ class CalenderFragment: Fragment(){
         }
         Log.d("CalenderFragment", "generateCalendarDays: monthFilter")
 
-        val expenseByDay: Map<Int, Double> = monthTransactions.groupBy {
+//        val expenseByDay: Map<Int, Double> = monthTransactions.groupBy {
+//            val calendar = Calendar.getInstance()
+//            calendar.timeInMillis = it.date
+//            calendar.get(Calendar.DAY_OF_MONTH)
+//        }.mapValues { entry ->
+//            entry.value.sumOf { if(it.type==0) it.amount else 0.0}
+//        }
+        val expenseByDay: Map<Int, List<Transaction>> = monthTransactions.groupBy {
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = it.date
             calendar.get(Calendar.DAY_OF_MONTH)
-        }.mapValues { entry ->
-            entry.value.sumOf { it.amount }
         }
         Log.d("CalenderFragment", "generateCalendarDays: expenseByDay")
 
@@ -96,11 +101,12 @@ class CalenderFragment: Fragment(){
         Log.d("CalenderFragment", "generateCalendarDays: extra days added in start")
         // Add actual days
         for (day in 1..daysInMonth) {
-            val expense = expenseByDay[day]
+            val expense = expenseByDay[day].orEmpty().sumOf { if(it.type==0) it.amount else 0.0}
+            val income = expenseByDay[day].orEmpty().sumOf { if(it.type==1) it.amount else 0.0}
+            val total = income - expense
             calendarDays.add(
                 CalendarDay(
-                    date = day.toString(),
-                    expense = expense
+                    date = day.toString(), expense = expense, total = total, income = income
                 )
             )
         }

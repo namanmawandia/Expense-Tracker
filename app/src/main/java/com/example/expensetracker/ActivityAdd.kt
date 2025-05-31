@@ -20,6 +20,7 @@ import android.widget.Toast
 import java.text.SimpleDateFormat
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import java.text.ParseException
 import java.util.*
 
@@ -31,8 +32,8 @@ val categoriesExpense = arrayOf("🍔 Food", "🚕 Transport", "💄 Beauty", "�
 val catIncomeToNum : Map<String,Int> = mapOf("\uD83D\uDCB5 Wages" to 0, "\uD83E\uDDFE Salary" to 1,
     "\uD83D\uDCC8 Commissions" to 2,
     "\uD83D\uDCB0 Tips" to 3, "\uD83C\uDF81 Bonus" to 4, "\uD83D\uDCBC Freelancing" to 5)
-val categoriesIncome = arrayOf("\uD83D\uDCB5 Wages","\uD83D\uDCB0 Salary","\uD83D\uDCC8 Commissions",
-    "\uD83D\uDCB2 Tips", "\uD83C\uDF81 Bonus", "\uD83D\uDCBC Freelancing")
+val categoriesIncome = arrayOf("\uD83D\uDCB5 Wages","\uD83E\uDDFE Salary","\uD83D\uDCC8 Commissions",
+    "\uD83D\uDCB0 Tips", "\uD83C\uDF81 Bonus", "\uD83D\uDCBC Freelancing")
 
 class ActivityAdd : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,8 +71,6 @@ class ActivityAdd : AppCompatActivity() {
             val datePickerDialog = DatePickerDialog(
                 this, R.style.Theme_DatePicker,
                 { _, selectedYear, selectedMonth, selectedDay ->
-                    // Format the selected date and set it to the EditText
-//                    val formattedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
                     val formattedDate = String.format("%02d/%02d/%d", selectedDay, selectedMonth + 1, selectedYear)
                     etDate.setText(formattedDate)  // Set the selected date in EditText
                 },
@@ -109,11 +108,13 @@ class ActivityAdd : AppCompatActivity() {
 
         spinnerType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                type = position
                 tvCategoryValue.setText("")
+                type = position
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?){}
+            override fun onNothingSelected(parent: AdapterView<*>?){
+                tvCategoryValue.setText("")
+            }
             }
         }
 
