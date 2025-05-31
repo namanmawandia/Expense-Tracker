@@ -31,8 +31,8 @@ val categoriesExpense = arrayOf("🍔 Food", "🚕 Transport", "💄 Beauty", "�
 val catIncomeToNum : Map<String,Int> = mapOf("\uD83D\uDCB5 Wages" to 0, "\uD83E\uDDFE Salary" to 1,
     "\uD83D\uDCC8 Commissions" to 2,
     "\uD83D\uDCB0 Tips" to 3, "\uD83C\uDF81 Bonus" to 4, "\uD83D\uDCBC Freelancing" to 5)
-val categoriesIncome = arrayOf("\uD83D\uDCB5 Wages","\uD83E\uDDFE Salary","\uD83D\uDCC8 Commissions",
-    "\uD83D\uDCB0 Tips", "\uD83C\uDF81 Bonus", "\uD83D\uDCBC Freelancing")
+val categoriesIncome = arrayOf("\uD83D\uDCB5 Wages","\uD83D\uDCB0 Salary","\uD83D\uDCC8 Commissions",
+    "\uD83D\uDCB2 Tips", "\uD83C\uDF81 Bonus", "\uD83D\uDCBC Freelancing")
 
 class ActivityAdd : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,7 +83,8 @@ class ActivityAdd : AppCompatActivity() {
         btnSave.setOnClickListener{
             val amt = etAmount.text.toString().toDoubleOrNull()
             val note = etNote.text.toString()
-            val cat = catExpenseToNum[tvCategoryValue.text.toString()]
+            val cat = if(type==0) catExpenseToNum[tvCategoryValue.text.toString()]
+                else catIncomeToNum[tvCategoryValue.text.toString()]
             val date = etDate.text.toString()
 
             if(cat != null && amt != null && date.isNotEmpty()){
@@ -109,6 +110,7 @@ class ActivityAdd : AppCompatActivity() {
         spinnerType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 type = position
+                tvCategoryValue.setText("")
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?){}
@@ -117,9 +119,9 @@ class ActivityAdd : AppCompatActivity() {
 
     private fun setUpSpinner(spinnerType: Spinner) {
         val items = arrayOf("Expense", "Income")
-        val adapter = ArrayAdapter(this,R.layout.spinner_item_bar_layout, items)
+        val adapter = ArrayAdapter(this,R.layout.spinner_type_add_activtiy, items)
         spinnerType.setSelection(0)
-        adapter.setDropDownViewResource(R.layout.spinner_item_bar_layout)
+        adapter.setDropDownViewResource(R.layout.spinner_type_add_activtiy)
         spinnerType.adapter = adapter
     }
 
@@ -139,7 +141,7 @@ class ActivityAdd : AppCompatActivity() {
 
         Log.d("ActivityAdd", "showPopGridView: after categoriesExpense")
 
-        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1,
+        val adapter = ArrayAdapter(this, R.layout.grid_item,R.id.gridText,
             if(type==0) categoriesExpense else categoriesIncome)
         gridView.adapter = adapter
 

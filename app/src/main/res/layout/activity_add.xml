@@ -74,7 +74,8 @@
                     android:layout_weight="1.4"
                     android:ems="10"
                     android:inputType="date"
-                    android:focusable="false"/>
+                    android:focusable="false"
+                    android:textColor="@color/primaryLight"/>
             </LinearLayout>
 
             <LinearLayout
@@ -100,7 +101,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.4"
                     android:ems="10"
-                    android:inputType="numberDecimal" />
+                    android:inputType="numberDecimal"
+                    android:textColor="@color/primaryLight"/>
             </LinearLayout>
 
             <LinearLayout
@@ -134,7 +136,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="18sp"
-                        android:ems="16" />
+                        android:ems="16"
+                        android:textColor="@color/primaryLight"/>
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.6dp"
@@ -168,7 +171,8 @@
                     android:layout_weight="1.4"
                     android:ems="10"
                     android:inputType="text"
-                    android:text="" />
+                    android:text=""
+                    android:textColor="@color/primaryLight"/>
             </LinearLayout>
 
             <Button
