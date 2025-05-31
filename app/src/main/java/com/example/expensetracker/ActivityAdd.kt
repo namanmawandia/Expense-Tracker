@@ -11,9 +11,11 @@ import android.widget.GridView
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
-import androidx.activity.ComponentActivity
 import android.app.DatePickerDialog
 import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView
+import android.widget.Spinner
 import android.widget.Toast
 import java.text.SimpleDateFormat
 import androidx.activity.viewModels
@@ -22,10 +24,15 @@ import java.text.ParseException
 import java.util.*
 
 
-val catToNum : Map<String,Int> = mapOf("🍔 Food" to 0, "🚕 Transport" to 1, "💄 Beauty" to 2,
+val catExpenseToNum : Map<String,Int> = mapOf("🍔 Food" to 0, "🚕 Transport" to 1, "💄 Beauty" to 2,
             "🎁 Gift" to 3, "🏠 Household" to 4, "🎓 Education" to 5)
-val categories = arrayOf("🍔 Food", "🚕 Transport", "💄 Beauty", "🎁 Gift", "🏠 Household",
+val categoriesExpense = arrayOf("🍔 Food", "🚕 Transport", "💄 Beauty", "🎁 Gift", "🏠 Household",
         "🎓 Education")
+val catIncomeToNum : Map<String,Int> = mapOf("\uD83D\uDCB5 Wages" to 0, "\uD83E\uDDFE Salary" to 1,
+    "\uD83D\uDCC8 Commissions" to 2,
+    "\uD83D\uDCB0 Tips" to 3, "\uD83C\uDF81 Bonus" to 4, "\uD83D\uDCBC Freelancing" to 5)
+val categoriesIncome = arrayOf("\uD83D\uDCB5 Wages","\uD83E\uDDFE Salary","\uD83D\uDCC8 Commissions",
+    "\uD83D\uDCB0 Tips", "\uD83C\uDF81 Bonus", "\uD83D\uDCBC Freelancing")
 
 class ActivityAdd : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,17 +46,20 @@ class ActivityAdd : AppCompatActivity() {
         val etNote : EditText = findViewById(R.id.etNote)
         val tvCategoryValue : TextView = findViewById(R.id.tvCategoryValue)
         val btnSave : Button = findViewById(R.id.btnSave)
+        val spinnerType : Spinner = findViewById(R.id.typeSpinner)
 
         val transactionViewModel : TransactionViewModel by viewModels()
+        var type = 0 // for expense or income
 
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        setUpSpinner(spinnerType)
 
         Log.d("addactivty", "onCreate: ")
 
         tvCategoryValue.setOnClickListener{
-            showPopGridView(tvCategoryValue)
+            showPopGridView(tvCategoryValue,type)
         }
         etDate.setOnClickListener{
             val calendar = Calendar.getInstance()
@@ -73,10 +83,10 @@ class ActivityAdd : AppCompatActivity() {
         btnSave.setOnClickListener{
             val amt = etAmount.text.toString().toDoubleOrNull()
             val note = etNote.text.toString()
-            val cat = catToNum[tvCategoryValue.text.toString()]
+            val cat = catExpenseToNum[tvCategoryValue.text.toString()]
             val date = etDate.text.toString()
+
             if(cat != null && amt != null && date.isNotEmpty()){
-//                val dateInMillis = convertDateToMillis(date)
                 val dateInMillis = try {
                     convertDateToMillis(date)
                 } catch (e: ParseException) {
@@ -85,7 +95,7 @@ class ActivityAdd : AppCompatActivity() {
                     return@setOnClickListener
                 }
                 val newTransaction = Transaction(amount = amt, date = dateInMillis, note = note,
-                    category = cat)
+                    category = cat, type = type)
                 Log.d("ActivityAdd", "Saving transaction: $newTransaction")
                 transactionViewModel.insertTransaction(newTransaction)
                 Toast.makeText(this, "Transaction saved!", Toast.LENGTH_SHORT).show()
@@ -95,6 +105,22 @@ class ActivityAdd : AppCompatActivity() {
             }
 
         }
+
+        spinnerType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                type = position
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?){}
+            }
+        }
+
+    private fun setUpSpinner(spinnerType: Spinner) {
+        val items = arrayOf("Expense", "Income")
+        val adapter = ArrayAdapter(this,R.layout.spinner_item_bar_layout, items)
+        spinnerType.setSelection(0)
+        adapter.setDropDownViewResource(R.layout.spinner_item_bar_layout)
+        spinnerType.adapter = adapter
     }
 
     private fun convertDateToMillis(date: String): Long {
@@ -102,7 +128,7 @@ class ActivityAdd : AppCompatActivity() {
         return (format.parse(date).time)
     }
 
-    private fun showPopGridView(tvCategoryValue: TextView) {
+    private fun showPopGridView(tvCategoryValue: TextView, type: Int) {
 
         val inflater = LayoutInflater.from(this)
         val layout = inflater.inflate(R.layout.popup_grid, null)
@@ -111,9 +137,10 @@ class ActivityAdd : AppCompatActivity() {
 
         val gridView : GridView = layout.findViewById(R.id.gridItem)
 
-        Log.d("ActivityAdd", "showPopGridView: after categories")
+        Log.d("ActivityAdd", "showPopGridView: after categoriesExpense")
 
-        val adapter = ArrayAdapter(this,android.R.layout.simple_list_item_1,categories)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1,
+            if(type==0) categoriesExpense else categoriesIncome)
         gridView.adapter = adapter
 
         val popupWindow = PopupWindow(layout,WindowManager.LayoutParams.MATCH_PARENT,
@@ -121,7 +148,9 @@ class ActivityAdd : AppCompatActivity() {
         popupWindow.showAtLocation(tvCategoryValue,android.view.Gravity.BOTTOM,0,0)
 
         gridView.setOnItemClickListener { _, _, position, _ ->
-            tvCategoryValue.text = categories[position]
+            tvCategoryValue.text =
+                if(type==0) categoriesExpense[position]
+                else categoriesIncome[position]
             popupWindow.dismiss()
         }
 

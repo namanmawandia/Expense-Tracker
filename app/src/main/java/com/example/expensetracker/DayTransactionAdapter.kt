@@ -23,7 +23,7 @@ class DayTransactionAdapter(private val transactions: List<Transaction>):
 
     override fun onBindViewHolder(holder: TransactionDayViewHolder, position: Int) {
         val item = transactions[position]
-        holder.tvCategory.text = categories[item.category]
+        holder.tvCategory.text = categoriesExpense[item.category]
         holder.tvNote.text = if (item.note.length > 10) {
             item.note.take(10) + "..."
         } else {
