@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary"
+    android:background="@color/white"
     android:orientation="vertical"
     android:padding="10sp">
 
@@ -13,7 +13,7 @@
         android:layout_height="56dp"
         app:title="Transaction"
         android:theme="@style/Theme.MaterialComponents.Dialog"
-        app:titleTextColor="@color/primaryLight" />
+        app:titleTextColor="@color/primary" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -40,7 +40,7 @@
                     android:layout_weight="0.5"
                     android:text="Type"
                     android:textSize="18sp"
-                    android:textColor="@color/primaryLight"/>
+                    android:textColor="@color/primary"/>
 
                 <Spinner
                     android:id="@+id/typeSpinner"
@@ -65,7 +65,7 @@
                     android:layout_weight="0.5"
                     android:text="Date"
                     android:textSize="18sp"
-                    android:textColor="@color/primaryLight"/>
+                    android:textColor="@color/primary"/>
 
                 <EditText
                     android:id="@+id/etDate"
@@ -75,7 +75,7 @@
                     android:ems="10"
                     android:inputType="date"
                     android:focusable="false"
-                    android:textColor="@color/primaryLight"/>
+                    android:textColor="@color/primary"/>
             </LinearLayout>
 
             <LinearLayout
@@ -93,7 +93,7 @@
                     android:layout_weight="0.5"
                     android:text="Amount"
                     android:textSize="18sp"
-                    android:textColor="@color/primaryLight" />
+                    android:textColor="@color/primary" />
 
                 <EditText
                     android:id="@+id/etAmount"
@@ -102,7 +102,7 @@
                     android:layout_weight="1.4"
                     android:ems="10"
                     android:inputType="numberDecimal"
-                    android:textColor="@color/primaryLight"/>
+                    android:textColor="@color/primary"/>
             </LinearLayout>
 
             <LinearLayout
@@ -122,7 +122,7 @@
                     android:text="Category"
                     android:layout_gravity="center"
                     android:textSize="18sp"
-                    android:textColor="@color/primaryLight"/>
+                    android:textColor="@color/primary"/>
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -137,7 +137,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="18sp"
                         android:ems="16"
-                        android:textColor="@color/primaryLight"/>
+                        android:textColor="@color/primary"/>
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.6dp"
@@ -162,7 +162,7 @@
                     android:layout_weight="0.5"
                     android:text="Note"
                     android:textSize="18sp"
-                    android:textColor="@color/primaryLight" />
+                    android:textColor="@color/primary" />
 
                 <EditText
                     android:id="@+id/etNote"
@@ -172,7 +172,7 @@
                     android:ems="10"
                     android:inputType="text"
                     android:text=""
-                    android:textColor="@color/primaryLight"/>
+                    android:textColor="@color/primary"/>
             </LinearLayout>
 
             <Button
@@ -181,7 +181,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/llhNote"
                 android:background="@drawable/ic_round_button"
                 android:text="Save"
-                android:textColor="@color/primaryLight"
+                android:textColor="@color/primary"
                 android:gravity="center"
                 android:id="@+id/btnSave"
                 android:layout_margin="20sp"
