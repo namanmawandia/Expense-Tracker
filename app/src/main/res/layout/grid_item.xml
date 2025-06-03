@@ -5,5 +5,6 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:padding="8dp"
-    android:textColor="@color/white"
+    android:textColor="@color/primary1"
+    android:background="@drawable/date_item_calender_border"
     android:textSize="16sp" />

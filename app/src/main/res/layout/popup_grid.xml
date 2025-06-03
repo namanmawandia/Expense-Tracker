@@ -7,7 +7,7 @@
     android:verticalSpacing="10dp"
     android:horizontalSpacing="3dp"
     android:layout_margin="5dp"
-    android:background="@color/primary1"
+    android:background="@color/white"
     android:gravity="center"
     android:stretchMode="columnWidth">
 </GridView>

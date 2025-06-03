@@ -20,7 +20,6 @@ import android.widget.Toast
 import java.text.SimpleDateFormat
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import java.text.ParseException
 import java.util.*
 
@@ -60,7 +59,7 @@ class ActivityAdd : AppCompatActivity() {
         Log.d("addactivty", "onCreate: ")
 
         tvCategoryValue.setOnClickListener{
-            showPopGridView(tvCategoryValue,type)
+            showPopGridView(tvCategoryValue,type,btnSave)
         }
         etDate.setOnClickListener{
             val calendar = Calendar.getInstance()
@@ -129,7 +128,7 @@ class ActivityAdd : AppCompatActivity() {
         return (format.parse(date).time)
     }
 
-    private fun showPopGridView(tvCategoryValue: TextView, type: Int) {
+    private fun showPopGridView(tvCategoryValue: TextView, type: Int, btnSave: Button) {
 
         val inflater = LayoutInflater.from(this)
         val layout = inflater.inflate(R.layout.popup_grid, null)
@@ -146,7 +145,8 @@ class ActivityAdd : AppCompatActivity() {
 
         val popupWindow = PopupWindow(layout,WindowManager.LayoutParams.MATCH_PARENT,
                     WindowManager.LayoutParams.WRAP_CONTENT,true)
-        popupWindow.showAtLocation(tvCategoryValue,android.view.Gravity.BOTTOM,0,0)
+//        popupWindow.showAtLocation(tvCategoryValue,android.view.Gravity.BOTTOM,0,0)
+        popupWindow.showAsDropDown(btnSave,0, 30)
 
         gridView.setOnItemClickListener { _, _, position, _ ->
             tvCategoryValue.text =
