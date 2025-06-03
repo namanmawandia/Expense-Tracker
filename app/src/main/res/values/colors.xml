@@ -14,8 +14,12 @@
     <color name="primaryLight2">#B0B0B0</color>
     <color name="negativeTransac">#FF8C00</color>
     <color name="positiveTransac">#D6A4DD</color>
-    <color name="purpleTransac">#9370DB</color>
-    <color name="highlightPurple">#BF00FF</color>
+<!--    <color name="highlightPurple">#9370DB</color>-->
+<!--    <color name="highlightPurple">#B266FF</color>-->
+<!--    <color name="highlightPurple">#C080FF</color>-->
+<!--    <color name="highlightPurple">#D18FFF</color>-->
+    <color name="highlightPurple">#BB33FF</color>
+<!--    <color name="purpleTransac">#BF00FF</color>-->
     <color name="totalTransac">#FFFFFFFF</color>
 
 </resources>

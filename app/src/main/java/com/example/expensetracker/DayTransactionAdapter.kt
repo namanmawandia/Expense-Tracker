@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
 class DayTransactionAdapter(private val transactions: List<Transaction>):
@@ -31,6 +32,9 @@ class DayTransactionAdapter(private val transactions: List<Transaction>):
         }
 
         holder.tvAmount.text = "%.1f".format(item.amount)
+        if(item.type==1)
+            holder.tvAmount.setTextColor(ContextCompat.getColor(holder.tvAmount.context,
+                R.color.highlightPurple))
     }
 
 

@@ -112,9 +112,7 @@ class ActivityAdd : AppCompatActivity() {
                 type = position
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?){
-                tvCategoryValue.setText("")
-            }
+            override fun onNothingSelected(parent: AdapterView<*>?){}
             }
         }
 

@@ -28,7 +28,8 @@ class AdapterCalenderRV(private val days: List<CalendarDay>, private val itemHei
         holder.tvDate.text = day.date
         holder.tvExpense.text = if (day.expense != null && day.expense != 0.0) "${day.expense}" else ""
         holder.tvIncome.text = if (day.income != null && day.income != 0.0) "${day.income}" else ""
-        holder.tvTotalAmount.text = if(day.total!= 0.0 || day.expense!= 0.0 || day.income != 0.0)
+        holder.tvTotalAmount.text = if(day.total!=null &&
+            (day.total!= 0.0 || day.expense!= 0.0 || day.income != 0.0))
             "${day.total}" else ""
     }
 

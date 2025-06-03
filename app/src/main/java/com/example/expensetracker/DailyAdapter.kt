@@ -15,7 +15,8 @@ class DailyAdapter(private val dayTransactions: List<DayTransactions>) :
     class DayViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvDate: TextView = view.findViewById(R.id.tvDate)
         val tvMonthYear: TextView = view.findViewById(R.id.tvMonthYear)
-        val tvTotalAmount: TextView = view.findViewById(R.id.tvTotalAmount)
+        val tvTotalExpense: TextView = view.findViewById(R.id.tvTotalExpense)
+        val tvTotalIncome: TextView = view.findViewById(R.id.tvTotalIncome)
         val tvDay: TextView = view.findViewById(R.id.tvDay)
         val transactionRecycler: RecyclerView = view.findViewById(R.id.rvDailyTransactions)
     }
@@ -35,8 +36,10 @@ class DailyAdapter(private val dayTransactions: List<DayTransactions>) :
         holder.tvMonthYear.text = "${date.monthValue.toString().padStart(2, '0')}" +
                 ".${date.year}"
 
-        val total = item.transactions.sumOf { it.amount }
-        holder.tvTotalAmount.text = String.format("%.1f", total)
+        val totalIncome = item.transactions.sumOf { if(it.type==1) it.amount else 0.0 }
+        val totalExpense = item.transactions.sumOf {if(it.type==0) it.amount else 0.0}
+        holder.tvTotalExpense.text = String.format("%.1f", totalExpense)
+        holder.tvTotalIncome.text = String.format("%.1f", totalIncome)
         holder.transactionRecycler.layoutManager = LinearLayoutManager(holder.itemView.context)
         holder.transactionRecycler.adapter = DayTransactionAdapter(item.transactions)
     }

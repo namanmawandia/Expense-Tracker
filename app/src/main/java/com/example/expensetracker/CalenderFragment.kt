@@ -74,13 +74,6 @@ class CalenderFragment: Fragment(){
         }
         Log.d("CalenderFragment", "generateCalendarDays: monthFilter")
 
-//        val expenseByDay: Map<Int, Double> = monthTransactions.groupBy {
-//            val calendar = Calendar.getInstance()
-//            calendar.timeInMillis = it.date
-//            calendar.get(Calendar.DAY_OF_MONTH)
-//        }.mapValues { entry ->
-//            entry.value.sumOf { if(it.type==0) it.amount else 0.0}
-//        }
         val expenseByDay: Map<Int, List<Transaction>> = monthTransactions.groupBy {
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = it.date
@@ -113,7 +106,7 @@ class CalenderFragment: Fragment(){
         Log.d("CalenderFragment", "generateCalendarDays: Days updated with value")
 
         // pad the end to make the total count a multiple of 7
-        while (calendarDays.size % 7 != 0) {
+        while (calendarDays.size < 42 || calendarDays.size % 7 != 0) {
             calendarDays.add(CalendarDay(""))
         }
         Log.d("CalenderFragment", "generateCalendarDays: extra days added in end")
