@@ -53,6 +53,7 @@ class ActivityAdd : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
         setUpSpinner(spinnerType)
 

@@ -13,4 +13,9 @@
         <item name="colorAccent">@color/negativeTransac</item>
     </style>
 
+    <style name="MyToolbarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
+    </style>
+
 </resources>

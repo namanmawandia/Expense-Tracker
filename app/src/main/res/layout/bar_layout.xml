@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="100sp"
     android:id="@+id/toolbar"
-    android:paddingTop="25sp"
+    android:paddingTop="25dp"
     android:background="@color/primary"
     android:theme="@style/Theme.AppCompat">
 
