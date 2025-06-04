@@ -21,6 +21,9 @@ import java.util.Calendar
 
 class MainActivity : AppCompatActivity() {
 
+    val monthSpinner: Spinner by lazy { findViewById(R.id.monthSpinner) }
+    val yearSpinner: Spinner by lazy { findViewById(R.id.yearSpinner) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -32,8 +35,8 @@ class MainActivity : AppCompatActivity() {
         val tvCalender = findViewById<TextView>(R.id.tvCalender)
         val ivTransac = findViewById<ImageView>(R.id.ivTransac)
         val ivStats = findViewById<ImageView>(R.id.ivStats)
-        val monthSpinner = findViewById<Spinner>(R.id.monthSpinner)
-        val yearSpinner = findViewById<Spinner>(R.id.yearSpinner)
+//        val monthSpinner = findViewById<Spinner>(R.id.monthSpinner)
+//        val yearSpinner = findViewById<Spinner>(R.id.yearSpinner)
         val ivLeftArrow = findViewById<ImageView>(R.id.ivLeftArrow)
         val ivRightArrow = findViewById<ImageView>(R.id.ivRightArrow)
 
@@ -71,14 +74,14 @@ class MainActivity : AppCompatActivity() {
         monthSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 myViewModel.updateMonthYear(position,myViewModel.selectedYear.value?:0)
-                setGlobalMonthYear(monthSpinner,yearSpinner,myViewModel)
+                setGlobalMonthYear(myViewModel)
             }
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
         yearSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 myViewModel.updateMonthYear(myViewModel.selectedMonth.value?:0,position)
-                setGlobalMonthYear(monthSpinner,yearSpinner,myViewModel)
+                setGlobalMonthYear(myViewModel)
             }
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
@@ -87,14 +90,14 @@ class MainActivity : AppCompatActivity() {
             var year = myViewModel.selectedYear.value?:0
             if(month==0) { month = 11;year-- } else month--
             myViewModel.updateMonthYear(month,year)
-            setGlobalMonthYear(monthSpinner,yearSpinner,myViewModel)
+            setGlobalMonthYear(myViewModel)
         }
         ivRightArrow.setOnClickListener{
             var month = myViewModel.selectedMonth.value?:0
             var year = myViewModel.selectedYear.value?:0
             if(month==11) { month = 0 ;year++ } else month++
             myViewModel.updateMonthYear(month,year)
-            setGlobalMonthYear(monthSpinner,yearSpinner,myViewModel)
+            setGlobalMonthYear(myViewModel)
         }
 
     }
@@ -117,7 +120,7 @@ class MainActivity : AppCompatActivity() {
 
         monthSpinner.adapter = monthAdapter
         yearSpinner.adapter = yearAdapter
-        setGlobalMonthYear(monthSpinner,yearSpinner,myViewModel)
+        setGlobalMonthYear(myViewModel)
     }
 
     private fun setTargetActivity(targetActivity: Class<*>) {
@@ -164,8 +167,7 @@ class MainActivity : AppCompatActivity() {
             text.setTextColor(color)
         }
     }
-    fun setGlobalMonthYear(monthSpinner: Spinner,yearSpinner: Spinner,
-                           myViewModel: MonthYearViewModel){
+    fun setGlobalMonthYear(myViewModel: MonthYearViewModel){
         monthSpinner.setSelection(myViewModel.selectedMonth.value ?: 0)
         yearSpinner.setSelection(myViewModel.selectedYear.value ?: 0)
     }

@@ -137,4 +137,6 @@
         android:tint="@color/white"
         app:backgroundTint="@color/negativeTransac"
         app:srcCompat="@android:drawable/ic_input_add" />
+
 </FrameLayout>
+

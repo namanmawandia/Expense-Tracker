@@ -1,10 +1,16 @@
 package com.example.expensetracker
 
+import SwipeGestureListener
 import android.os.Bundle
 import android.util.Log
+import android.view.GestureDetector
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.widget.Spinner
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -53,6 +59,72 @@ class CalenderFragment: Fragment(){
                 updateCalender(transactions,(myViewModel.selectedMonth.value ?: 0),year + 2010)
             }
         }
+
+        val gestureDetector = GestureDetector(requireContext(),
+            SwipeGestureListener(requireContext(),
+                onSwipeLeft = {
+                    animateLeftSwipe {
+                        var month = myViewModel.selectedMonth.value?:0
+                        var year = myViewModel.selectedYear.value?:0
+                        if(month==11) { month = 0 ;year++ } else month++
+                        myViewModel.updateMonthYear(month,year)
+                        (activity as? MainActivity)?.setGlobalMonthYear(myViewModel)
+                        Toast.makeText(context, "left Swipe", Toast.LENGTH_SHORT).show()
+                    }
+                },
+                onSwipeRight = {
+                    animateRightSwipe {
+                        var month = myViewModel.selectedMonth.value ?: 0
+                        var year = myViewModel.selectedYear.value ?: 0
+                        if (month == 0) {
+                            month = 11;year--
+                        } else month--
+                        myViewModel.updateMonthYear(month, year)
+                        (activity as? MainActivity)?.setGlobalMonthYear(myViewModel)
+                        Toast.makeText(context, "Right Swipe", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            )
+        )
+
+        recyclerView.setOnTouchListener { _, event ->
+            Log.d("CalenderFragment", "Touch event: ${event.action}")
+            gestureDetector.onTouchEvent(event)
+            false
+        }
+
+    }
+
+    fun animateLeftSwipe(onComplete: () -> Unit) {
+        val outAnim = AnimationUtils.loadAnimation(context, R.anim.slide_out_left)
+        val inAnim = AnimationUtils.loadAnimation(context, R.anim.slide_in_right)
+
+        outAnim.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation) {}
+            override fun onAnimationRepeat(animation: Animation) {}
+            override fun onAnimationEnd(animation: Animation) {
+                onComplete() // Update data after slide-out
+                recyclerView.startAnimation(inAnim)
+            }
+        })
+
+        recyclerView.startAnimation(outAnim)
+    }
+
+    fun animateRightSwipe(onComplete: () -> Unit) {
+        val outAnim = AnimationUtils.loadAnimation(context, R.anim.slide_out_right)
+        val inAnim = AnimationUtils.loadAnimation(context, R.anim.slide_in_left)
+
+        outAnim.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation) {}
+            override fun onAnimationRepeat(animation: Animation) {}
+            override fun onAnimationEnd(animation: Animation) {
+                onComplete() // Update data after slide-out
+                recyclerView.startAnimation(inAnim)
+            }
+        })
+
+        recyclerView.startAnimation(outAnim)
     }
 
     private fun updateCalender(transactions: List<Transaction>, month: Int, year: Int) {
