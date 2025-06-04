@@ -63,17 +63,18 @@ class CalenderFragment: Fragment(){
         val gestureDetector = GestureDetector(requireContext(),
             SwipeGestureListener(requireContext(),
                 onSwipeLeft = {
-                    animateLeftSwipe {
+                    SwipeAnimator.animateSwipe(context = requireContext(),targetView =  recyclerView,
+                        direction = SwipeAnimator.Direction.LEFT) {
                         var month = myViewModel.selectedMonth.value?:0
                         var year = myViewModel.selectedYear.value?:0
                         if(month==11) { month = 0 ;year++ } else month++
                         myViewModel.updateMonthYear(month,year)
                         (activity as? MainActivity)?.setGlobalMonthYear(myViewModel)
-                        Toast.makeText(context, "left Swipe", Toast.LENGTH_SHORT).show()
                     }
                 },
                 onSwipeRight = {
-                    animateRightSwipe {
+                    SwipeAnimator.animateSwipe(context = requireContext(),targetView =  recyclerView,
+                        direction = SwipeAnimator.Direction.RIGHT){
                         var month = myViewModel.selectedMonth.value ?: 0
                         var year = myViewModel.selectedYear.value ?: 0
                         if (month == 0) {
@@ -81,7 +82,6 @@ class CalenderFragment: Fragment(){
                         } else month--
                         myViewModel.updateMonthYear(month, year)
                         (activity as? MainActivity)?.setGlobalMonthYear(myViewModel)
-                        Toast.makeText(context, "Right Swipe", Toast.LENGTH_SHORT).show()
                     }
                 }
             )
@@ -93,38 +93,6 @@ class CalenderFragment: Fragment(){
             false
         }
 
-    }
-
-    fun animateLeftSwipe(onComplete: () -> Unit) {
-        val outAnim = AnimationUtils.loadAnimation(context, R.anim.slide_out_left)
-        val inAnim = AnimationUtils.loadAnimation(context, R.anim.slide_in_right)
-
-        outAnim.setAnimationListener(object : Animation.AnimationListener {
-            override fun onAnimationStart(animation: Animation) {}
-            override fun onAnimationRepeat(animation: Animation) {}
-            override fun onAnimationEnd(animation: Animation) {
-                onComplete() // Update data after slide-out
-                recyclerView.startAnimation(inAnim)
-            }
-        })
-
-        recyclerView.startAnimation(outAnim)
-    }
-
-    fun animateRightSwipe(onComplete: () -> Unit) {
-        val outAnim = AnimationUtils.loadAnimation(context, R.anim.slide_out_right)
-        val inAnim = AnimationUtils.loadAnimation(context, R.anim.slide_in_left)
-
-        outAnim.setAnimationListener(object : Animation.AnimationListener {
-            override fun onAnimationStart(animation: Animation) {}
-            override fun onAnimationRepeat(animation: Animation) {}
-            override fun onAnimationEnd(animation: Animation) {
-                onComplete() // Update data after slide-out
-                recyclerView.startAnimation(inAnim)
-            }
-        })
-
-        recyclerView.startAnimation(outAnim)
     }
 
     private fun updateCalender(transactions: List<Transaction>, month: Int, year: Int) {

@@ -1,11 +1,16 @@
 package com.example.expensetracker
 
+import SwipeGestureListener
 import android.os.Bundle
 import android.util.Log
+import android.view.GestureDetector
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -56,6 +61,37 @@ class DailyFragment: Fragment(R.layout.fragment_daily){
                 year + 2010, tvNoTransac)
         }
         Log.d("DailyFragment", "onCreateView: onViewCreated completed")
+
+        val gestureDetector = GestureDetector(requireContext(),
+            SwipeGestureListener(requireContext(),
+                onSwipeLeft = {
+                     SwipeAnimator.animateSwipe(context = requireContext(),targetView =  recyclerView,
+                         direction = SwipeAnimator.Direction.LEFT){
+                        var month = myViewModel.selectedMonth.value?:0
+                        var year = myViewModel.selectedYear.value?:0
+                        if(month==11) { month = 0 ;year++ } else month++
+                        myViewModel.updateMonthYear(month,year)
+                        (activity as? MainActivity)?.setGlobalMonthYear(myViewModel)
+                    }
+                },
+                onSwipeRight = {
+                    SwipeAnimator.animateSwipe(context = requireContext(),targetView =  recyclerView,
+                        direction = SwipeAnimator.Direction.RIGHT) {
+                        var month = myViewModel.selectedMonth.value ?: 0
+                        var year = myViewModel.selectedYear.value ?: 0
+                        if (month == 0) { month = 11;year-- } else month--
+                        myViewModel.updateMonthYear(month, year)
+                        (activity as? MainActivity)?.setGlobalMonthYear(myViewModel)
+                    }
+                }
+            )
+        )
+
+        recyclerView.setOnTouchListener { _, event ->
+            Log.d("CalenderFragment", "Touch event: ${event.action}")
+            gestureDetector.onTouchEvent(event)
+            false
+        }
     }
 
     private fun updateDaily(
