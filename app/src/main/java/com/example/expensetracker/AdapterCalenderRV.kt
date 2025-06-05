@@ -5,22 +5,28 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
-class AdapterCalenderRV(private val days: List<CalendarDay>, private val itemHeight: Int) :
+interface OnItemClickListenerDay {
+    fun onItemClick(item: CalendarDay)
+}
+
+class AdapterCalenderRV(private val days: List<CalendarDay>, private val itemHeight: Int,
+                        private val listener: OnItemClickListenerDay) :
     RecyclerView.Adapter<AdapterCalenderRV.DayViewHolder>() {
-
-    class DayViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class DayViewHolder(view: View, parent: ViewGroup) : RecyclerView.ViewHolder(view) {
         val tvDate: TextView = view.findViewById(R.id.tvDate)
         val tvExpense: TextView = view.findViewById(R.id.tvExpense)
         val tvIncome : TextView = view.findViewById(R.id.tvIncome)
         val tvTotalAmount : TextView = view.findViewById(R.id.tvTotalAmount)
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DayViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_day_calender,
             parent, false)
         view.layoutParams.height = itemHeight
-        return DayViewHolder(view)
+        return DayViewHolder(view,parent)
     }
 
     override fun onBindViewHolder(holder: DayViewHolder, position: Int) {
