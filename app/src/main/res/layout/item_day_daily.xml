@@ -18,6 +18,7 @@
             android:orientation="horizontal"
             android:id="@+id/cnstrtloutTop"
             app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/date_item_calender_border"
             app:layout_constraintStart_toStartOf="parent">
 
             <include layout="@layout/element_date"

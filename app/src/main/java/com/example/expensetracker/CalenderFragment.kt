@@ -9,12 +9,18 @@ import android.view.GestureDetector
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import java.time.format.TextStyle
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import java.time.LocalDate
+import java.time.ZoneId
 import java.util.Calendar
+import java.util.Locale
 
 
 class CalenderFragment: Fragment(), AdapterCalenderRV.OnItemClickListenerDay{
@@ -96,8 +102,34 @@ class CalenderFragment: Fragment(), AdapterCalenderRV.OnItemClickListenerDay{
     }
 
     override fun onItemClick(item: CalendarDay, parent: Context) {
-        val view = LayoutInflater.from(parent).inflate(R.layout.item_day_daily,null)
+        val view = LayoutInflater.from(requireContext()).inflate(R.layout.bottom_popup_whole_day,null)
 
+        val tvDate: TextView = view.findViewById(R.id.tvDate)
+        val tvMonthYear: TextView = view.findViewById(R.id.tvMonthYear)
+        val tvTotalExpense: TextView = view.findViewById(R.id.tvTotalExpense)
+        val tvTotalIncome: TextView = view.findViewById(R.id.tvTotalIncome)
+        val tvDay: TextView = view.findViewById(R.id.tvDay)
+        val transacRecycler: RecyclerView = view.findViewById(R.id.rvDailyTransactions)
+
+        tvDate.text = item.date
+        tvTotalIncome.text = item.income.toString()
+        tvTotalExpense.text = item.expense.toString()
+        val month = (myViewModel.selectedMonth.value?:0) +1
+        val year = (myViewModel.selectedYear.value ?: 0) + 2010
+        tvDay.text = LocalDate.of(year,month,item.date?.toInt()?:1).dayOfWeek
+            .getDisplayName( TextStyle.SHORT ,Locale.ENGLISH)
+        tvMonthYear.text = "${month.toString().padStart(2, '0')}" + ".${year}"
+
+        // finding list of transactions on particular day
+        val transactions : List<Transaction> = viewModel.transactions.value ?: emptyList()
+        val transacDay : List<Transaction> = transactions.filter { t->
+            t.date == (LocalDate.of(year,month,item.date?.toInt()?:1))
+                .atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
+        }
+
+        // using same adapter as used by DailyAdapter
+        transacRecycler.layoutManager = LinearLayoutManager(requireContext())
+        transacRecycler.adapter = DayTransactionAdapter(transacDay)
 
         val dialog = BottomSheetDialog(requireContext())
         dialog.setContentView(view)
