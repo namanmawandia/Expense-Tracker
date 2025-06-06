@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.GestureDetector
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -93,11 +94,14 @@ class CalenderFragment: Fragment(), AdapterCalenderRV.OnItemClickListenerDay{
             )
         )
 
-        recyclerView.setOnTouchListener { _, event ->
-            Log.d("CalenderFragment", "Touch event: ${event.action}")
-            gestureDetector.onTouchEvent(event)
-            false
-        }
+        recyclerView.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
+            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+                gestureDetector.onTouchEvent(e)
+                return false
+            }
+            override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {}
+            override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {}
+        })
 
     }
 
