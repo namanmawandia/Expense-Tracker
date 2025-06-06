@@ -1,24 +1,23 @@
 package com.example.expensetracker
 
 import SwipeGestureListener
+import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.GestureDetector
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
-import android.widget.Spinner
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.util.Calendar
 
 
-class CalenderFragment: Fragment(){
+class CalenderFragment: Fragment(), AdapterCalenderRV.OnItemClickListenerDay{
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: AdapterCalenderRV
     private lateinit var viewModel: TransactionViewModel
@@ -37,6 +36,7 @@ class CalenderFragment: Fragment(){
         return view
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -95,10 +95,19 @@ class CalenderFragment: Fragment(){
 
     }
 
+    override fun onItemClick(item: CalendarDay, parent: Context) {
+        val view = LayoutInflater.from(parent).inflate(R.layout.item_day_daily,null)
+
+
+        val dialog = BottomSheetDialog(requireContext())
+        dialog.setContentView(view)
+        dialog.show()
+    }
+
     private fun updateCalender(transactions: List<Transaction>, month: Int, year: Int) {
         val calendarData = generateCalendarDays(transactions, year, month)
         Log.d("CalenderFragment", "updateCalender: inside uodateCalender " +month)
-        adapter = AdapterCalenderRV(calendarData, recyclerView.height/6)
+        adapter = AdapterCalenderRV(calendarData, recyclerView.height/6, this)
         recyclerView.adapter = adapter
     }
 
