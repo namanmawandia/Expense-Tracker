@@ -3,6 +3,7 @@ package com.example.expensetracker
 import SwipeGestureListener
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.GestureDetector
@@ -10,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import java.time.format.TextStyle
 import androidx.fragment.app.Fragment
@@ -18,6 +20,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Calendar
@@ -114,6 +117,7 @@ class CalenderFragment: Fragment(), AdapterCalenderRV.OnItemClickListenerDay{
         val tvTotalIncome: TextView = view.findViewById(R.id.tvTotalIncome)
         val tvDay: TextView = view.findViewById(R.id.tvDay)
         val transacRecycler: RecyclerView = view.findViewById(R.id.rvDailyTransactions)
+        val fabAdd: FloatingActionButton = view.findViewById(R.id.fabAdd)
 
         tvDate.text = item.date
         tvTotalIncome.text = item.income.toString()
@@ -138,6 +142,15 @@ class CalenderFragment: Fragment(), AdapterCalenderRV.OnItemClickListenerDay{
         val dialog = BottomSheetDialog(requireContext())
         dialog.setContentView(view)
         dialog.show()
+
+        fabAdd.setOnClickListener{
+            val intent = Intent(requireContext(),ActivityAdd::class.java)
+            intent.putExtra("Date",item.date?.toInt())
+            intent.putExtra("Month",month)
+            intent.putExtra("Year",year)
+            intent.putExtra("main",true)
+            startActivity(intent)
+        }
     }
 
     private fun updateCalender(transactions: List<Transaction>, month: Int, year: Int) {

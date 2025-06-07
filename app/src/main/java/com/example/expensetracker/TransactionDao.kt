@@ -21,4 +21,10 @@ interface TransactionDao {
 
     @Query("SELECT * FROM transactions ORDER BY date DESC")
     fun getAllTransactions(): LiveData<List<Transaction>>
+
+    @Query("DELETE FROM transactions WHERE id = :transactionId")
+    suspend fun deleteById(transactionId: Int)
+
+    @Query("SELECT * FROM transactions WHERE id = :transactionId LIMIT 1")
+    suspend fun getTransactionById(transactionId: Int): Transaction?
 }

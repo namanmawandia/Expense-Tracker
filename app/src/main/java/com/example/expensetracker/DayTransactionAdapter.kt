@@ -1,5 +1,6 @@
 package com.example.expensetracker
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,6 +36,13 @@ class DayTransactionAdapter(private val transactions: List<Transaction>):
         if(item.type==1)
             holder.tvAmount.setTextColor(ContextCompat.getColor(holder.tvAmount.context,
                 R.color.highlightPurple))
+
+        holder.itemView.setOnClickListener{
+            val context = holder.itemView.context
+            val intent = Intent(context, ActivityAdd::class.java)
+            intent.putExtra("dayTransacAdapter", item.id)
+            context.startActivity(intent)
+        }
     }
 
 

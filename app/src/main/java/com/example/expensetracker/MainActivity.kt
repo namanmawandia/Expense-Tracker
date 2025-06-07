@@ -35,8 +35,6 @@ class MainActivity : AppCompatActivity() {
         val tvCalender = findViewById<TextView>(R.id.tvCalender)
         val ivTransac = findViewById<ImageView>(R.id.ivTransac)
         val ivStats = findViewById<ImageView>(R.id.ivStats)
-//        val monthSpinner = findViewById<Spinner>(R.id.monthSpinner)
-//        val yearSpinner = findViewById<Spinner>(R.id.yearSpinner)
         val ivLeftArrow = findViewById<ImageView>(R.id.ivLeftArrow)
         val ivRightArrow = findViewById<ImageView>(R.id.ivRightArrow)
 
@@ -68,6 +66,11 @@ class MainActivity : AppCompatActivity() {
         }
         btnFab.setOnClickListener{
             val intent = Intent(this,ActivityAdd::class.java)
+            intent.putExtra("main",false)
+            val cal = Calendar.getInstance()
+            intent.putExtra("Date",cal.get(Calendar.DAY_OF_MONTH))
+            intent.putExtra("Month",cal.get(Calendar.MONTH))
+            intent.putExtra("Year",cal.get(Calendar.YEAR))
             Log.d("Main Activity", "setAddButton: Intent to Add Activity")
             startActivity(intent)
         }

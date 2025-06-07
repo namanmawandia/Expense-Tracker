@@ -11,12 +11,21 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
     private val db = TransactionDatabase.getDatabase(application)
     private val transactionDao = db.transactionDao()
 
-//    private val _transactions = MutableLiveData<List<Transaction>>()
     val transactions: LiveData<List<Transaction>> = transactionDao.getAllTransactions()
 
     fun insertTransaction(transaction: Transaction) {
-        viewModelScope.launch {
-            transactionDao.insert(transaction)
-        }
+        viewModelScope.launch { transactionDao.insert(transaction) }
+    }
+
+    fun delWithID(id: Int){
+        viewModelScope.launch { transactionDao.deleteById(id)}
+    }
+
+    suspend fun getTransactionById(id: Int): Transaction? {
+        return transactionDao.getTransactionById(id)
+    }
+
+    fun updateTransaction(transaction: Transaction) {
+        viewModelScope.launch { transactionDao.update(transaction) }
     }
 }

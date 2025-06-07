@@ -20,8 +20,12 @@ import android.widget.Toast
 import java.text.SimpleDateFormat
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import java.text.ParseException
 import java.util.*
+import kotlin.time.Duration.Companion.days
 
 
 val catExpenseToNum : Map<String,Int> = mapOf("🍔 Food" to 0, "🚕 Transport" to 1, "💄 Beauty" to 2,
@@ -35,6 +39,9 @@ val categoriesIncome = arrayOf("\uD83D\uDCB5 Wages","\uD83E\uDDFE Salary","\uD83
     "\uD83D\uDCB0 Tips", "\uD83C\uDF81 Bonus", "\uD83D\uDCBC Freelancing")
 
 class ActivityAdd : AppCompatActivity() {
+
+    private lateinit var viewModel: TransactionViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -47,7 +54,9 @@ class ActivityAdd : AppCompatActivity() {
         val tvCategoryValue : TextView = findViewById(R.id.tvCategoryValue)
         val btnSave : Button = findViewById(R.id.btnSave)
         val spinnerType : Spinner = findViewById(R.id.typeSpinner)
+        val btnDel : Button = findViewById(R.id.btnDelete)
 
+        viewModel = ViewModelProvider(this)[TransactionViewModel::class.java]
         val transactionViewModel : TransactionViewModel by viewModels()
         var type = 0 // for expense or income
 
@@ -55,14 +64,57 @@ class ActivityAdd : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
+        val delPresent = intent.getBooleanExtra("main", false)
+        val idTransaction = intent.getIntExtra("dayTransacAdapter",-1)
+
+        Toast.makeText(this, ""+delPresent + " " + idTransaction, Toast.LENGTH_SHORT).show()
+
+        if(delPresent)
+            btnDel.visibility = View.GONE
+        else{
+            val cal = Calendar.getInstance()
+            lifecycleScope.launch {
+                val oldTra = viewModel.getTransactionById(idTransaction)
+                if (oldTra != null) { cal.timeInMillis = oldTra.date }
+                etAmount.setText(oldTra?.amount.toString())
+                etNote.setText(oldTra?.note)
+                tvCategoryValue.text =
+                    if(oldTra?.type==0) categoriesExpense[oldTra.category]
+                    else categoriesIncome[oldTra?.category!!]
+            }
+            val setDay = cal.get(Calendar.DAY_OF_MONTH)
+            val setMonth = cal.get(Calendar.MONTH)
+            val setYear = cal.get(Calendar.YEAR)
+            val formattedDate = String.format("%02d/%02d/%d", setDay, setMonth + 1, setYear)
+            etDate.setText(formattedDate)
+
+        }
+
         setUpSpinner(spinnerType)
 
         Log.d("addactivty", "onCreate: ")
 
+        val initDate = intent.getIntExtra("Date",1)
+        val initMonth = intent.getIntExtra("Month",0)
+        val initYear = intent.getIntExtra("Year",2010)
+
+        etDate.setText(String.format("%02d/%02d/%d", initDate, initMonth, initYear))
+
         tvCategoryValue.setOnClickListener{
+            btnDel.visibility = View.GONE
             showPopGridView(tvCategoryValue,type,btnSave)
         }
+
+        btnDel.setOnClickListener{
+            if(idTransaction==-1)
+                Toast.makeText(this, "No record present for following", Toast.LENGTH_SHORT).show()
+            else
+                viewModel.delWithID(idTransaction)
+            finish()
+        }
+
         etDate.setOnClickListener{
+            btnDel.visibility = View.GONE
             val calendar = Calendar.getInstance()
             val year = calendar.get(Calendar.YEAR)
             val month = calendar.get(Calendar.MONTH)
@@ -79,6 +131,9 @@ class ActivityAdd : AppCompatActivity() {
             datePickerDialog.show()
         }
 
+        etAmount.setOnClickListener{ btnDel.visibility = View.GONE }
+        etNote.setOnClickListener{ btnDel.visibility = View.GONE }
+
         btnSave.setOnClickListener{
             val amt = etAmount.text.toString().toDoubleOrNull()
             val note = etNote.text.toString()
@@ -94,11 +149,30 @@ class ActivityAdd : AppCompatActivity() {
                     Toast.makeText(this, "Invalid date format!", Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
-                val newTransaction = Transaction(amount = amt, date = dateInMillis, note = note,
-                    category = cat, type = type)
-                Log.d("ActivityAdd", "Saving transaction: $newTransaction")
-                transactionViewModel.insertTransaction(newTransaction)
-                Toast.makeText(this, "Transaction saved!", Toast.LENGTH_SHORT).show()
+                if(idTransaction==-1) {
+                    val newTransaction = Transaction(amount = amt, date = dateInMillis,
+                        note = note, category = cat, type = type)
+                    transactionViewModel.insertTransaction(newTransaction)
+                    Toast.makeText(this, "Transaction saved!", Toast.LENGTH_SHORT).show()
+                }
+                else {
+                    lifecycleScope.launch {
+                        val oldTransac = viewModel.getTransactionById(idTransaction)
+                        if (amt == oldTransac?.amount && note == oldTransac.note && type == oldTransac.type
+                            && cat == oldTransac.category && dateInMillis == oldTransac.date
+                        )
+                            Toast.makeText(this@ActivityAdd, "Transaction not changed", Toast.LENGTH_SHORT)
+                                .show()
+                        else {
+                            val updateT = Transaction(
+                                amount = amt, date = dateInMillis,
+                                note = note, category = cat, type = type, id = idTransaction
+                            )
+                            transactionViewModel.updateTransaction(updateT)
+                            Toast.makeText(this@ActivityAdd, "Transaction updated!", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
                 finish()
             }else{
                 Toast.makeText(this, "Please add empty fields", Toast.LENGTH_SHORT).show()
@@ -108,6 +182,7 @@ class ActivityAdd : AppCompatActivity() {
 
         spinnerType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                btnDel.visibility = View.GONE
                 tvCategoryValue.setText("")
                 type = position
             }
@@ -146,7 +221,6 @@ class ActivityAdd : AppCompatActivity() {
 
         val popupWindow = PopupWindow(layout,WindowManager.LayoutParams.MATCH_PARENT,
                     WindowManager.LayoutParams.WRAP_CONTENT,true)
-//        popupWindow.showAtLocation(tvCategoryValue,android.view.Gravity.BOTTOM,0,0)
         popupWindow.showAsDropDown(btnSave,0, 30)
 
         gridView.setOnItemClickListener { _, _, position, _ ->
