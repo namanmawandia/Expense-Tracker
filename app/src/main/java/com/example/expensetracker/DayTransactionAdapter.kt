@@ -25,13 +25,10 @@ class DayTransactionAdapter(private val transactions: List<Transaction>):
 
     override fun onBindViewHolder(holder: TransactionDayViewHolder, position: Int) {
         val item = transactions[position]
-        holder.tvCategory.text = categoriesExpense[item.category]
-        holder.tvNote.text = if (item.note.length > 10) {
-            item.note.take(10) + "..."
-        } else {
-            item.note
-        }
-
+        holder.tvCategory.text = if(item.type==0) categoriesExpense[item.category]
+                                else categoriesIncome[item.category]
+        holder.tvNote.text = if (item.note.length > 10) { item.note.take(10) + "..." }
+                            else { item.note }
         holder.tvAmount.text = "%.1f".format(item.amount)
         if(item.type==1)
             holder.tvAmount.setTextColor(ContextCompat.getColor(holder.tvAmount.context,

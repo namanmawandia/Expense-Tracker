@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         }
         btnFab.setOnClickListener{
             val intent = Intent(this,ActivityAdd::class.java)
-            intent.putExtra("main",false)
+            intent.putExtra("main",true)
             val cal = Calendar.getInstance()
             intent.putExtra("Date",cal.get(Calendar.DAY_OF_MONTH))
             intent.putExtra("Month",cal.get(Calendar.MONTH))

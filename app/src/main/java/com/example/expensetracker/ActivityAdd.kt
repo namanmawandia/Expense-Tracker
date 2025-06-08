@@ -64,33 +64,32 @@ class ActivityAdd : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        val delPresent = intent.getBooleanExtra("main", false)
+        setUpSpinner(spinnerType)
+
+        val delPresent = intent.getBooleanExtra("main", false)// true-> main
         val idTransaction = intent.getIntExtra("dayTransacAdapter",-1)
 
-        Toast.makeText(this, ""+delPresent + " " + idTransaction, Toast.LENGTH_SHORT).show()
-
-        if(delPresent)
+        if(delPresent) {
             btnDel.visibility = View.GONE
+        }
         else{
+            btnSave.setText("Update")
             val cal = Calendar.getInstance()
             lifecycleScope.launch {
                 val oldTra = viewModel.getTransactionById(idTransaction)
-                if (oldTra != null) { cal.timeInMillis = oldTra.date }
-                etAmount.setText(oldTra?.amount.toString())
-                etNote.setText(oldTra?.note)
-                tvCategoryValue.text =
-                    if(oldTra?.type==0) categoriesExpense[oldTra.category]
-                    else categoriesIncome[oldTra?.category!!]
+                cal.timeInMillis = oldTra.date
+                etAmount.setText(oldTra.amount.toString())
+                etNote.setText(oldTra.note)
+                val setDay = cal.get(Calendar.DAY_OF_MONTH)
+                val setMonth = cal.get(Calendar.MONTH)
+                val setYear = cal.get(Calendar.YEAR)
+                val formattedDate = String.format("%02d/%02d/%d", setDay, setMonth + 1, setYear)
+                etDate.setText(formattedDate)
+                spinnerType.setSelection(oldTra.type)
+                tvCategoryValue.setText( if (oldTra.type == 0) categoriesExpense[oldTra.category]
+                                else categoriesIncome[oldTra.category])
             }
-            val setDay = cal.get(Calendar.DAY_OF_MONTH)
-            val setMonth = cal.get(Calendar.MONTH)
-            val setYear = cal.get(Calendar.YEAR)
-            val formattedDate = String.format("%02d/%02d/%d", setDay, setMonth + 1, setYear)
-            etDate.setText(formattedDate)
-
         }
-
-        setUpSpinner(spinnerType)
 
         Log.d("addactivty", "onCreate: ")
 
@@ -98,7 +97,8 @@ class ActivityAdd : AppCompatActivity() {
         val initMonth = intent.getIntExtra("Month",0)
         val initYear = intent.getIntExtra("Year",2010)
 
-        etDate.setText(String.format("%02d/%02d/%d", initDate, initMonth, initYear))
+        if(delPresent)
+            etDate.setText(String.format("%02d/%02d/%d", initDate, initMonth+1, initYear))
 
         tvCategoryValue.setOnClickListener{
             btnDel.visibility = View.GONE
@@ -108,8 +108,10 @@ class ActivityAdd : AppCompatActivity() {
         btnDel.setOnClickListener{
             if(idTransaction==-1)
                 Toast.makeText(this, "No record present for following", Toast.LENGTH_SHORT).show()
-            else
+            else {
                 viewModel.delWithID(idTransaction)
+                Toast.makeText(this, "Transaction Deleted", Toast.LENGTH_SHORT).show()
+            }
             finish()
         }
 
@@ -131,8 +133,15 @@ class ActivityAdd : AppCompatActivity() {
             datePickerDialog.show()
         }
 
-        etAmount.setOnClickListener{ btnDel.visibility = View.GONE }
-        etNote.setOnClickListener{ btnDel.visibility = View.GONE }
+        etAmount.setOnFocusChangeListener { _, hasFocus ->
+            if(hasFocus)
+                btnDel.visibility = View.GONE
+        }
+
+        etNote.setOnFocusChangeListener { _, hasFocus ->
+            if(hasFocus)
+                btnDel.visibility = View.GONE
+        }
 
         btnSave.setOnClickListener{
             val amt = etAmount.text.toString().toDoubleOrNull()
@@ -180,16 +189,22 @@ class ActivityAdd : AppCompatActivity() {
 
         }
 
+        spinnerType.setOnTouchListener{_,_,->
+            btnDel.visibility = View.GONE
+            false
+        }
+
         spinnerType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                btnDel.visibility = View.GONE
-                tvCategoryValue.setText("")
+                if(delPresent){
+                    tvCategoryValue.setText("")
+                }
                 type = position
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?){}
-            }
         }
+    }
 
     private fun setUpSpinner(spinnerType: Spinner) {
         val items = arrayOf("Expense", "Income")
@@ -209,8 +224,6 @@ class ActivityAdd : AppCompatActivity() {
         val inflater = LayoutInflater.from(this)
         val layout = inflater.inflate(R.layout.popup_grid, null)
 
-        Log.d("ActivityAdd", "showPopGridView: before gridview")
-
         val gridView : GridView = layout.findViewById(R.id.gridItem)
 
         Log.d("ActivityAdd", "showPopGridView: after categoriesExpense")
@@ -221,7 +234,7 @@ class ActivityAdd : AppCompatActivity() {
 
         val popupWindow = PopupWindow(layout,WindowManager.LayoutParams.MATCH_PARENT,
                     WindowManager.LayoutParams.WRAP_CONTENT,true)
-        popupWindow.showAsDropDown(btnSave,0, 30)
+        popupWindow.showAsDropDown(btnSave,0, 0)
 
         gridView.setOnItemClickListener { _, _, position, _ ->
             tvCategoryValue.text =

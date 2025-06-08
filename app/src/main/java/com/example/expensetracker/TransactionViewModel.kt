@@ -21,7 +21,7 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
         viewModelScope.launch { transactionDao.deleteById(id)}
     }
 
-    suspend fun getTransactionById(id: Int): Transaction? {
+    suspend fun getTransactionById(id: Int): Transaction {
         return transactionDao.getTransactionById(id)
     }
 
