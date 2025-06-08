@@ -18,6 +18,7 @@
         android:layout_marginEnd="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:textSize="17sp"
         android:textColor="@color/primaryLight2"/>
 
     <TextView
@@ -28,7 +29,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="5dp"
         android:text="Walmart"
-        android:textSize="15sp"/>
+        android:textSize="17sp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -37,7 +38,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:text="17.00"
-        android:textSize="15sp"
+        android:textSize="17sp"
         android:textColor="@color/negativeTransac"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,7 +6,7 @@
     android:numColumns="2"
     android:verticalSpacing="10dp"
     android:horizontalSpacing="3dp"
-    android:layout_margin="5dp"
+    android:layout_margin="10dp"
     android:background="@color/white"
     android:gravity="center"
     android:stretchMode="columnWidth">

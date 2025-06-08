@@ -11,7 +11,6 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import java.time.format.TextStyle
 import androidx.fragment.app.Fragment
@@ -135,13 +134,13 @@ class CalenderFragment: Fragment(), AdapterCalenderRV.OnItemClickListenerDay{
                 .atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
         }
 
-        // using same adapter as used by DailyAdapter
-        transacRecycler.layoutManager = LinearLayoutManager(requireContext())
-        transacRecycler.adapter = DayTransactionAdapter(transacDay)
-
         val dialog = BottomSheetDialog(requireContext())
         dialog.setContentView(view)
         dialog.show()
+
+        // using same adapter as used by DailyAdapter
+        transacRecycler.layoutManager = LinearLayoutManager(requireContext())
+        transacRecycler.adapter = DayTransactionAdapter(transacDay,dialog)
 
         fabAdd.setOnClickListener{
             val intent = Intent(requireContext(),ActivityAdd::class.java)
@@ -149,6 +148,7 @@ class CalenderFragment: Fragment(), AdapterCalenderRV.OnItemClickListenerDay{
             intent.putExtra("Month",month)
             intent.putExtra("Year",year)
             intent.putExtra("main",true)
+            dialog.dismiss()
             startActivity(intent)
         }
     }

@@ -28,15 +28,16 @@ import java.util.*
 import kotlin.time.Duration.Companion.days
 
 
-val catExpenseToNum : Map<String,Int> = mapOf("🍔 Food" to 0, "🚕 Transport" to 1, "💄 Beauty" to 2,
-            "🎁 Gift" to 3, "🏠 Household" to 4, "🎓 Education" to 5)
-val categoriesExpense = arrayOf("🍔 Food", "🚕 Transport", "💄 Beauty", "🎁 Gift", "🏠 Household",
-        "🎓 Education")
-val catIncomeToNum : Map<String,Int> = mapOf("\uD83D\uDCB5 Wages" to 0, "\uD83E\uDDFE Salary" to 1,
-    "\uD83D\uDCC8 Commissions" to 2,
-    "\uD83D\uDCB0 Tips" to 3, "\uD83C\uDF81 Bonus" to 4, "\uD83D\uDCBC Freelancing" to 5)
-val categoriesIncome = arrayOf("\uD83D\uDCB5 Wages","\uD83E\uDDFE Salary","\uD83D\uDCC8 Commissions",
-    "\uD83D\uDCB0 Tips", "\uD83C\uDF81 Bonus", "\uD83D\uDCBC Freelancing")
+val catExpenseToNum : Map<String,Int> = mapOf("🍔 Food" to 0, "🚕 Transport" to 1,
+    "\uD83E\uDDCD\u200D♂\uFE0F Personal" to 2, "\uD83E\uDE7A Medical" to 3,
+    "🏠 Household" to 4, "🎓 Education" to 5)
+val categoriesExpense = arrayOf("🍔 Food", "🚕 Transport", "\uD83E\uDDCD\u200D♂\uFE0F Personal",
+    "\uD83E\uDE7A Medical", "🏠 Household", "🎓 Education")
+val catIncomeToNum : Map<String,Int> = mapOf("\uD83D\uDCB5 Wages" to 0, "\uD83D\uDCB0 Salary" to 1,
+    "\uD83D\uDCB8 Commissions" to 2, "\uD83E\uDE99 Tips" to 3, "\uD83C\uDF89 Bonus" to 4,
+    "\uD83D\uDC68\uD83C\uDFFD\u200D\uD83D\uDCBB Freelancing" to 5)
+val categoriesIncome = arrayOf("\uD83D\uDCB5 Wages","\uD83D\uDCB0 Salary","\uD83D\uDCB8 Commissions",
+    "\uD83E\uDE99 Tips", "\uD83C\uDF89 Bonus", "\uD83D\uDC68\uD83C\uDFFD\u200D\uD83D\uDCBB Freelancing")
 
 class ActivityAdd : AppCompatActivity() {
 
@@ -189,15 +190,18 @@ class ActivityAdd : AppCompatActivity() {
 
         }
 
+        var isTouched=false;
         spinnerType.setOnTouchListener{_,_,->
             btnDel.visibility = View.GONE
+            isTouched = true
             false
         }
 
         spinnerType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                if(delPresent){
+                if(delPresent || isTouched){
                     tvCategoryValue.setText("")
+                    isTouched = false
                 }
                 type = position
             }

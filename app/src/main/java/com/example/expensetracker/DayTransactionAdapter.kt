@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
-class DayTransactionAdapter(private val transactions: List<Transaction>):
+class DayTransactionAdapter(private val transactions: List<Transaction>,
+                            private val dialog: BottomSheetDialog? = null):
     RecyclerView.Adapter<DayTransactionAdapter.TransactionDayViewHolder>() {
 
     class TransactionDayViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -36,6 +38,7 @@ class DayTransactionAdapter(private val transactions: List<Transaction>):
 
         holder.itemView.setOnClickListener{
             val context = holder.itemView.context
+            dialog?.dismiss()
             val intent = Intent(context, ActivityAdd::class.java)
             intent.putExtra("dayTransacAdapter", item.id)
             context.startActivity(intent)
