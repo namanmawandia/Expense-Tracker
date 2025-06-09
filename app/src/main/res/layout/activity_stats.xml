@@ -1,6 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <include layout="@layout/bar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/toolbar"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lnrLayoutDailyCalender"
+            android:orientation="horizontal"
+            android:background="@drawable/date_item_calender_border"
+            android:layout_below="@+id/toolbar">
+
+            <TextView
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/tvStatsExpense"
+                android:gravity="center"
+                android:background="@drawable/date_item_calender_border"
+                android:text="Expense"
+                android:textColor="@color/primaryLight2"
+                android:textColorHighlight="@color/black"
+                android:textSize="22sp"
+                android:src="@drawable/transaction"/>
+
+            <TextView
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Income"
+                android:background="@drawable/date_item_calender_border"
+                android:textColor="@color/primaryLight2"
+                android:textColorHighlight="@color/black"
+                android:textSize="22sp"
+                android:id="@+id/tvStatsIncome"
+                android:src="@mipmap/ic_launcher_round"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/lnrLayoutFragmentandfrgOuter"
+            android:layout_below="@+id/lnrLayoutDailyCalender"
+            android:orientation="vertical">
+
+            <androidx.fragment.app.FragmentContainerView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="10"
+                app:tabTextColor="@color/white"
+                android:layout_below="@+id/lnrLayoutDailyCalender"
+                android:id="@+id/frgOuter"
+                app:layout_constraintTop_toBottomOf="@id/lnrLayoutDailyCalender"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/lnrLayoutTranStat"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_below="@+id/frgOuter"
+                android:id="@+id/lnrLayoutTranStat">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:id="@+id/lnrLayoutTransac"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:id="@+id/ivTransac"
+                        android:gravity="center"
+                        android:src="@drawable/transaction"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="32sp"
+                        android:id="@+id/tvTrans"
+                        android:text="Transactions"
+                        android:layout_marginBottom="5dp"
+                        android:gravity="center"
+                        android:textColor="@color/negativeTransac"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    app:layout_constraintHorizontal_weight="1"
+                    android:layout_weight="1"
+                    android:id="@+id/lnrLayoutStats"
+
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:id="@+id/ivStats"
+                        android:gravity="center"
+                        android:src="@drawable/stats"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="32sp"
+                        android:text="Stats"
+                        android:id="@+id/tvStats"
+                        android:layout_marginBottom="5dp"
+                        android:gravity="center"
+                        android:textColor="@color/negativeTransac"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</FrameLayout>
+

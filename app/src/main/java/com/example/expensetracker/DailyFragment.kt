@@ -61,7 +61,7 @@ class DailyFragment: Fragment(R.layout.fragment_daily){
                 year + 2010, tvNoTransac)
         }
         Log.d("DailyFragment", "onCreateView: onViewCreated completed")
-
+        
         val gestureDetector = GestureDetector(requireContext(),
             SwipeGestureListener(requireContext(),
                 onSwipeLeft = {

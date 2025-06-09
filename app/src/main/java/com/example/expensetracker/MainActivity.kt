@@ -1,5 +1,6 @@
 package com.example.expensetracker
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -40,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
         // setting up spinner
         val myViewModel : MonthYearViewModel by viewModels()
-        setupSpinner(monthSpinner,yearSpinner,myViewModel)
+        setupSpinner(this,monthSpinner,yearSpinner,myViewModel, this)
 
         if(savedInstanceState==null){
             replaceFragment(DailyFragment())
@@ -74,57 +75,94 @@ class MainActivity : AppCompatActivity() {
             Log.d("Main Activity", "setAddButton: Intent to Add Activity")
             startActivity(intent)
         }
-        monthSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                myViewModel.updateMonthYear(position,myViewModel.selectedYear.value?:0)
-                setGlobalMonthYear(myViewModel)
-            }
-            override fun onNothingSelected(parent: AdapterView<*>) {}
-        }
-        yearSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                myViewModel.updateMonthYear(myViewModel.selectedMonth.value?:0,position)
-                setGlobalMonthYear(myViewModel)
-            }
-            override fun onNothingSelected(parent: AdapterView<*>) {}
-        }
-        ivLeftArrow.setOnClickListener{
-            var month = myViewModel.selectedMonth.value?:0
-            var year = myViewModel.selectedYear.value?:0
-            if(month==0) { month = 11;year-- } else month--
-            myViewModel.updateMonthYear(month,year)
-            setGlobalMonthYear(myViewModel)
-        }
-        ivRightArrow.setOnClickListener{
-            var month = myViewModel.selectedMonth.value?:0
-            var year = myViewModel.selectedYear.value?:0
-            if(month==11) { month = 0 ;year++ } else month++
-            myViewModel.updateMonthYear(month,year)
-            setGlobalMonthYear(myViewModel)
-        }
+
+        setupArrowSpinner(this,myViewModel, ivLeftArrow, ivRightArrow)
 
     }
 
-    private fun setupSpinner(monthSpinner: Spinner, yearSpinner: Spinner,
-                             myViewModel: MonthYearViewModel) {
+    companion object {
+        fun setupArrowSpinner(
+            activity: MainActivity, myViewModel: MonthYearViewModel,
+            ivLeftArrow: ImageView, ivRightArrow: ImageView
+        ) {
+            activity.monthSpinner.onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        parent: AdapterView<*>,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        myViewModel.updateMonthYear(position, myViewModel.selectedYear.value ?: 0)
+                        activity.setGlobalMonthYear(myViewModel)
+                    }
 
-        val months = arrayOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct",
-            "Nov", "Dec")
-        val years = (2010..2040).toList()
+                    override fun onNothingSelected(parent: AdapterView<*>) {}
+                }
+            activity.yearSpinner.onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        parent: AdapterView<*>,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        myViewModel.updateMonthYear(myViewModel.selectedMonth.value ?: 0, position)
+                        activity.setGlobalMonthYear(myViewModel)
+                    }
 
-        val monthAdapter = ArrayAdapter(this, R.layout.spinner_item_bar_layout, months)
-        val yearAdapter = ArrayAdapter(this, R.layout.spinner_item_bar_layout, years)
+                    override fun onNothingSelected(parent: AdapterView<*>) {}
+                }
+            ivLeftArrow.setOnClickListener {
+                var month = myViewModel.selectedMonth.value ?: 0
+                var year = myViewModel.selectedYear.value ?: 0
+                if (month == 0) {
+                    month = 11;year--
+                } else month--
+                myViewModel.updateMonthYear(month, year)
+                activity.setGlobalMonthYear(myViewModel)
+            }
+            ivRightArrow.setOnClickListener {
+                var month = myViewModel.selectedMonth.value ?: 0
+                var year = myViewModel.selectedYear.value ?: 0
+                if (month == 11) {
+                    month = 0;year++
+                } else month++
+                myViewModel.updateMonthYear(month, year)
+                activity.setGlobalMonthYear(myViewModel)
+            }
+        }
 
-        val cal = Calendar.getInstance()
-        myViewModel.updateMonthYear(cal.get(Calendar.MONTH),cal.get(Calendar.YEAR) -2010)
+        fun setupSpinner(activity: MainActivity,monthSpinner: Spinner, yearSpinner: Spinner,
+            myViewModel: MonthYearViewModel, context: Context
+        ) {
 
-        monthAdapter.setDropDownViewResource(R.layout.spinner_item_bar_layout)
-        yearAdapter.setDropDownViewResource(R.layout.spinner_item_bar_layout)
+            val months = arrayOf(
+                "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct",
+                "Nov", "Dec"
+            )
+            val years = (2010..2040).toList()
 
-        monthSpinner.adapter = monthAdapter
-        yearSpinner.adapter = yearAdapter
-        setGlobalMonthYear(myViewModel)
+            val monthAdapter = ArrayAdapter(context, R.layout.spinner_item_bar_layout, months)
+            val yearAdapter = ArrayAdapter(context, R.layout.spinner_item_bar_layout, years)
+
+            val cal = Calendar.getInstance()
+            myViewModel.updateMonthYear(cal.get(Calendar.MONTH), cal.get(Calendar.YEAR) - 2010)
+
+            monthAdapter.setDropDownViewResource(R.layout.spinner_item_bar_layout)
+            yearAdapter.setDropDownViewResource(R.layout.spinner_item_bar_layout)
+
+            monthSpinner.adapter = monthAdapter
+            yearSpinner.adapter = yearAdapter
+            activity.setGlobalMonthYear(myViewModel)
+        }
     }
+
+    fun setGlobalMonthYear(myViewModel: MonthYearViewModel){
+        monthSpinner.setSelection(myViewModel.selectedMonth.value ?: 0)
+        yearSpinner.setSelection(myViewModel.selectedYear.value ?: 0)
+    }
+
 
     private fun setTargetActivity(targetActivity: Class<*>) {
         if(this::class.java != targetActivity) {
@@ -169,10 +207,6 @@ class MainActivity : AppCompatActivity() {
                 if(isSelected) R.color.negativeTransac else R.color.primaryLight2)
             text.setTextColor(color)
         }
-    }
-    fun setGlobalMonthYear(myViewModel: MonthYearViewModel){
-        monthSpinner.setSelection(myViewModel.selectedMonth.value ?: 0)
-        yearSpinner.setSelection(myViewModel.selectedYear.value ?: 0)
     }
 
 }
