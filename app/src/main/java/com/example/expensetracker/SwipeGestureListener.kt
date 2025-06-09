@@ -1,8 +1,8 @@
+package com.example.expensetracker
+
 import android.content.Context
 import android.view.GestureDetector
 import android.view.MotionEvent
-import android.widget.Toast
-import com.example.expensetracker.CalenderFragment
 
 class SwipeGestureListener(
     private val context: Context,
