@@ -39,13 +39,14 @@ class StatsActivity : AppCompatActivity(){
         setupSpinner(monthSpinner,yearSpinner,myViewModel)
         highlightSelectedFrag(R.id.tvStatsExpense)
         highlightSelectedTab(R.id.ivStats)
+        replaceFragment(StatsFragment(0))
 
         tvStatsExpense.setOnClickListener{
-            replaceFragment(ExpenseFragment())
+            replaceFragment(StatsFragment(0))
             highlightSelectedFrag(R.id.tvStatsExpense)
         }
         tvStatsIncome.setOnClickListener{
-            replaceFragment(IncomeFragment())
+            replaceFragment(StatsFragment(1))
             highlightSelectedFrag(R.id.tvStatsIncome)
         }
         ivTransac.setOnClickListener{

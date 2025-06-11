@@ -5,14 +5,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.GestureDetector
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -20,11 +16,12 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
 import java.util.Calendar
 
-class ExpenseFragment : Fragment() {
+class StatsFragment(typeFr: Int) : Fragment() {
 
     private lateinit var adapter: ExpenseAdapter
     private lateinit var viewModel: TransactionViewModel
     private lateinit var myViewModel: MonthYearViewModel
+    private val typeFragment :Int = typeFr
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -40,8 +37,6 @@ class ExpenseFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val pieChart = view.findViewById<PieChart>(R.id.pieChart)
-        updateChart(viewModel.transactions.value?: emptyList(),(myViewModel.selectedMonth.value ?: 0),
-                  (myViewModel.selectedYear.value ?: 0) + 2010,pieChart)
 
         viewModel.transactions.observe(viewLifecycleOwner) { transactions ->
             updateChart(transactions,(myViewModel.selectedMonth.value ?: 0),
@@ -68,7 +63,7 @@ class ExpenseFragment : Fragment() {
                         var year = myViewModel.selectedYear.value?:0
                         if(month==11) { month = 0 ;year++ } else month++
                         myViewModel.updateMonthYear(month,year)
-                        (activity as? MainActivity)?.setGlobalMonthYear(myViewModel)
+                        (activity as? StatsActivity)?.setGlobalMonthYear(myViewModel)
                     }
                 },
                 onSwipeRight = {
@@ -80,7 +75,7 @@ class ExpenseFragment : Fragment() {
                             month = 11;year--
                         } else month--
                         myViewModel.updateMonthYear(month, year)
-                        (activity as? MainActivity)?.setGlobalMonthYear(myViewModel)
+                        (activity as? StatsActivity)?.setGlobalMonthYear(myViewModel)
                     }
                 }
             )
@@ -89,8 +84,10 @@ class ExpenseFragment : Fragment() {
         view.setOnTouchListener { _, event ->
             Log.d("ExpenseFragment", "Touch event: ${event.action}")
             gestureDetector.onTouchEvent(event)
-            false
+            true
         }
+
+
 
     }
 
@@ -99,19 +96,27 @@ class ExpenseFragment : Fragment() {
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = it.date
             calendar.get(Calendar.YEAR) == year && calendar.get(Calendar.MONTH) == (month)
-                    && it.type==0
+                    && it.type == typeFragment
         }
         val categoryMapAmount:Map<Int, List<Transaction>> = monthFilter.groupBy { it.category }
         Log.d("ExpenseFragment", "updateChart: Map: "+categoryMapAmount)
         val entries = categoryMapAmount.map { (categoryId, transactions) ->
             val totalAmount = transactions.sumOf { it.amount }
-            PieEntry(totalAmount.toFloat(), categoriesExpense[categoryId])
+            PieEntry(totalAmount.toFloat(),
+                if (typeFragment==0) categoriesExpense[categoryId]
+                else categoriesIncome[categoryId])
         }
 
         val dataSet = PieDataSet(entries,"").apply {
             colors = ColorTemplate.MATERIAL_COLORS.toList()
-            valueTextSize = 14f
+            valueTextSize = 10f
             valueTextColor = Color.BLACK
+            setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE)
+            setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE)
+            sliceSpace = 1f
+            valueLinePart1Length = 0.3f
+            valueLinePart2Length = 0.5f
+            valueLineColor = Color.BLACK
         }
         val pieData = PieData(dataSet)
 
@@ -121,7 +126,9 @@ class ExpenseFragment : Fragment() {
             isDrawHoleEnabled = true
             setUsePercentValues(true)
             setEntryLabelColor(Color.BLACK)
-            animateY(1000)
+            animateY(600)
+            legend.isEnabled = false
+            pieChart.setExtraOffsets(45f, 10f, 45f, 10f)
             invalidate()
         }
 
