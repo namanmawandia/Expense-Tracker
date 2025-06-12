@@ -7,8 +7,12 @@ import android.view.GestureDetector
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -18,10 +22,14 @@ import java.util.Calendar
 
 class StatsFragment(typeFr: Int) : Fragment() {
 
-    private lateinit var adapter: ExpenseAdapter
+    private lateinit var adapter: StatsAdapter
     private lateinit var viewModel: TransactionViewModel
     private lateinit var myViewModel: MonthYearViewModel
     private val typeFragment :Int = typeFr
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var tvNoDataRV: TextView
+    private lateinit var tvNoDataPie: TextView
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -30,6 +38,9 @@ class StatsFragment(typeFr: Int) : Fragment() {
         viewModel = ViewModelProvider(requireActivity())[TransactionViewModel::class.java]
         myViewModel = ViewModelProvider(requireActivity())[MonthYearViewModel::class.java]
 
+        recyclerView = view.findViewById(R.id.rvStats)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
         return view
     }
 
@@ -37,6 +48,8 @@ class StatsFragment(typeFr: Int) : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val pieChart = view.findViewById<PieChart>(R.id.pieChart)
+        tvNoDataPie = view.findViewById(R.id.tvNoDataPie)
+        tvNoDataRV = view.findViewById(R.id.tvNoDataRV)
 
         viewModel.transactions.observe(viewLifecycleOwner) { transactions ->
             updateChart(transactions,(myViewModel.selectedMonth.value ?: 0),
@@ -81,13 +94,21 @@ class StatsFragment(typeFr: Int) : Fragment() {
             )
         )
 
-        view.setOnTouchListener { _, event ->
+        recyclerView.setOnTouchListener { _, event ->
             Log.d("ExpenseFragment", "Touch event: ${event.action}")
             gestureDetector.onTouchEvent(event)
             true
         }
-
-
+        tvNoDataPie.setOnTouchListener { _, event ->
+            Log.d("ExpenseFragment", "Touch event: ${event.action}")
+            gestureDetector.onTouchEvent(event)
+            true
+        }
+        tvNoDataRV.setOnTouchListener { _, event ->
+            Log.d("ExpenseFragment", "Touch event: ${event.action}")
+            gestureDetector.onTouchEvent(event)
+            true
+        }
 
     }
 
@@ -106,16 +127,33 @@ class StatsFragment(typeFr: Int) : Fragment() {
                 if (typeFragment==0) categoriesExpense[categoryId]
                 else categoriesIncome[categoryId])
         }
+        if(monthFilter.isEmpty())
+        {
+            tvNoDataPie.visibility = View.VISIBLE
+            tvNoDataRV.visibility = View.VISIBLE
+            recyclerView.visibility = View.GONE
+            pieChart.visibility = View.GONE
+        }
+        else{
+            tvNoDataPie.visibility = View.GONE
+            tvNoDataRV.visibility = View.GONE
+            recyclerView.visibility = View.VISIBLE
+            pieChart.visibility = View.VISIBLE
+        }
 
+
+        val colr = mutableListOf<Int>()
+        colr.addAll(ColorTemplate.MATERIAL_COLORS.toList())
+        colr.addAll(ColorTemplate.COLORFUL_COLORS.toList())
         val dataSet = PieDataSet(entries,"").apply {
-            colors = ColorTemplate.MATERIAL_COLORS.toList()
+            colors = colr
             valueTextSize = 10f
             valueTextColor = Color.BLACK
             setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE)
             setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE)
             sliceSpace = 1f
-            valueLinePart1Length = 0.3f
-            valueLinePart2Length = 0.5f
+            valueLinePart1Length = 0.4f
+            valueLinePart2Length = 0.6f
             valueLineColor = Color.BLACK
         }
         val pieData = PieData(dataSet)
@@ -131,6 +169,13 @@ class StatsFragment(typeFr: Int) : Fragment() {
             pieChart.setExtraOffsets(45f, 10f, 45f, 10f)
             invalidate()
         }
+
+        val catIdAmountPairs: List<Pair<Int, Double>> = categoryMapAmount.map { (categoryId, transactions) ->
+            categoryId to transactions.sumOf { it.amount }
+        }
+        Log.d("StatsFragment", "updateChart: CatList size" + catIdAmountPairs)
+        adapter = StatsAdapter(catIdAmountPairs,colr,typeFragment)
+        recyclerView.adapter = adapter
 
     }
 

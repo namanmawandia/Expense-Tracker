@@ -8,7 +8,17 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:background="@drawable/date_item_calender_border"
+        android:layout_marginBottom="5dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="No data for this month"
+            android:id="@+id/tvNoDataPie"
+            android:gravity="center"
+            android:textSize="17sp"
+            android:layout_gravity="center"/>
 
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pieChart"
@@ -18,9 +28,26 @@
 
     </FrameLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:padding="5dp"/>
+        android:background="@drawable/date_item_calender_border"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="No data for this month"
+            android:id="@+id/tvNoDataRV"
+            android:textSize="17sp"
+            android:layout_gravity="center"
+            android:gravity="center"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/rvStats"
+            android:padding="10dp"/>
+    </FrameLayout>
 </LinearLayout>

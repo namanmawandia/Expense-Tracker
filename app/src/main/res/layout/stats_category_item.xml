@@ -5,13 +5,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="17sp"
+        android:layout_width="35dp"
+        android:layout_height="30dp"
+        android:textSize="8sp"
         app:layout_constraintStart_toStartOf="parent"
         android:id="@+id/btnColor"
-        android:textColor="@color/black"
-        android:text="A"
+        android:gravity="center_horizontal|top"
+        android:textColor="@color/primary1"
         android:layout_margin="8dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
@@ -23,6 +23,7 @@
         app:layout_constraintLeft_toRightOf="@id/btnColor"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@color/primaryLight2"
         android:text="Food"
         android:layout_margin="10dp"
         android:textSize="17sp"/>
@@ -35,6 +36,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:text="17"
+        android:textColor="@color/primaryLight2"
         android:layout_margin="10dp"
         android:paddingHorizontal="10dp"
         android:textSize="17sp"/>
