@@ -18,8 +18,10 @@
 <!--    <color name="highlightPurple">#B266FF</color>-->
 <!--    <color name="highlightPurple">#C080FF</color>-->
 <!--    <color name="highlightPurple">#D18FFF</color>-->
-    <color name="highlightPurple">#BB33FF</color>
-<!--    <color name="purpleTransac">#BF00FF</color>-->
+<!--    <color name="highlightPurple">#BB33FF</color>-->
+    <color name="highlightPurple">#00E676</color>
+
+    <!--    <color name="purpleTransac">#BF00FF</color>-->
     <color name="totalTransac">#FFFFFFFF</color>
 
 </resources>

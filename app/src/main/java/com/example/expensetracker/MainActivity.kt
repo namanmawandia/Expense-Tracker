@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+//        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         setContentView(R.layout.activity_main)
 
         val btnFab: FloatingActionButton = findViewById(R.id.btnFAB)
@@ -154,14 +154,6 @@ class MainActivity : AppCompatActivity() {
         monthSpinner.setSelection(myViewModel.selectedMonth.value ?: 0)
         yearSpinner.setSelection(myViewModel.selectedYear.value ?: 0)
     }
-
-//    private fun setTargetActivity(targetActivity: Class<*>) {
-//        if(this::class.java != targetActivity) {
-//            val intent = Intent(this, StatsActivity::class.java)
-//            Log.d("Main Activity", "setStatsActivity: Intent to Stats Activity")
-//            startActivity(intent)
-//        }
-//    }
 
     private fun replaceFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
