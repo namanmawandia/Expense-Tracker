@@ -31,6 +31,6 @@ A fully-featured Android application to track your personal income and expenses 
 
 | Dashboard View | Calendar View | Add Transaction | Pie Chart Analytics |
 |----------------|----------------|------------------|---------------------|
-| ![Dashboard](screenshots/dashboard.jpg) | ![Calendar](screenshots/calendar.jpg) | ![Add](screenshots/add_transaction.jpg) | ![Chart](screenshots/pie_chart.jpg) |
+|![Dashboard](https://github.com/user-attachments/assets/1d104134-d91f-4e8e-a9ee-279cddca7f93)|![Calendar](https://github.com/user-attachments/assets/a72fc206-774f-46a7-a545-fcfd62c6b5c9)|![Add](https://github.com/user-attachments/assets/26a96ef6-1b65-4bfd-9c56-470ce5e031ce)|![Chart](https://github.com/user-attachments/assets/0e2d62ca-16d6-4850-aa9c-53467d016208)|
 
 ---
