@@ -31,7 +31,7 @@ class StatsActivity : AppCompatActivity(){
         val tvStatsExpense = findViewById<TextView>(R.id.tvStatsExpense)
         val tvStatsIncome = findViewById<TextView>(R.id.tvStatsIncome)
         val ivTransac = findViewById<ImageView>(R.id.ivTransac)
-        val ivStats = findViewById<ImageView>(R.id.ivStats)
+//        val ivStats = findViewById<ImageView>(R.id.ivStats)
         val ivLeftArrow = findViewById<ImageView>(R.id.ivLeftArrow)
         val ivRightArrow = findViewById<ImageView>(R.id.ivRightArrow)
 

@@ -38,8 +38,6 @@ class StatsAdapter(
         holder.btncolor.setBackgroundColor(color[position])
         val percent = catIdAmnt[position].second*100.0/catIdAmnt.sumOf { it.second }
         holder.btncolor.setText(String.format("%.1f",percent)+"%")
-
-
     }
 
     override fun getItemCount(): Int = catIdAmnt.size

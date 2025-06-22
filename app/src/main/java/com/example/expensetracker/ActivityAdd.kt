@@ -99,7 +99,7 @@ class ActivityAdd : AppCompatActivity() {
         val initYear = intent.getIntExtra("Year",2010)
 
         if(delPresent)
-            etDate.setText(String.format("%02d/%02d/%d", initDate, initMonth+1, initYear))
+            etDate.setText(String.format("%02d/%02d/%d", initDate, initMonth, initYear))
 
         tvCategoryValue.setOnClickListener{
             btnDel.visibility = View.GONE

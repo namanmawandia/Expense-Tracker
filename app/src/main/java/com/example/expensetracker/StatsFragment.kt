@@ -171,7 +171,7 @@ class StatsFragment(typeFr: Int) : Fragment() {
 
         val catIdAmountPairs: List<Pair<Int, Double>> = categoryMapAmount.map { (categoryId, transactions) ->
             categoryId to transactions.sumOf { it.amount }
-        }
+        }.sortedByDescending { it.second }
         Log.d("StatsFragment", "updateChart: CatList size" + catIdAmountPairs)
         adapter = StatsAdapter(catIdAmountPairs,colr,typeFragment)
         recyclerView.adapter = adapter
