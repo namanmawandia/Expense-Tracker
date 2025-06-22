@@ -12,6 +12,9 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import android.app.DatePickerDialog
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.text.InputType
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
@@ -20,12 +23,12 @@ import android.widget.Toast
 import java.text.SimpleDateFormat
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import java.text.ParseException
 import java.util.*
-import kotlin.time.Duration.Companion.days
 
 
 val catExpenseToNum : Map<String,Int> = mapOf("🍔 Food" to 0, "🚕 Transport" to 1,
@@ -52,10 +55,13 @@ class ActivityAdd : AppCompatActivity() {
         val etDate : EditText = findViewById(R.id.etDate)
         val etAmount : EditText = findViewById(R.id.etAmount)
         val etNote : EditText = findViewById(R.id.etNote)
-        val tvCategoryValue : TextView = findViewById(R.id.tvCategoryValue)
+//        val tvCategoryValue : TextView = findViewById(R.id.tvCategoryValue)
+        val tvCategoryValue : EditText = findViewById(R.id.etCategory)
         val btnSave : Button = findViewById(R.id.btnSave)
         val spinnerType : Spinner = findViewById(R.id.typeSpinner)
         val btnDel : Button = findViewById(R.id.btnDelete)
+        val selectedColor = ContextCompat.getColor(this, R.color.negativeTransac)
+//        val viewCategory : View = findViewById(R.id.viewCategory)
 
         viewModel = ViewModelProvider(this)[TransactionViewModel::class.java]
         val transactionViewModel : TransactionViewModel by viewModels()
@@ -102,6 +108,12 @@ class ActivityAdd : AppCompatActivity() {
             etDate.setText(String.format("%02d/%02d/%d", initDate, initMonth, initYear))
 
         tvCategoryValue.setOnClickListener{
+            val isNowSelected = !tvCategoryValue.isSelected
+            tvCategoryValue.isSelected = isNowSelected
+            tvCategoryValue.setOnFocusChangeListener { _,hasFocus ->
+                tvCategoryValue.backgroundTintList = ColorStateList.valueOf(
+                    if (hasFocus) selectedColor else Color.BLACK)
+            }
             btnDel.visibility = View.GONE
             showPopGridView(tvCategoryValue,type,btnSave)
         }
@@ -118,6 +130,12 @@ class ActivityAdd : AppCompatActivity() {
 
         etDate.setOnClickListener{
             btnDel.visibility = View.GONE
+            val isNowSelected = !etDate.isSelected
+            etDate.isSelected = isNowSelected
+            etDate.setOnFocusChangeListener { _,hasFocus ->
+                etDate.backgroundTintList = ColorStateList.valueOf(
+                    if (hasFocus) selectedColor else Color.BLACK)
+            }
             val calendar = Calendar.getInstance()
             val year = calendar.get(Calendar.YEAR)
             val month = calendar.get(Calendar.MONTH)
@@ -135,13 +153,25 @@ class ActivityAdd : AppCompatActivity() {
         }
 
         etAmount.setOnFocusChangeListener { _, hasFocus ->
-            if(hasFocus)
+            val isNowSelected = !etAmount.isSelected
+            etAmount.isSelected = isNowSelected
+            if(hasFocus){
+                etAmount.backgroundTintList = ColorStateList.valueOf(selectedColor)
                 btnDel.visibility = View.GONE
+            }
+            else
+                etAmount.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
         }
 
         etNote.setOnFocusChangeListener { _, hasFocus ->
-            if(hasFocus)
+            val isNowSelected = !etNote.isSelected
+            etNote.isSelected = isNowSelected
+            if(hasFocus){
+                etNote.backgroundTintList = ColorStateList.valueOf(selectedColor)
                 btnDel.visibility = View.GONE
+            }
+            else
+                etNote.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
         }
 
         btnSave.setOnClickListener{
@@ -223,7 +253,7 @@ class ActivityAdd : AppCompatActivity() {
         return (format.parse(date).time)
     }
 
-    private fun showPopGridView(tvCategoryValue: TextView, type: Int, btnSave: Button) {
+    private fun showPopGridView(tvCategoryValue: EditText, type: Int, btnSave: Button) {
 
         val inflater = LayoutInflater.from(this)
         val layout = inflater.inflate(R.layout.popup_grid, null)
@@ -241,9 +271,9 @@ class ActivityAdd : AppCompatActivity() {
         popupWindow.showAsDropDown(btnSave,0, 0)
 
         gridView.setOnItemClickListener { _, _, position, _ ->
-            tvCategoryValue.text =
+            tvCategoryValue.setText(
                 if(type==0) categoriesExpense[position]
-                else categoriesIncome[position]
+                else categoriesIncome[position])
             popupWindow.dismiss()
         }
 
