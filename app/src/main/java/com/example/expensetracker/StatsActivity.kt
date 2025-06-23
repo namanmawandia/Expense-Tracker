@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
@@ -32,6 +33,7 @@ class StatsActivity : AppCompatActivity(){
         val tvStatsIncome = findViewById<TextView>(R.id.tvStatsIncome)
         val ivTransac = findViewById<ImageView>(R.id.ivTransac)
 //        val ivStats = findViewById<ImageView>(R.id.ivStats)
+        val lnrLayoutTransac = findViewById<LinearLayout>(R.id.lnrLayoutTransac)
         val ivLeftArrow = findViewById<ImageView>(R.id.ivLeftArrow)
         val ivRightArrow = findViewById<ImageView>(R.id.ivRightArrow)
 
@@ -49,7 +51,8 @@ class StatsActivity : AppCompatActivity(){
             replaceFragment(StatsFragment(1))
             highlightSelectedFrag(R.id.tvStatsIncome)
         }
-        ivTransac.setOnClickListener{
+//        ivTransac.setOnClickListener{
+        lnrLayoutTransac.setOnClickListener{
             val intent = Intent(this, MainActivity::class.java)
             val options = ActivityOptions.makeCustomAnimation(this, 0, 0)
             finish()

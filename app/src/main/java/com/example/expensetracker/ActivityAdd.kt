@@ -9,12 +9,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.GridView
 import android.widget.PopupWindow
-import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import android.app.DatePickerDialog
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.text.InputType
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
@@ -55,8 +53,7 @@ class ActivityAdd : AppCompatActivity() {
         val etDate : EditText = findViewById(R.id.etDate)
         val etAmount : EditText = findViewById(R.id.etAmount)
         val etNote : EditText = findViewById(R.id.etNote)
-//        val tvCategoryValue : TextView = findViewById(R.id.tvCategoryValue)
-        val tvCategoryValue : EditText = findViewById(R.id.etCategory)
+        val etCategory : EditText = findViewById(R.id.etCategory)
         val btnSave : Button = findViewById(R.id.btnSave)
         val spinnerType : Spinner = findViewById(R.id.typeSpinner)
         val btnDel : Button = findViewById(R.id.btnDelete)
@@ -93,7 +90,7 @@ class ActivityAdd : AppCompatActivity() {
                 val formattedDate = String.format("%02d/%02d/%d", setDay, setMonth + 1, setYear)
                 etDate.setText(formattedDate)
                 spinnerType.setSelection(oldTra.type)
-                tvCategoryValue.setText( if (oldTra.type == 0) categoriesExpense[oldTra.category]
+                etCategory.setText( if (oldTra.type == 0) categoriesExpense[oldTra.category]
                                 else categoriesIncome[oldTra.category])
             }
         }
@@ -107,15 +104,15 @@ class ActivityAdd : AppCompatActivity() {
         if(delPresent)
             etDate.setText(String.format("%02d/%02d/%d", initDate, initMonth, initYear))
 
-        tvCategoryValue.setOnClickListener{
-            val isNowSelected = !tvCategoryValue.isSelected
-            tvCategoryValue.isSelected = isNowSelected
-            tvCategoryValue.setOnFocusChangeListener { _,hasFocus ->
-                tvCategoryValue.backgroundTintList = ColorStateList.valueOf(
+        etCategory.setOnClickListener{
+            val isNowSelected = !etCategory.isSelected
+            etCategory.isSelected = isNowSelected
+            etCategory.setOnFocusChangeListener { _, hasFocus ->
+                etCategory.backgroundTintList = ColorStateList.valueOf(
                     if (hasFocus) selectedColor else Color.BLACK)
             }
             btnDel.visibility = View.GONE
-            showPopGridView(tvCategoryValue,type,btnSave)
+            showPopGridView(etCategory,type,btnSave)
         }
 
         btnDel.setOnClickListener{
@@ -177,8 +174,8 @@ class ActivityAdd : AppCompatActivity() {
         btnSave.setOnClickListener{
             val amt = etAmount.text.toString().toDoubleOrNull()
             val note = etNote.text.toString()
-            val cat = if(type==0) catExpenseToNum[tvCategoryValue.text.toString()]
-                else catIncomeToNum[tvCategoryValue.text.toString()]
+            val cat = if(type==0) catExpenseToNum[etCategory.text.toString()]
+                else catIncomeToNum[etCategory.text.toString()]
             val date = etDate.text.toString()
 
             if(cat != null && amt != null && date.isNotEmpty()){
@@ -230,7 +227,7 @@ class ActivityAdd : AppCompatActivity() {
         spinnerType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 if(delPresent || isTouched){
-                    tvCategoryValue.setText("")
+                    etCategory.setText("")
                     isTouched = false
                 }
                 type = position

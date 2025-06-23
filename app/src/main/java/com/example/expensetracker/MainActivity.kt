@@ -10,6 +10,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import kotlin.Pair
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
@@ -39,8 +40,9 @@ class MainActivity : AppCompatActivity() {
         val btnFab: FloatingActionButton = findViewById(R.id.btnFAB)
         val tvDaily = findViewById<TextView>(R.id.tvDaily)
         val tvCalender = findViewById<TextView>(R.id.tvCalender)
-        val ivTransac = findViewById<ImageView>(R.id.ivTransac)
-        val ivStats = findViewById<ImageView>(R.id.ivStats)
+//        val ivTransac = findViewById<ImageView>(R.id.ivTransac)
+        val lnrLayoutStats = findViewById<LinearLayout>(R.id.lnrLayoutStats)
+//        val ivStats = findViewById<ImageView>(R.id.ivStats)
         val ivLeftArrow = findViewById<ImageView>(R.id.ivLeftArrow)
         val ivRightArrow = findViewById<ImageView>(R.id.ivRightArrow)
 
@@ -62,7 +64,8 @@ class MainActivity : AppCompatActivity() {
             replaceFragment(CalenderFragment())
             highlightSelectedFrag(R.id.tvCalender)
         }
-        ivStats.setOnClickListener{
+//        ivStats.setOnClickListener{
+        lnrLayoutStats.setOnClickListener{
             val intent = Intent(this, StatsActivity::class.java)
             val options = ActivityOptions.makeCustomAnimation(this, 0, 0)
             finish()
