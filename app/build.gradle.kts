@@ -58,6 +58,8 @@ dependencies {
     implementation(libs.mpandroidchart)
     implementation(libs.play.services.ads)
     kapt(libs.androidx.room.compiler)
+    implementation(platform("com.google.firebase:firebase-bom:33.15.0"))
+    implementation("com.google.firebase:firebase-analytics")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
