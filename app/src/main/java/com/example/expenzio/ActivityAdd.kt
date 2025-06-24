@@ -98,7 +98,7 @@ class ActivityAdd : AppCompatActivity() {
         Log.d("addactivty", "onCreate: ")
 
         val initDate = intent.getIntExtra("Date",1)
-        val initMonth = intent.getIntExtra("Month",0)
+        val initMonth = intent.getIntExtra("Month",1)
         val initYear = intent.getIntExtra("Year",2010)
 
         if(delPresent)

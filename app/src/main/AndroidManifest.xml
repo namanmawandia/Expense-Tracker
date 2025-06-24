@@ -24,7 +24,7 @@
         <activity
             android:name=".StatsActivity"
             android:exported="false"
-            android:label="Stats_Activty"
+            android:label="Stats_Activity"
             android:theme="@style/Theme.ExpenseTracker" />
         <activity
             android:name=".MainActivity"

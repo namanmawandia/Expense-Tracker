@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
 import java.util.Calendar
 
 
@@ -34,12 +35,17 @@ class StatsActivity : AppCompatActivity(){
 
         val tvStatsExpense = findViewById<TextView>(R.id.tvStatsExpense)
         val tvStatsIncome = findViewById<TextView>(R.id.tvStatsIncome)
-        val ivTransac = findViewById<ImageView>(R.id.ivTransac)
-//        val ivStats = findViewById<ImageView>(R.id.ivStats)
+//        val ivTransac = findViewById<ImageView>(R.id.ivTransac)
         val lnrLayoutTransac = findViewById<LinearLayout>(R.id.lnrLayoutTransac)
         val ivLeftArrow = findViewById<ImageView>(R.id.ivLeftArrow)
         val ivRightArrow = findViewById<ImageView>(R.id.ivRightArrow)
         val advStatsBanner = findViewById<AdView>(R.id.advStatsBanner)
+
+        // may or may not remove for production, will show test id to me and live to others
+        val config = RequestConfiguration.Builder()
+            .setTestDeviceIds(listOf("B224DD7054540A29EE2E104A3AA71A4D"))
+            .build()
+        MobileAds.setRequestConfiguration(config)
 
         // initializing the bottom Banner ad
         MobileAds.initialize(this) {}

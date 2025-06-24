@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.Calendar
 
@@ -45,12 +46,17 @@ class MainActivity : AppCompatActivity() {
         val ivRightArrow = findViewById<ImageView>(R.id.ivRightArrow)
         val advMainBanner = findViewById<AdView>(R.id.advMainBanner)
 
+        // may or may not remove for production, will show test id to me and live to others
+        val config = RequestConfiguration.Builder()
+            .setTestDeviceIds(listOf("B224DD7054540A29EE2E104A3AA71A4D"))
+            .build()
+        MobileAds.setRequestConfiguration(config)
+
         // initializing the bottom Banner ad
-//        MobileAds.initialize(this) {}
+        MobileAds.initialize(this) {}
         val adRequest = AdRequest.Builder().build()
         advMainBanner.loadAd(adRequest)
-
-
+//        B224DD7054540A29EE2E104A3AA71A4D
 
         // setting up spinner
         val myViewModel : MonthYearViewModel by viewModels()
@@ -82,7 +88,7 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("main",true)
             val cal = Calendar.getInstance()
             intent.putExtra("Date",cal.get(Calendar.DAY_OF_MONTH))
-            intent.putExtra("Month",cal.get(Calendar.MONTH))
+            intent.putExtra("Month",cal.get(Calendar.MONTH)+1)
             intent.putExtra("Year",cal.get(Calendar.YEAR))
             Log.d("Main Activity", "setAddButton: Intent to Add Activity")
             startActivity(intent)

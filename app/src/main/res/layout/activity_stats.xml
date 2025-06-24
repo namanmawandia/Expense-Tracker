@@ -77,7 +77,8 @@
                 android:background="@drawable/date_item_calender_border"
                 ads:adSize="BANNER"
                 android:id="@+id/advStatsBanner"
-                ads:adUnitId = "ca-app-pub-3940256099942544/6300978111"/>
+                ads:adUnitId="ca-app-pub-5427446086606315/6482582014"/>
+<!--                ads:adUnitId = "ca-app-pub-3940256099942544/6300978111"/>-->
 <!--                ads:adUnitId="ca-app-pub-5427446086606315/6482582014"/>-->
 
             <LinearLayout
