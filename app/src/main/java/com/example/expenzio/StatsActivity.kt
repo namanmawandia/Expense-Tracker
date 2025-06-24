@@ -16,6 +16,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import java.util.Calendar
 
 
@@ -36,6 +39,12 @@ class StatsActivity : AppCompatActivity(){
         val lnrLayoutTransac = findViewById<LinearLayout>(R.id.lnrLayoutTransac)
         val ivLeftArrow = findViewById<ImageView>(R.id.ivLeftArrow)
         val ivRightArrow = findViewById<ImageView>(R.id.ivRightArrow)
+        val advStatsBanner = findViewById<AdView>(R.id.advStatsBanner)
+
+        // initializing the bottom Banner ad
+        MobileAds.initialize(this) {}
+        val adRequest = AdRequest.Builder().build()
+        advStatsBanner.loadAd(adRequest)
 
         val myViewModel : MonthYearViewModel by viewModels()
         setupSpinner(monthSpinner,yearSpinner,myViewModel)

@@ -18,6 +18,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.Calendar
 
@@ -32,17 +35,22 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         setContentView(R.layout.activity_main)
 
         val btnFab: FloatingActionButton = findViewById(R.id.btnFAB)
         val tvDaily = findViewById<TextView>(R.id.tvDaily)
         val tvCalender = findViewById<TextView>(R.id.tvCalender)
-//        val ivTransac = findViewById<ImageView>(R.id.ivTransac)
         val lnrLayoutStats = findViewById<LinearLayout>(R.id.lnrLayoutStats)
-//        val ivStats = findViewById<ImageView>(R.id.ivStats)
         val ivLeftArrow = findViewById<ImageView>(R.id.ivLeftArrow)
         val ivRightArrow = findViewById<ImageView>(R.id.ivRightArrow)
+        val advMainBanner = findViewById<AdView>(R.id.advMainBanner)
+
+        // initializing the bottom Banner ad
+//        MobileAds.initialize(this) {}
+        val adRequest = AdRequest.Builder().build()
+        advMainBanner.loadAd(adRequest)
+
+
 
         // setting up spinner
         val myViewModel : MonthYearViewModel by viewModels()
