@@ -1,4 +1,4 @@
-package com.example.expensetracker
+package com.example.expenzio
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao

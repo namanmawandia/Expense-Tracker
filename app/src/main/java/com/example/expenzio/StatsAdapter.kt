@@ -1,4 +1,4 @@
-package com.example.expensetracker
+package com.example.expenzio
 
 import android.util.Log
 import android.view.LayoutInflater

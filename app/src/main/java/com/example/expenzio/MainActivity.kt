@@ -1,4 +1,4 @@
-package com.example.expensetracker
+package com.example.expenzio
 
 import android.app.ActivityOptions
 import android.content.Intent
@@ -7,72 +7,98 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import kotlin.Pair
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.Calendar
 
 
-class StatsActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity() {
 
     val monthSpinner: Spinner by lazy { findViewById(R.id.monthSpinner) }
     val yearSpinner: Spinner by lazy { findViewById(R.id.yearSpinner) }
+    private var backPressedTime = 0L
+    private var backToast: Toast? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_stats)
+//        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        setContentView(R.layout.activity_main)
 
-        val tvStatsExpense = findViewById<TextView>(R.id.tvStatsExpense)
-        val tvStatsIncome = findViewById<TextView>(R.id.tvStatsIncome)
-        val ivTransac = findViewById<ImageView>(R.id.ivTransac)
+        val btnFab: FloatingActionButton = findViewById(R.id.btnFAB)
+        val tvDaily = findViewById<TextView>(R.id.tvDaily)
+        val tvCalender = findViewById<TextView>(R.id.tvCalender)
+//        val ivTransac = findViewById<ImageView>(R.id.ivTransac)
+        val lnrLayoutStats = findViewById<LinearLayout>(R.id.lnrLayoutStats)
 //        val ivStats = findViewById<ImageView>(R.id.ivStats)
-        val lnrLayoutTransac = findViewById<LinearLayout>(R.id.lnrLayoutTransac)
         val ivLeftArrow = findViewById<ImageView>(R.id.ivLeftArrow)
         val ivRightArrow = findViewById<ImageView>(R.id.ivRightArrow)
 
+        // setting up spinner
         val myViewModel : MonthYearViewModel by viewModels()
+        highlightSelectedTab(R.id.ivTransac)
+        highlightSelectedFrag(R.id.tvDaily)
         setupSpinner(monthSpinner,yearSpinner,myViewModel)
-        highlightSelectedFrag(R.id.tvStatsExpense)
-        highlightSelectedTab(R.id.ivStats)
-        replaceFragment(StatsFragment(0))
 
-        tvStatsExpense.setOnClickListener{
-            replaceFragment(StatsFragment(0))
-            highlightSelectedFrag(R.id.tvStatsExpense)
+
+        if(savedInstanceState==null){
+            replaceFragment(DailyFragment())
         }
-        tvStatsIncome.setOnClickListener{
-            replaceFragment(StatsFragment(1))
-            highlightSelectedFrag(R.id.tvStatsIncome)
+        tvDaily.setOnClickListener{
+            replaceFragment(DailyFragment())
+            highlightSelectedFrag(R.id.tvDaily)
         }
-//        ivTransac.setOnClickListener{
-        lnrLayoutTransac.setOnClickListener{
-            val intent = Intent(this, MainActivity::class.java)
+        tvCalender.setOnClickListener{
+            replaceFragment(CalenderFragment())
+            highlightSelectedFrag(R.id.tvCalender)
+        }
+//        ivStats.setOnClickListener{
+        lnrLayoutStats.setOnClickListener{
+            val intent = Intent(this, StatsActivity::class.java)
             val options = ActivityOptions.makeCustomAnimation(this, 0, 0)
             finish()
             startActivity(intent, options.toBundle())
         }
-
-        setupArrowSpinner(myViewModel, ivLeftArrow, ivRightArrow)
+        btnFab.setOnClickListener{
+            val intent = Intent(this,ActivityAdd::class.java)
+            intent.putExtra("main",true)
+            val cal = Calendar.getInstance()
+            intent.putExtra("Date",cal.get(Calendar.DAY_OF_MONTH))
+            intent.putExtra("Month",cal.get(Calendar.MONTH))
+            intent.putExtra("Year",cal.get(Calendar.YEAR))
+            Log.d("Main Activity", "setAddButton: Intent to Add Activity")
+            startActivity(intent)
+        }
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                val intent = Intent(this@StatsActivity, MainActivity::class.java)
-                val options = ActivityOptions.makeCustomAnimation(this@StatsActivity, 0, 0)
-                finish()
-                startActivity(intent, options.toBundle())
+                val currentTime = System.currentTimeMillis()
+                if (backPressedTime + 3000 > currentTime) {
+                    backToast?.cancel()
+                    finish()
+                } else {
+                    backToast = Toast.makeText(this@MainActivity, "Press back again to exit", Toast.LENGTH_SHORT)
+                    backToast?.show()
+                    backPressedTime = currentTime
+                }
             }
         })
 
+        setupArrowSpinner(myViewModel, ivLeftArrow, ivRightArrow)
+
     }
 
-    private fun setupArrowSpinner(myViewModel: MonthYearViewModel, ivLeftArrow: ImageView, ivRightArrow: ImageView)
+    fun setupArrowSpinner(myViewModel: MonthYearViewModel, ivLeftArrow: ImageView, ivRightArrow: ImageView)
     {
         monthSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
@@ -104,8 +130,8 @@ class StatsActivity : AppCompatActivity(){
         }
     }
 
-    private fun setupSpinner(monthSpinner: Spinner, yearSpinner: Spinner,
-                     myViewModel: MonthYearViewModel) {
+    fun setupSpinner(monthSpinner: Spinner, yearSpinner: Spinner,
+        myViewModel: MonthYearViewModel) {
 
         val months = arrayOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct",
             "Nov", "Dec")
@@ -137,7 +163,7 @@ class StatsActivity : AppCompatActivity(){
         transaction.commit()
     }
 
-    private fun highlightSelectedTab(selectedId: Int) {
+    fun highlightSelectedTab(selectedId: Int) {
         val tabs = listOf(
             Pair(R.id.ivTransac , R.id.tvTrans),
             Pair(R.id.ivStats , R.id.tvStats),
@@ -155,8 +181,8 @@ class StatsActivity : AppCompatActivity(){
         }
     }
 
-    private fun highlightSelectedFrag(selectedId: Int){
-        val frags = listOf(R.id.tvStatsExpense, R.id.tvStatsIncome)
+    fun highlightSelectedFrag(selectedId: Int){
+        val frags = listOf(R.id.tvDaily, R.id.tvCalender)
 
         for(textId in frags){
             val text = findViewById<TextView>(textId)
@@ -166,4 +192,5 @@ class StatsActivity : AppCompatActivity(){
             text.setTextColor(color)
         }
     }
+
 }

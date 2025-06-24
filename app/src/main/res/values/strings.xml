@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Expense Tracker</string>
+    <string name="app_name">Expenzio</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_add">Activity_add</string>

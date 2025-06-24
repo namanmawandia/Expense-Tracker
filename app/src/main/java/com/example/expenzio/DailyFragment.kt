@@ -1,4 +1,4 @@
-package com.example.expensetracker
+package com.example.expenzio
 
 import android.os.Bundle
 import android.util.Log

@@ -1,4 +1,4 @@
-package com.example.expensetracker
+package com.example.expenzio
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

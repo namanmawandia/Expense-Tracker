@@ -1,4 +1,4 @@
-package com.example.expensetracker
+package com.example.expenzio
 
 data class DayTransactions(
     val date: Long,

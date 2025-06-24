@@ -72,8 +72,10 @@
             <com.google.android.gms.ads.AdView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:layout_gravity="bottom"
                 ads:adSize="BANNER"
+                android:background="@drawable/date_item_calender_border"
                 android:id="@+id/advMainBanner"
                 ads:adUnitId="ca-app-pub-5427446086606315/6482582014"/>
 
@@ -82,6 +84,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_below="@+id/frgOuter"
+                android:layout_marginTop="5dp"
                 android:id="@+id/lnrLayoutTranStat">
 
                 <LinearLayout
@@ -141,7 +144,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="130dp"
         android:contentDescription="Add Item"
         android:tint="@color/white"
         app:backgroundTint="@color/negativeTransac"
