@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.launch
 import java.text.ParseException
 import java.util.*
@@ -110,7 +111,8 @@ class ActivityAdd : AppCompatActivity() {
                     if (hasFocus) selectedColor else Color.BLACK)
             }
             btnDel.visibility = View.GONE
-            showPopGridView(etCategory,type,btnSave)
+            showBottomUp(etCategory,type)
+//            showPopGridView(etCategory,type,btnSave)
         }
 
         btnDel.setOnClickListener{
@@ -233,6 +235,30 @@ class ActivityAdd : AppCompatActivity() {
 
             override fun onNothingSelected(parent: AdapterView<*>?){}
         }
+    }
+
+    private fun showBottomUp(etCategory: EditText, type: Int) {
+        val view = LayoutInflater.from(this).inflate(R.layout.popup_grid,null)
+
+        val gridView : GridView = view.findViewById(R.id.gridItem)
+
+        Log.d("ActivityAdd", "showPopGridView: after categoriesExpense")
+
+        val adapter = ArrayAdapter(this, R.layout.grid_item,R.id.gridText,
+            if(type==0) categoriesExpense else categoriesIncome)
+        gridView.adapter = adapter
+
+        val dialog = BottomSheetDialog(this)
+        dialog.setContentView(view)
+        dialog.show()
+
+        gridView.setOnItemClickListener { _, _, position, _ ->
+            etCategory.setText(
+                if(type==0) categoriesExpense[position]
+                else categoriesIncome[position])
+            dialog.dismiss()
+        }
+
     }
 
     private fun setUpSpinner(spinnerType: Spinner) {
