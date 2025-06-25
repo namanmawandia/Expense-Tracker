@@ -133,6 +133,15 @@ class CalenderFragment: Fragment(), AdapterCalenderRV.OnItemClickListenerDay{
                 .atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
         }
 
+        // padding needed in bottom pop up to show all the items in recycler view
+        transacRecycler.setPadding(
+            transacRecycler.paddingLeft,
+            transacRecycler.paddingTop,
+            transacRecycler.paddingRight,
+            150
+        )
+        transacRecycler.clipToPadding = false
+
         val dialog = BottomSheetDialog(requireContext())
         dialog.setContentView(view)
         dialog.show()

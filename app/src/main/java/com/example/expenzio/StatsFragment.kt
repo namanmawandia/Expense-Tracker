@@ -96,7 +96,7 @@ class StatsFragment(typeFr: Int) : Fragment() {
         recyclerView.setOnTouchListener { _, event ->
             Log.d("ExpenseFragment", "Touch event: ${event.action}")
             gestureDetector.onTouchEvent(event)
-            true
+            false
         }
         tvNoDataPie.setOnTouchListener { _, event ->
             Log.d("ExpenseFragment", "Touch event: ${event.action}")

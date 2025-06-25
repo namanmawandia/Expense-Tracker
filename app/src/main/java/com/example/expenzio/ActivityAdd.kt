@@ -95,8 +95,6 @@ class ActivityAdd : AppCompatActivity() {
             }
         }
 
-        Log.d("addactivty", "onCreate: ")
-
         val initDate = intent.getIntExtra("Date",1)
         val initMonth = intent.getIntExtra("Month",1)
         val initYear = intent.getIntExtra("Year",2010)
@@ -265,7 +263,7 @@ class ActivityAdd : AppCompatActivity() {
 
         val popupWindow = PopupWindow(layout,WindowManager.LayoutParams.MATCH_PARENT,
                     WindowManager.LayoutParams.WRAP_CONTENT,true)
-        popupWindow.showAsDropDown(btnSave,0, 0)
+        popupWindow.showAsDropDown(btnSave,0, 20)
 
         gridView.setOnItemClickListener { _, _, position, _ ->
             tvCategoryValue.setText(
