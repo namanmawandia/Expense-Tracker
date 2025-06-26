@@ -14,32 +14,34 @@
         app:layout_constraintStart_toStartOf="parent"
         android:textSize="14sp"
         android:textStyle="bold"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvTotalAmount"
-        app:layout_constraintBottom_toTopOf="@id/tvExpense"
-        app:layout_constraintRight_toRightOf="parent"
-        android:textSize="10sp"
-        android:textColor="@color/black"
-        android:textStyle="bold"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvExpense"
         app:layout_constraintBottom_toTopOf="@id/tvIncome"
         app:layout_constraintRight_toRightOf="parent"
-        android:textSize="8sp"
+        android:textSize="7sp"
+        android:text="4"
         android:textColor="@color/negativeTransac"
         android:textStyle="bold"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvIncome"
+        app:layout_constraintBottom_toTopOf="@id/tvTotalAmount"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textSize="7sp"
+        android:textColor="@color/positiveTransac"
+        android:textStyle="bold"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvTotalAmount"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:textSize="8sp"
-        android:textColor="@color/positiveTransac"
+        android:textSize="9sp"
+        android:textColor="@color/black"
         android:textStyle="bold"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
