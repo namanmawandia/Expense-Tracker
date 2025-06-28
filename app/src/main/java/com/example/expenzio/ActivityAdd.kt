@@ -15,15 +15,19 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.AdapterView
 import android.widget.Spinner
 import android.widget.Toast
 import java.text.SimpleDateFormat
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.launch
 import java.text.ParseException
@@ -248,8 +252,19 @@ class ActivityAdd : AppCompatActivity() {
             if(type==0) categoriesExpense else categoriesIncome)
         gridView.adapter = adapter
 
+        view.post {
+            setGridViewHeightBasedOnChildren(gridView)
+        }
+
         val dialog = BottomSheetDialog(this)
         dialog.setContentView(view)
+
+        // for full categiry expansion in landscape view
+        val parent = view.parent as View
+        val params = parent.layoutParams as CoordinatorLayout.LayoutParams
+        val behavior = params.behavior as BottomSheetBehavior<View>
+        behavior.state = BottomSheetBehavior.STATE_EXPANDED
+
         dialog.show()
 
         gridView.setOnItemClickListener { _, _, position, _ ->
@@ -260,6 +275,29 @@ class ActivityAdd : AppCompatActivity() {
         }
 
     }
+
+    fun setGridViewHeightBasedOnChildren(gridView: GridView) {
+        val listAdapter = gridView.adapter ?: return
+
+        val rows = Math.ceil(listAdapter.count / 2.0).toInt() // 2 columns
+
+        var totalHeight = 0
+        for (i in 0 until rows) {
+            val listItem = listAdapter.getView(i, null, gridView)
+            listItem.measure(
+                View.MeasureSpec.makeMeasureSpec(gridView.width, View.MeasureSpec.AT_MOST),
+                View.MeasureSpec.UNSPECIFIED
+            )
+            totalHeight += listItem.measuredHeight
+        }
+
+        totalHeight += (gridView.verticalSpacing * (rows - 1))
+
+        val params = gridView.layoutParams
+        params.height = totalHeight
+        gridView.layoutParams = params
+    }
+
 
     private fun setUpSpinner(spinnerType: Spinner) {
         val items = arrayOf("Expense", "Income")
