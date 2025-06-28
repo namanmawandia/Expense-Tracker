@@ -101,6 +101,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.4"
+                    android:textCursorDrawable="@drawable/custom_cursor"
                     android:ems="10"
                     android:inputType="numberDecimal"
                     android:textColor="@color/primary"/>
@@ -183,6 +184,7 @@
                     android:id="@+id/etNote"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:textCursorDrawable="@drawable/custom_cursor"
                     android:layout_weight="1.4"
                     android:ems="10"
                     android:inputType="text"
