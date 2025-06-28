@@ -43,7 +43,7 @@ class StatsActivity : AppCompatActivity(){
 
         // may or may not remove for production, will show test id to me and live to others
         val config = RequestConfiguration.Builder()
-            .setTestDeviceIds(listOf("B224DD7054540A29EE2E104A3AA71A4D"))
+            .setTestDeviceIds(listOf("B224DD7054540A29EE2E104A3AA71A4D", "EA9AC50C530099E2BD764BDE83CFD946"))
             .build()
         MobileAds.setRequestConfiguration(config)
 

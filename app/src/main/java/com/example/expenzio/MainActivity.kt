@@ -18,8 +18,10 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -48,15 +50,22 @@ class MainActivity : AppCompatActivity() {
 
         // may or may not remove for production, will show test id to me and live to others
         val config = RequestConfiguration.Builder()
-            .setTestDeviceIds(listOf("B224DD7054540A29EE2E104A3AA71A4D"))
+            .setTestDeviceIds(listOf("B224DD7054540A29EE2E104A3AA71A4D", "EA9AC50C530099E2BD764BDE83CFD946"))
             .build()
         MobileAds.setRequestConfiguration(config)
+
+        advMainBanner.adListener = object : AdListener() {
+            override fun onAdFailedToLoad(error: LoadAdError) {
+                Log.d("AdMob", "Ad failed: ${error.message}")
+            }
+        }
 
         // initializing the bottom Banner ad
         MobileAds.initialize(this) {}
         val adRequest = AdRequest.Builder().build()
         advMainBanner.loadAd(adRequest)
-//        B224DD7054540A29EE2E104A3AA71A4D
+//        B224DD7054540A29EE2E104A3AA71A4D -- samsung s23
+//        EA9AC50C530099E2BD764BDE83CFD946 -- tab s7fe
 
         // setting up spinner
         val myViewModel : MonthYearViewModel by viewModels()

@@ -117,6 +117,9 @@ class CalenderFragment: Fragment(), AdapterCalenderRV.OnItemClickListenerDay{
         val transacRecycler: RecyclerView = view.findViewById(R.id.rvDailyTransactions)
         val fabAdd: FloatingActionButton = view.findViewById(R.id.fabAdd)
 
+        if(item.date=="")
+            return
+
         tvDate.text = item.date
         tvTotalIncome.text = item.income.toString()
         tvTotalExpense.text = item.expense.toString()
