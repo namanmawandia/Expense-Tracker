@@ -16,6 +16,7 @@ import android.graphics.Color
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
+import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.Toast
 import java.text.SimpleDateFormat
@@ -23,6 +24,10 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -61,7 +66,9 @@ class ActivityAdd : AppCompatActivity() {
         val spinnerType : Spinner = findViewById(R.id.typeSpinner)
         val btnDel : Button = findViewById(R.id.btnDelete)
         val selectedColor = ContextCompat.getColor(this, R.color.negativeTransac)
-//        val viewCategory : View = findViewById(R.id.viewCategory)
+
+        val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
+        windowInsetsController.isAppearanceLightStatusBars = true
 
         viewModel = ViewModelProvider(this)[TransactionViewModel::class.java]
         val transactionViewModel : TransactionViewModel by viewModels()
@@ -241,6 +248,13 @@ class ActivityAdd : AppCompatActivity() {
 
     private fun showBottomUp(etCategory: EditText, type: Int) {
         val view = LayoutInflater.from(this).inflate(R.layout.popup_grid,null)
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        ViewCompat.setOnApplyWindowInsetsListener(view) { view, insets ->
+            val systemInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.updatePadding(bottom = systemInsets.bottom)
+            insets
+        }
 
         val gridView : GridView = view.findViewById(R.id.gridItem)
 
