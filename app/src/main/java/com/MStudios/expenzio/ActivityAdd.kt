@@ -30,6 +30,13 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.launch
@@ -66,9 +73,21 @@ class ActivityAdd : AppCompatActivity() {
         val spinnerType : Spinner = findViewById(R.id.typeSpinner)
         val btnDel : Button = findViewById(R.id.btnDelete)
         val selectedColor = ContextCompat.getColor(this, R.color.negativeTransac)
+        val advAddBanner = findViewById<AdView>(R.id.advAddBanner)
 
         val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
         windowInsetsController.isAppearanceLightStatusBars = true
+
+        // may or may not remove for production, will show test id to me and live to others
+        val config = RequestConfiguration.Builder()
+            .setTestDeviceIds(listOf("B224DD7054540A29EE2E104A3AA71A4D"))
+            .build()
+        MobileAds.setRequestConfiguration(config)
+
+        // initializing the bottom Banner ad
+        MobileAds.initialize(this) {}
+        val adRequest = AdRequest.Builder().build()
+        advAddBanner.loadAd(adRequest)
 
         viewModel = ViewModelProvider(this)[TransactionViewModel::class.java]
         val transactionViewModel : TransactionViewModel by viewModels()

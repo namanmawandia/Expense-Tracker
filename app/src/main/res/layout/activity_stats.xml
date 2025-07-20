@@ -16,7 +16,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:id="@+id/lnrLayoutDailyCalender"
             android:orientation="horizontal"
             android:background="@drawable/date_item_calender_border"

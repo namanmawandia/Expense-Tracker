@@ -2,40 +2,47 @@
 <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="100sp"
+    android:layout_height="wrap_content"
     android:id="@+id/toolbar"
-    android:paddingTop="25dp"
     android:background="@color/primary"
     android:theme="@style/Theme.AppCompat">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center">
+        android:layout_height="wrap_content">
 
-        <ImageView
+        <!-- Group all items inside a centered LinearLayout -->
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/ivLeftArrow"
-            android:layout_marginRight="25dp"
-            android:src="@drawable/noun_left_arrow_74837" />
+            android:orientation="horizontal"
+            android:layout_centerInParent="true"
+            android:gravity="center_vertical">
 
-        <Spinner
-            android:id="@+id/monthSpinner"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/ivLeftArrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/noun_left_arrow_74837" />
 
-        <Spinner
-            android:layout_width="110dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/yearSpinner"
-            />
+            <Spinner
+                android:id="@+id/monthSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/ivRightArrow"
-            android:layout_marginLeft="20dp"
-            android:src="@drawable/noun_right_arrow_74838" />
-    </LinearLayout>
+            <Spinner
+                android:id="@+id/yearSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp" />
+
+            <ImageView
+                android:id="@+id/ivRightArrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/noun_right_arrow_74838" />
+        </LinearLayout>
+    </RelativeLayout>
 </androidx.appcompat.widget.Toolbar>
