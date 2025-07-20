@@ -7,15 +7,15 @@ plugins {
 }
 
 android {
-    namespace = "com.example.expenzio"
+    namespace = "com.MStudios.expenzio"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.expenzio"
+        applicationId = "com.MStudios.expenzio"
         minSdk = 31
         targetSdk = 35
-        versionCode = 1
-        versionName = "v1.0"
+        versionCode = 2
+        versionName = "v1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
