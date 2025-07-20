@@ -5,6 +5,8 @@
         <item name="colorPrimary">@color/primaryLight</item>
         <item name="colorPrimaryDark">@color/primary</item>
         <item name="colorAccent">@color/white</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_icon_wrapper</item>
+        <item name="android:windowSplashScreenAnimationDuration">300</item>
     </style>
 
     <style name="Theme.DatePicker" parent="Theme.MaterialComponents.Dialog">

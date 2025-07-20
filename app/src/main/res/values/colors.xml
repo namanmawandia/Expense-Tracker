@@ -21,5 +21,6 @@
 <!--    <color name="highlightPurple">#BB33FF</color>-->
     <color name="positiveTransac">#00CC66</color>
     <color name="totalTransac">#FFFFFFFF</color>
+    <color name="SplashColor">#FFB400</color>
 
 </resources>
