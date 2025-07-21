@@ -69,12 +69,6 @@ class MainActivity : AppCompatActivity() {
             .build()
         MobileAds.setRequestConfiguration(config)
 
-        advMainBanner.adListener = object : AdListener() {
-            override fun onAdFailedToLoad(error: LoadAdError) {
-                Log.d("AdMob", "Ad failed: ${error.message}")
-            }
-        }
-
         // initializing the bottom Banner ad
         MobileAds.initialize(this) {}
         val adRequest = AdRequest.Builder().build()

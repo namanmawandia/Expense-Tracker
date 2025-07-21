@@ -17,6 +17,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.time.LocalDate
@@ -116,6 +120,18 @@ class CalenderFragment: Fragment(), AdapterCalenderRV.OnItemClickListenerDay{
         val tvDay: TextView = view.findViewById(R.id.tvDay)
         val transacRecycler: RecyclerView = view.findViewById(R.id.rvDailyTransactions)
         val fabAdd: FloatingActionButton = view.findViewById(R.id.fabAdd)
+        val advPopupCalBanner : AdView = view.findViewById(R.id.advPopupCalBanner)
+
+        // may or may not remove for production, will show test id to me and live to others
+        val config = RequestConfiguration.Builder()
+            .setTestDeviceIds(listOf("B224DD7054540A29EE2E104A3AA71A4D"))
+            .build()
+        MobileAds.setRequestConfiguration(config)
+
+        // initializing the bottom Banner ad
+        MobileAds.initialize(parent) {}
+        val adRequest = AdRequest.Builder().build()
+        advPopupCalBanner.loadAd(adRequest)
 
         if(item.date=="")
             return
