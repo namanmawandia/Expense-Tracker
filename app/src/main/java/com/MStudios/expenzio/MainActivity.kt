@@ -65,9 +65,15 @@ class MainActivity : AppCompatActivity() {
 
         // may or may not remove for production, will show test id to me and live to others
         val config = RequestConfiguration.Builder()
-            .setTestDeviceIds(listOf("B224DD7054540A29EE2E104A3AA71A4D"))
+//            .setTestDeviceIds(listOf("B224DD7054540A29EE2E104A3AA71A4D"))
             .build()
         MobileAds.setRequestConfiguration(config)
+
+        advMainBanner.adListener = object : AdListener() {
+            override fun onAdFailedToLoad(error: LoadAdError) {
+                Log.d("AdMob", "Ad failed: ${error.message}")
+            }
+        }
 
         // initializing the bottom Banner ad
         MobileAds.initialize(this) {}

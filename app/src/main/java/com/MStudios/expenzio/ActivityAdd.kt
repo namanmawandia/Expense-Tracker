@@ -51,9 +51,11 @@ val categoriesExpense = arrayOf("🍔 Food", "🚕 Transport", "\uD83E\uDDCD\u20
     "\uD83E\uDE7A Medical", "🏠 Household", "🎓 Education")
 val catIncomeToNum : Map<String,Int> = mapOf("\uD83D\uDCB5 Wages" to 0, "\uD83D\uDCB0 Salary" to 1,
     "\uD83D\uDCB8 Commissions" to 2, "\uD83E\uDE99 Tips" to 3, "\uD83C\uDF89 Bonus" to 4,
-    "\uD83D\uDC68\uD83C\uDFFD\u200D\uD83D\uDCBB Freelancing" to 5)
+    "\uD83D\uDC68\uD83C\uDFFD\u200D\uD83D\uDCBB Freelancing" to 5, "\uD83D\uDCBC Business" to 6,
+    "\uD83C\uDFE0 Rental Income" to 7)
 val categoriesIncome = arrayOf("\uD83D\uDCB5 Wages","\uD83D\uDCB0 Salary","\uD83D\uDCB8 Commissions",
-    "\uD83E\uDE99 Tips", "\uD83C\uDF89 Bonus", "\uD83D\uDC68\uD83C\uDFFD\u200D\uD83D\uDCBB Freelancing")
+    "\uD83E\uDE99 Tips", "\uD83C\uDF89 Bonus", "\uD83D\uDC68\uD83C\uDFFD\u200D\uD83D\uDCBB Freelancing",
+    "\uD83D\uDCBC Business", "\uD83C\uDFE0 Rental Income")
 
 class ActivityAdd : AppCompatActivity() {
 
@@ -80,7 +82,7 @@ class ActivityAdd : AppCompatActivity() {
 
         // may or may not remove for production, will show test id to me and live to others
         val config = RequestConfiguration.Builder()
-            .setTestDeviceIds(listOf("B224DD7054540A29EE2E104A3AA71A4D"))
+//            .setTestDeviceIds(listOf("B224DD7054540A29EE2E104A3AA71A4D"))
             .build()
         MobileAds.setRequestConfiguration(config)
 

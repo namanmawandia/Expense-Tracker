@@ -14,8 +14,8 @@ android {
         applicationId = "com.MStudios.expenzio"
         minSdk = 31
         targetSdk = 35
-        versionCode = 2
-        versionName = "v1.1"
+        versionCode = 3
+        versionName = "v1.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -58,6 +58,7 @@ dependencies {
     implementation(libs.mpandroidchart)
     implementation(libs.play.services.ads)
     kapt(libs.androidx.room.compiler)
+    implementation("com.google.android.gms:play-services-ads:24.4.0")
     implementation(platform("com.google.firebase:firebase-bom:33.15.0"))
     implementation("com.google.firebase:firebase-analytics")
     testImplementation(libs.junit)
