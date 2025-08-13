@@ -14,8 +14,8 @@ android {
         applicationId = "com.MStudios.expenzio"
         minSdk = 31
         targetSdk = 35
-        versionCode = 3
-        versionName = "v1.3"
+        versionCode = 5
+        versionName = "v1.5"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
