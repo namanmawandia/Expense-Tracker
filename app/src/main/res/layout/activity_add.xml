@@ -55,7 +55,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:text="Type"
+                    android:text="@string/type"
                     android:textSize="18sp"
                     android:textColor="@color/primary"/>
 
@@ -80,7 +80,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:text="Date"
+                    android:text="@string/date"
                     android:textSize="18sp"
                     android:textColor="@color/primary"/>
 
@@ -108,7 +108,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:text="Amount"
+                    android:text="@string/amount"
                     android:textSize="18sp"
                     android:textColor="@color/primary" />
 
@@ -140,7 +140,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:text="Category"
+                    android:text="@string/category"
                     android:layout_gravity="center"
                     android:textSize="18sp"
                     android:enabled="false"
@@ -195,7 +195,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:text="Note"
+                    android:text="@string/note"
                     android:textSize="18sp"
                     android:textColor="@color/primary" />
 
@@ -222,7 +222,7 @@
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/btnDelete"
-                    android:text="Delete"
+                    android:text="@string/delete"
                     android:textColor="@color/white"
                     android:background="@drawable/ic_round_button_grey"
                     android:layout_margin="20dp"/>
@@ -231,7 +231,7 @@
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/ic_round_button"
-                    android:text="Save"
+                    android:text="@string/save"
                     android:textColor="@color/primary"
                     android:gravity="center"
                     android:id="@+id/btnSave"

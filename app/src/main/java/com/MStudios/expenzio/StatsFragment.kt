@@ -16,6 +16,7 @@ import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
 import java.util.Calendar
 
@@ -120,9 +121,11 @@ class StatsFragment(typeFr: Int) : Fragment() {
         }
         val categoryMapAmount:Map<Int, List<Transaction>> = monthFilter.groupBy { it.category }
         Log.d("ExpenseFragment", "updateChart: Map: "+categoryMapAmount)
-        val entries = categoryMapAmount.map { (categoryId, transactions) ->
-            val totalAmount = transactions.sumOf { it.amount }
-            PieEntry(totalAmount.toFloat(),
+        val catIdAmountPairs: List<Pair<Int, Double>> = categoryMapAmount.map { (categoryId, transactions) ->
+            categoryId to transactions.sumOf { it.amount }
+        }.sortedByDescending { it.second }
+        val entries = catIdAmountPairs.map { (categoryId, amount) ->
+            PieEntry(amount.toFloat(),
                 if (typeFragment==0) categoriesExpense[categoryId]
                 else categoriesIncome[categoryId])
         }
@@ -133,17 +136,16 @@ class StatsFragment(typeFr: Int) : Fragment() {
             recyclerView.visibility = View.GONE
             pieChart.visibility = View.GONE
         }
-        else{
+        else {
             tvNoDataPie.visibility = View.GONE
             tvNoDataRV.visibility = View.GONE
             recyclerView.visibility = View.VISIBLE
             pieChart.visibility = View.VISIBLE
         }
 
-
-        val colr = mutableListOf<Int>()
-        colr.addAll(ColorTemplate.MATERIAL_COLORS.toList())
-        colr.addAll(ColorTemplate.COLORFUL_COLORS.toList())
+        val colr = (ColorTemplate.MATERIAL_COLORS.toList() +
+                ColorTemplate.COLORFUL_COLORS.toList())
+            .take(entries.size)
         val dataSet = PieDataSet(entries,"").apply {
             colors = colr
             valueTextSize = 10f
@@ -154,6 +156,11 @@ class StatsFragment(typeFr: Int) : Fragment() {
             valueLinePart1Length = 0.4f
             valueLinePart2Length = 0.6f
             valueLineColor = Color.BLACK
+            valueFormatter = object : ValueFormatter() {
+                override fun getFormattedValue(value: Float): String {
+                    return String.format("%.1f%%", value)
+                }
+            }
         }
         val pieData = PieData(dataSet)
 
@@ -169,14 +176,9 @@ class StatsFragment(typeFr: Int) : Fragment() {
             invalidate()
         }
 
-        val catIdAmountPairs: List<Pair<Int, Double>> = categoryMapAmount.map { (categoryId, transactions) ->
-            categoryId to transactions.sumOf { it.amount }
-        }.sortedByDescending { it.second }
         Log.d("StatsFragment", "updateChart: CatList size" + catIdAmountPairs)
         adapter = StatsAdapter(catIdAmountPairs,colr,typeFragment)
         recyclerView.adapter = adapter
 
     }
-
-
 }

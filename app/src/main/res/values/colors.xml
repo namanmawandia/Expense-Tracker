@@ -22,5 +22,16 @@
     <color name="positiveTransac">#00CC66</color>
     <color name="totalTransac">#FFFFFFFF</color>
     <color name="SplashColor">#FFB400</color>
+    <color name="Maroon">#800000</color>
+    <color name="Mahogany">#C04000</color>
+    <color name="Chestnut">#954535</color>
+    <color name="Cocoa">#A0522D</color>
+    <color name="Sienna">#A0522D</color>
+    <color name="Russet">#8B4000</color>
+    <color name="IndianRed">#CD5C5C</color>
+    <color name="Copper">#B87333</color>
+    <color name="BrickRed">#B22222</color>
+    <color name="Redwood">#A45A52</color>
+
 
 </resources>

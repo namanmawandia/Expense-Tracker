@@ -173,7 +173,7 @@ class MainActivity : AppCompatActivity() {
 
         val months = arrayOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct",
             "Nov", "Dec")
-        val years = (2010..2060).toList()
+        val years = (2010..2050).toList()
 
         val monthAdapter = ArrayAdapter(this, R.layout.spinner_item_bar_layout, months)
         val yearAdapter = ArrayAdapter(this, R.layout.spinner_item_bar_layout, years)

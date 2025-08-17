@@ -108,7 +108,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="32sp"
                         android:id="@+id/tvTrans"
-                        android:text="Transactions"
+                        android:text="@string/transactions"
                         android:layout_marginBottom="5dp"
                         android:gravity="center"
                         android:textColor="@color/negativeTransac"/>
@@ -132,7 +132,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="32sp"
-                        android:text="Stats"
+                        android:text="@string/stats"
                         android:id="@+id/tvStats"
                         android:layout_marginBottom="5dp"
                         android:gravity="center"
