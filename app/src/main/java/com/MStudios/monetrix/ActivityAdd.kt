@@ -1,4 +1,4 @@
-package com.MStudios.expenzio
+package com.MStudios.monetrix
 
 import android.os.Bundle
 import android.util.Log
@@ -16,7 +16,6 @@ import android.graphics.Color
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
-import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.Toast
 import java.text.SimpleDateFormat
@@ -30,11 +29,8 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.material.bottomsheet.BottomSheetBehavior

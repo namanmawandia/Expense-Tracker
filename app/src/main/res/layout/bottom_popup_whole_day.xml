@@ -25,7 +25,7 @@
             android:layout_marginEnd="24dp"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="50dp"
-            android:contentDescription="Add Item"
+            android:contentDescription="@string/add_item"
             android:tint="@color/white"
             app:backgroundTint="@color/negativeTransac"
             app:srcCompat="@android:drawable/ic_input_add" />
@@ -40,9 +40,9 @@
         android:layout_marginBottom="10dp"
         ads:adSize="BANNER"
         android:id="@+id/advPopupCalBanner"
-        ads:adUnitId="ca-app-pub-5427446086606315/6482582014"/>
+        ads:adUnitId="ca-app-pub-5427446086606315/1975828279"/>
 <!--        ads:adUnitId = "ca-app-pub-3940256099942544/6300978111"/>&ndash;&gt;-->
-<!--        ads:adUnitId="ca-app-pub-5427446086606315/6482582014"/>&ndash;&gt;-->
+<!--        ads:adUnitId="ca-app-pub-5427446086606315/1975828279"/>&ndash;&gt;-->
 
 
 </LinearLayout>

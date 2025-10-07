@@ -1,4 +1,4 @@
-package com.MStudios.expenzio
+package com.MStudios.monetrix
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

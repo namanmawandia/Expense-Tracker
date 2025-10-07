@@ -1,4 +1,4 @@
-package com.MStudios.expenzio
+package com.MStudios.monetrix
 
 import android.graphics.Color
 import android.os.Bundle

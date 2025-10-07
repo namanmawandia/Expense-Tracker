@@ -1,4 +1,4 @@
-package com.MStudios.expenzio
+package com.MStudios.monetrix
 
 data class CalendarDay(
     val date: String?,

@@ -1,4 +1,4 @@
-package com.MStudios.expenzio
+package com.MStudios.monetrix
 
 import android.content.Context
 import android.view.GestureDetector

@@ -7,15 +7,15 @@ plugins {
 }
 
 android {
-    namespace = "com.MStudios.expenzio"
+    namespace = "com.MStudios.monetrix"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.MStudios.expenzio"
+        applicationId = "com.MStudios.monetrix"
         minSdk = 31
         targetSdk = 35
-        versionCode = 8
-        versionName = "v2.0"
+        versionCode = 1
+        versionName = "v1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

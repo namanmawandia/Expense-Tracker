@@ -62,7 +62,6 @@
                 android:layout_height="0dp"
                 android:layout_weight="10"
                 app:tabTextColor="@color/white"
-                android:layout_below="@+id/lnrLayoutDailyCalender"
                 android:id="@+id/frgOuter"
                 app:layout_constraintTop_toBottomOf="@id/lnrLayoutDailyCalender"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -77,15 +76,14 @@
                 android:layout_marginTop="2dp"
                 ads:adSize="BANNER"
                 android:id="@+id/advMainBanner"
-                ads:adUnitId="ca-app-pub-5427446086606315/6482582014"/>
+                ads:adUnitId="ca-app-pub-5427446086606315/1975828279"/>
 <!--                ads:adUnitId = "ca-app-pub-3940256099942544/6300978111"/>-->
-<!--                ads:adUnitId="ca-app-pub-5427446086606315/6482582014"/>-->
+<!--                ads:adUnitId="ca-app-pub-5427446086606315/1975828279"/>-->
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1.3"
-                android:layout_below="@+id/frgOuter"
                 android:background="@drawable/date_item_calender_border"
                 android:layout_marginTop="5dp"
                 android:id="@+id/lnrLayoutTranStat">
@@ -149,7 +147,7 @@
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="130dp"
-        android:contentDescription="Add Item"
+        android:contentDescription="@string/add_item"
         android:tint="@color/white"
         app:backgroundTint="@color/negativeTransac"
         app:srcCompat="@android:drawable/ic_input_add" />
