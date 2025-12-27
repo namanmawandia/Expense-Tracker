@@ -52,6 +52,9 @@ class MainActivity : AppCompatActivity() {
         val ivRightArrow = findViewById<ImageView>(R.id.ivRightArrow)
         val advMainBanner = findViewById<AdView>(R.id.advMainBanner)
         val lnrLayoutTranStat = findViewById<LinearLayout>(R.id.lnrLayoutTranStat)
+//        val tvTotal = findViewById<TextView>(R.id.tvTotal)
+//        val tvInc = findViewById<TextView>(R.id.tvInc)
+//        val tvExp = findViewById<TextView>(R.id.tvExp)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
         ViewCompat.setOnApplyWindowInsetsListener(lnrLayoutTranStat) { view, insets ->
@@ -79,8 +82,6 @@ class MainActivity : AppCompatActivity() {
         MobileAds.initialize(this) {}
         val adRequest = AdRequest.Builder().build()
         advMainBanner.loadAd(adRequest)
-//        B224DD7054540A29EE2E104A3AA71A4D -- samsung s23
-//        EA9AC50C530099E2BD764BDE83CFD946 -- tab s7fe
 
         // setting up spinner
         val myViewModel : MonthYearViewModel by viewModels()

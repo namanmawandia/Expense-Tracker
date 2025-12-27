@@ -14,7 +14,7 @@
     <TextView
         android:layout_width="130dp"
         android:layout_height="wrap_content"
-        android:text="food"
+        android:text="@string/food"
         android:id="@+id/tvCategory"
         android:layout_marginEnd="8dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,7 +29,7 @@
         app:layout_constraintStart_toEndOf="@id/tvCategory"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="5dp"
-        android:text="Walmart"
+        android:text="@string/walmart"
         android:textSize="17sp"/>
 
     <TextView
@@ -38,7 +38,7 @@
         android:id="@+id/tvAmount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="17.00"
+        android:text="@string/_17_00"
         android:textSize="17sp"
         android:textColor="@color/negativeTransac"/>
 

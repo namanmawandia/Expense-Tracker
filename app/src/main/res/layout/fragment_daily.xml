@@ -18,7 +18,7 @@
         android:id="@+id/tvNoTransac"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="No transactions present for the month"
+        android:text="@string/no_transactions_present_for_the_month"
         android:visibility="gone"
         android:textColor="@color/primaryLight2"
         android:textSize="20sp"

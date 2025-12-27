@@ -11,6 +11,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.compose.ui.semantics.text
 import java.time.format.TextStyle
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -34,6 +35,9 @@ class CalenderFragment: Fragment(), AdapterCalenderRV.OnItemClickListenerDay{
     private lateinit var adapter: AdapterCalenderRV
     private lateinit var viewModel: TransactionViewModel
     private lateinit var myViewModel: MonthYearViewModel
+    private lateinit var tvTotal: TextView
+    private lateinit var tvInc: TextView
+    private lateinit var tvExp: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,6 +47,9 @@ class CalenderFragment: Fragment(), AdapterCalenderRV.OnItemClickListenerDay{
 
         recyclerView = view.findViewById(R.id.calendarRecyclerView)
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 7)
+        tvTotal = view.findViewById(R.id.tvTotal)
+        tvInc = view.findViewById(R.id.tvInc)
+        tvExp = view.findViewById(R.id.tvExp)
 
         Log.d("CalenderFragment", "onCreateView: initialization")
         return view
@@ -139,6 +146,8 @@ class CalenderFragment: Fragment(), AdapterCalenderRV.OnItemClickListenerDay{
         tvDate.text = item.date
         tvTotalIncome.text = item.income.toString()
         tvTotalExpense.text = item.expense.toString()
+        tvTotalIncome.text = String.format("%.1f", item.income)
+        tvTotalExpense.text = String.format("%.1f", item.expense)
         val month = (myViewModel.selectedMonth.value?:0) +1
         val year = (myViewModel.selectedYear.value ?: 0) + 2010
         tvDay.text = LocalDate.of(year,month,item.date?.toInt()?:1).dayOfWeek
@@ -197,6 +206,13 @@ class CalenderFragment: Fragment(), AdapterCalenderRV.OnItemClickListenerDay{
             calendar.timeInMillis = it.date
             calendar.get(Calendar.YEAR) == year && calendar.get(Calendar.MONTH) == (month)
         }
+        val totalMonthIncome = monthTransactions.filter { it.type == 1 }.sumOf { it.amount }
+        val totalMonthExpense = monthTransactions.filter { it.type == 0 }.sumOf { it.amount }
+        val totalMonthBalance = totalMonthIncome - totalMonthExpense
+
+        tvInc.text = String.format("%.1f", totalMonthIncome)
+        tvExp.text = String.format("%.1f", totalMonthExpense)
+        tvTotal.text = String.format("%.1f", totalMonthBalance)
         Log.d("CalenderFragment", "generateCalendarDays: monthFilter")
 
         val expenseByDay: Map<Int, List<Transaction>> = monthTransactions.groupBy {

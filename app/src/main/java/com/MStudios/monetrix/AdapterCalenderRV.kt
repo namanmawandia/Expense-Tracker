@@ -39,11 +39,18 @@ class AdapterCalenderRV(private val days: List<CalendarDay>, private val itemHei
     override fun onBindViewHolder(holder: DayViewHolder, position: Int) {
         val day = days[position]
         holder.tvDate.text = day.date
-        holder.tvExpense.text = if (day.expense != null && day.expense != 0.0) "${day.expense}" else ""
-        holder.tvIncome.text = if (day.income != null && day.income != 0.0) "${day.income}" else ""
+        holder.tvExpense.text = if (day.expense != null && day.expense != 0.0)
+            String.format("%.1f", day.expense) else ""
+        holder.tvIncome.text = if (day.income != null && day.income != 0.0)
+            String.format("%.1f", day.income) else ""
         holder.tvTotalAmount.text = if(day.total!=null &&
             (day.total!= 0.0 || day.expense!= 0.0 || day.income != 0.0))
-            "${day.total}" else ""
+            String.format("%.1f", day.total) else ""
+//        holder.tvExpense.text = if (day.expense != null && day.expense != 0.0) "${day.expense}" else ""
+//        holder.tvIncome.text = if (day.income != null && day.income != 0.0) "${day.income}" else ""
+//        holder.tvTotalAmount.text = if(day.total!=null &&
+//            (day.total!= 0.0 || day.expense!= 0.0 || day.income != 0.0))
+//            "${day.total}" else ""
         holder.bind(days[position],holder.itemView.context)
     }
 

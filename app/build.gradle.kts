@@ -14,15 +14,16 @@ android {
         applicationId = "com.MStudios.monetrix"
         minSdk = 31
         targetSdk = 35
-        versionCode = 1
-        versionName = "v1.0"
+        versionCode = 7
+        versionName = "v2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

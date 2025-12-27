@@ -6,6 +6,48 @@
     android:clickable="true"
     android:focusable="true"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:id="@+id/lnrLayoutMonthlyTotal"
+        android:orientation="horizontal"
+        android:background="@drawable/date_item_calender_border">
+
+        <TextView
+            android:layout_width="0sp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/tvTotal"
+            android:gravity="center"
+            android:background="@drawable/date_item_calender_border"
+            android:text="Total"
+            android:textColor="@color/primaryLight2"
+            android:textSize="20sp"
+            android:src="@drawable/transaction"/>
+
+        <TextView
+            android:layout_width="0sp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Inc"
+            android:background="@drawable/date_item_calender_border"
+            android:textColor="@color/positiveTransac"
+            android:textSize="20sp"
+            android:id="@+id/tvInc"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="0sp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Exp"
+            android:background="@drawable/date_item_calender_border"
+            android:textColor="@color/negativeTransac"
+            android:textSize="20sp"
+            android:id="@+id/tvExp"
+            android:gravity="center" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

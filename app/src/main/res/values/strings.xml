@@ -18,4 +18,8 @@
     <string name="expense">Expense</string>
     <string name="food">Food</string>
     <string name="add_item">Add Item</string>
+    <string name="_17">17</string>
+    <string name="walmart">Walmart</string>
+    <string name="_17_00">17.00</string>
+    <string name="no_transactions_present_for_the_month">No transactions present for the month</string>
 </resources>
