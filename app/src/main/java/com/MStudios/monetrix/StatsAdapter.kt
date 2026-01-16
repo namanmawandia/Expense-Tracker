@@ -33,7 +33,8 @@ class StatsAdapter(
     override fun onBindViewHolder(holder: StatsViewHolder, position: Int) {
         holder.tvCategory.text = if (typeFragment==0) categoriesExpense[catIdAmnt[position].first]
             else categoriesIncome[catIdAmnt[position].first]
-        holder.tvAmount.text = catIdAmnt[position].second.toString()
+//        holder.tvAmount.text = catIdAmnt[position].second.toString()
+        holder.tvAmount.text = String.format("%.1f",catIdAmnt[position].second)
         Log.d("StatsAdapter", "onBindViewHolder: " +color)
         holder.btncolor.setBackgroundColor(color[position])
         val percent = catIdAmnt[position].second*100.0/catIdAmnt.sumOf { it.second }

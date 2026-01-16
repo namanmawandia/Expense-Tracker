@@ -163,7 +163,6 @@ class ActivityAdd : AppCompatActivity() {
             val year = calendar.get(Calendar.YEAR)
             val month = calendar.get(Calendar.MONTH)
             val day = calendar.get(Calendar.DAY_OF_MONTH)
-
             val datePickerDialog = DatePickerDialog(
                 this, R.style.Theme_DatePicker,
                 { _, selectedYear, selectedMonth, selectedDay ->
@@ -244,7 +243,7 @@ class ActivityAdd : AppCompatActivity() {
         }
 
         var isTouched=false;
-        spinnerType.setOnTouchListener{_,_,->
+        spinnerType.setOnTouchListener{ _, _ ->
             btnDel.visibility = View.GONE
             isTouched = true
             false

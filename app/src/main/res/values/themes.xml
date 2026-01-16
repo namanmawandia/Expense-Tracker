@@ -22,5 +22,4 @@
     <style name="NoAnimation">
         <item name="android:windowAnimationStyle">@null</item>
     </style>
-
 </resources>

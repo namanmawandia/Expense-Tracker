@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,6 +30,7 @@ class StatsFragment(typeFr: Int) : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var tvNoDataRV: TextView
     private lateinit var tvNoDataPie: TextView
+    private lateinit var tvTotal : TextView
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +40,7 @@ class StatsFragment(typeFr: Int) : Fragment() {
         viewModel = ViewModelProvider(requireActivity())[TransactionViewModel::class.java]
         myViewModel = ViewModelProvider(requireActivity())[MonthYearViewModel::class.java]
 
+        tvTotal =view.findViewById(R.id.tvTotal)
         recyclerView = view.findViewById(R.id.rvStats)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
@@ -119,11 +122,18 @@ class StatsFragment(typeFr: Int) : Fragment() {
             calendar.get(Calendar.YEAR) == year && calendar.get(Calendar.MONTH) == (month)
                     && it.type == typeFragment
         }
+
+        val total = monthFilter.sumOf { it.amount }
+        tvTotal.setText(String.format("%.1f",total))
+        if(typeFragment==0) tvTotal.setTextColor(ContextCompat.getColor(requireContext(), R.color.negativeTransac))
+        else tvTotal.setTextColor(ContextCompat.getColor(requireContext(), R.color.positiveTransac))
+
         val categoryMapAmount:Map<Int, List<Transaction>> = monthFilter.groupBy { it.category }
         Log.d("ExpenseFragment", "updateChart: Map: "+categoryMapAmount)
         val catIdAmountPairs: List<Pair<Int, Double>> = categoryMapAmount.map { (categoryId, transactions) ->
             categoryId to transactions.sumOf { it.amount }
         }.sortedByDescending { it.second }
+
         val entries = catIdAmountPairs.map { (categoryId, amount) ->
             PieEntry(amount.toFloat(),
                 if (typeFragment==0) categoriesExpense[categoryId]
