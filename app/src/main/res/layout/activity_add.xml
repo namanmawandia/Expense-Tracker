@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         app:title="Transaction"
-        android:theme="@style/MyToolbarTheme"
+        android:theme="@style/Theme.ExpenseTracker"
         android:background="@color/primary" />
 
     <ScrollView
