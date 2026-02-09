@@ -7,8 +7,11 @@
     android:background="@color/primary"
     android:theme="@style/Theme.AppCompat">
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
         android:layout_height="wrap_content">
 
         <!-- Group all items inside a centered LinearLayout -->
@@ -44,5 +47,5 @@
                 android:layout_marginStart="16dp"
                 android:src="@drawable/noun_right_arrow_74838" />
         </LinearLayout>
-    </RelativeLayout>
+    </LinearLayout>
 </androidx.appcompat.widget.Toolbar>
